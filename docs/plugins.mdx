@@ -1,0 +1,150 @@
+---
+title: Plugins
+---
+
+Goat plugins are modular extensions that enhance the functionality of your AI agents by enabling it to interact with various blockchain protocols.
+
+The goal of plugins is to provide your agent with the **exact capabilities it needs** to interact with the blockchain.
+
+Instead of giving it generic tools to execute arbitrary transactions, plugins provide **specific tools for common protocols to reduce the risk of hallucinations**.
+
+## Key Benefits
+- **Modularity**: Easily add or remove functionalities without altering the core library.
+- **Reusability**: Leverage community-built plugins or share your own with others.
+- **Customization**: Design plugins to meet the unique needs of your project or integrate with any protocol.
+
+## Chain Compatibility
+Plugins can be EVM/Solana specific or chain-agnostic. If a plugin is chain-specific it will fail to compile when being used with a different chain.
+
+<CardGroup cols={1}>
+  <Card
+    title="See all available plugins"
+    icon="puzzle"
+    href="/chains-wallets-plugins#plugins"
+  />
+</CardGroup>
+
+----
+
+## Plugin Architecture
+Plugins implement the `Plugin` interface which is defined as follows:
+
+```typescript
+import type { Tool } from "./tools";
+import type { WalletClient } from "./wallet";
+
+/**
+ * Plugin interface that can be chain-specific or chain-agnostic.
+ * Defaults to WalletClient for chain-agnostic plugins.
+ */
+export interface Plugin<TWalletClient extends WalletClient = WalletClient> {
+    name: string;
+    getTools: (wallet: TWalletClient) => Promise<Tool[]>;
+}
+```
+
+Goat provides plugins with a [WalletClient](https://github.com/goat-sdk/goat/tree/main/typescript/packages/core/src/wallet.ts) interface that can be EVM/Solana specific or chain-agnostic.
+
+The WalletClient abstracts the underlying wallet implementation and provides a common interface to:
+1. Get wallet information
+2. Sign messages
+3. Send transactions
+
+This allows plugins to:
+1. Work with any wallet implementation that implements the WalletClient interface, from key pairs to smart wallets.
+2. Focus on the specific communication with the protocol without worrying about handling transactions, message signing, etc. for specific wallet implementations.
+
+
+## Creating your own Goat plugin
+Building a custom Goat plugin is straightforward. Below, we'll walk you through creating a plugin that signs messages with "BAAAA" 🐐 prefixed to them.
+
+<Steps>
+  <Step title="Define the plugin interface">
+  Start by defining your plugin using the [Plugin](https://github.com/goat-sdk/goat/tree/main/typescript/packages/core/src/plugins.ts) interface.
+
+  Since we are just signing messages, we will create a chain-agnostic plugin that works both on EVM and Solana chains.
+
+```typescript
+import type { Plugin, WalletClient } from '@goat-sdk/core';
+
+function baaaSigner(): Plugin<WalletClient> { // We use the WalletClient interface for chain-agnostic plugins
+    return {
+        name: "Sign Message with BAAAA",
+        getTools: async (walletClient: WalletClient) => {
+            return [];
+        },
+    };
+}
+```
+  </Step>
+  <Step title="Add tools to the plugin">
+    The `getTools` method returns an array of Tools that will be added to the agent.
+
+    Tools have the following interface:
+
+    ```typescript
+    import { z } from "zod";
+
+    export type Tool = {
+        name: string; // The name of the tool,
+        description: string; // The description of the tool
+        parameters: z.ZodSchema; // The parameters schema of the tool
+        method: (parameters: z.infer<z.ZodSchema>) => string | Promise<string>; // The method that will be called with the parameters
+    };
+    ```
+
+    For our example, we will create a tool that signs a message with "BAAAA" 🐐 prefixed to it.
+
+    ```typescript
+    import { z } from "zod";
+    import type { Plugin, WalletClient } from "@goat-sdk/core";
+
+    export function signMessagePlugin(): Plugin<WalletClient> {
+    return {
+        name: "Sign Message with BAAAA",
+        getTools: async (walletClient: WalletClient) => {
+            return [
+                {
+                    name: "sign_message_baaaa",
+                    description: "Signs a message with 'BAAAA' prefix",
+                    parameters: z.object({
+                        message: z.string(),
+                    }),
+                    method: async (parameters) => {
+                        const originalMessage: string = parameters.message;
+                        const prefixedMessage = `BAAAA${originalMessage}`;
+                        const signed = await walletClient.signMessage(prefixedMessage);
+                        return signed.signedMessage;
+                    },
+                },
+            ];
+        },
+    };
+}
+    ```
+  </Step>
+  <Step title="Add the plugin to the agent">
+
+    ```typescript
+import { getOnChainTools } from '@goat-sdk/adapter-vercel-ai';
+import { signMessagePlugin } from './your-plugin-path/signMessagePlugin'; // Path to your plugin
+
+const wallet = /* Initialize your wallet client */;
+
+const tools = getOnChainTools({
+    wallet: viem(wallet), // or smartwallet(wallet), solana(wallet), etc.
+    plugins: [
+        signMessagePlugin(),
+        // ...other plugins
+        ],
+    });
+
+    // Prompt: Sign the message "Go out and eat grass 🐐"
+    ```
+  </Step>
+  <Step title="Publish your plugin">
+    If you want to share your plugin with others, you can publish it to npm or any other package manager!
+
+    If you want your plugin to be published through the Goat SDK, please open a PR to add it to the [plugins registry](https://github.com/goat-sdk/goat/tree/main/typescript/packages/plugins).
+  </Step>
+</Steps>

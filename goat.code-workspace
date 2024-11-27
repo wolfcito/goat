@@ -1,0 +1,48 @@
+{
+	"folders": [
+		{
+			"name": "🐐 GOAT",
+			"path": "."
+		},
+		{
+			"name": "🌋 Core",
+			"path": "./typescript/packages/core"
+		},
+		{
+			"name": "[Adapter] 🦜 langchain",
+			"path": "./typescript/packages/adapters/langchain"
+		},
+		{
+			"name": "[Adapter] 🤖 vercel-ai",
+			"path": "./typescript/packages/adapters/vercel-ai"
+		},
+		{
+			"name": "[Plugin] 💰 erc20",
+			"path": "./typescript/packages/plugins/erc20"
+		},
+		{
+			"name": "[Wallet] 🍀 crossmint",
+			"path": "./typescript/packages/wallets/crossmint"
+		},
+		{
+			"name": "[Wallet] 🌞 solana",
+			"path": "./typescript/packages/wallets/solana"
+		},
+		{
+			"name": "[Wallet] 💳 viem",
+			"path": "./typescript/packages/wallets/viem"
+		},
+		{
+			"name": "📚 Docs",
+			"path": "./docs"
+		},
+		{
+			"name": "🚀 Examples",
+			"path": "./typescript/examples"
+		}
+	],
+	"settings": {
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "biomejs.biome"
+	}
+}
