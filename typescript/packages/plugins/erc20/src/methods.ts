@@ -14,7 +14,9 @@ export async function balanceOf(
 	parameters: z.infer<typeof getBalanceParametersSchema>,
 ): Promise<string> {
 	try {
-		const resolvedWalletAddress = await walletClient.resolveAddress(parameters.wallet);
+		const resolvedWalletAddress = await walletClient.resolveAddress(
+			parameters.wallet,
+		);
 
 		const rawBalance = await walletClient.read({
 			address: token.contractAddress,
@@ -37,14 +39,16 @@ export async function transfer(
 	try {
 		const amountInBaseUnits = parseUnits(parameters.amount, token.decimals);
 
-		const resolvedRecipientAddress = await walletClient.resolveAddress(parameters.to);
+		const resolvedRecipientAddress = await walletClient.resolveAddress(
+			parameters.to,
+		);
 
 		const hash = await walletClient.sendTransaction({
-            to: token.contractAddress,
-            abi: ERC20_ABI,
-            functionName: "transfer",
-            args: [resolvedRecipientAddress, amountInBaseUnits],
-        });
+			to: token.contractAddress,
+			abi: ERC20_ABI,
+			functionName: "transfer",
+			args: [resolvedRecipientAddress, amountInBaseUnits],
+		});
 
 		return hash.hash;
 	} catch (error) {

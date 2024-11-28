@@ -11,11 +11,9 @@ import type { Chain, WalletClient } from "./wallets";
  * @param supportsSmartWallets - A function that returns true if the plugin supports smart wallets.
  * @param getTools - A function that returns the tools provided by the plugin.
  */
-export interface Plugin<
-    TWalletClient extends WalletClient = WalletClient,
-> {
-    name: string;
-    supportsChain: (chain: Chain) => boolean;
-    supportsSmartWallets: () => boolean;
-    getTools: (wallet: TWalletClient) => Promise<Tool[]>;
+export interface Plugin<TWalletClient extends WalletClient = WalletClient> {
+	name: string;
+	supportsChain: (chain: Chain) => boolean;
+	supportsSmartWallets: () => boolean;
+	getTools: (wallet: TWalletClient) => Promise<Tool[]>;
 }

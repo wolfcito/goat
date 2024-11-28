@@ -4,7 +4,7 @@ import {
 	transferParametersSchema,
 } from "./parameters";
 
-import type { Tool, EVMWalletClient } from "@goat-sdk/core";
+import type { EVMWalletClient, Tool } from "@goat-sdk/core";
 import type { z } from "zod";
 import type { ChainSpecificToken } from "./token";
 
