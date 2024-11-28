@@ -1,17 +1,14 @@
 import type {
-    EVMWalletClient,
+    EVMSmartWalletClient,
     EVMReadRequest,
     EVMTransaction,
+    EVMTypedData,
 } from "@goat-sdk/core";
 
-import {
-    createPublicClient,
-    encodeFunctionData,
-    http,
-} from "viem";
+import { createPublicClient, encodeFunctionData, http } from "viem";
 import type { Abi } from "abitype";
 import { normalize } from "viem/ens";
-
+import { mainnet } from "viem/chains";
 import {
     type SupportedSmartWalletChains,
     getEnv,
@@ -50,10 +47,9 @@ export type SmartWalletOptions = {
 };
 
 export function smartWalletFactory(apiKey: string) {
-
     return async function smartwallet(
         params: SmartWalletOptions
-    ): Promise<EVMWalletClient> {
+    ): Promise<EVMSmartWalletClient> {
         const {
             signer,
             linkedUser,
@@ -99,7 +95,7 @@ export function smartWalletFactory(apiKey: string) {
             : privateKeyToAccount(signer.secretKey);
 
         const ensClient = createPublicClient({
-            chain: getViemChain("ethereum"),
+            chain: mainnet,
             transport: http(params?.options?.ensProvider ?? ""),
         });
 
@@ -122,6 +118,77 @@ export function smartWalletFactory(apiKey: string) {
                 return resolvedAddress as `0x${string}`;
             } catch (error) {
                 throw new Error(`Failed to resolve ENS name: ${error}`);
+            }
+        };
+
+        const sendBatchOfTransactions = async (transactions: EVMTransaction[]) => {
+            const transactionDatas = transactions.map((transaction) => {
+                const {
+                    to: recipientAddress,
+                    abi,
+                    functionName,
+                    args,
+                    value,
+                } = transaction;
+
+                return buildTransactionData({
+                    recipientAddress,
+                    abi,
+                    functionName,
+                    args,
+                    value,
+                });
+            });
+
+            const transactionResponse =
+                await client.createTransactionForSmartWallet(
+                    address,
+                    transactionDatas,
+                    chain,
+                    signerAccount?.address
+                );
+
+            if (!hasCustodialSigner) {
+                const account = privateKeyToAccount(signer.secretKey);
+                const userOpHash =
+                    transactionResponse.approvals?.pending[0].message;
+
+                if (!userOpHash) {
+                    throw new Error("User operation hash is not available");
+                }
+                const signature = await account.signMessage({
+                    message: { raw: userOpHash as `0x${string}` },
+                });
+
+                await client.approveTransaction(
+                    locator,
+                    transactionResponse.id,
+                    [
+                        {
+                            signature,
+                            signer: `evm-keypair:${signerAccount?.address}`,
+                        },
+                    ]
+                );
+            }
+
+            while (true) {
+                const latestTransaction = await client.checkTransactionStatus(
+                    locator,
+                    transactionResponse.id
+                );
+
+                if (
+                    latestTransaction.status === "success" ||
+                    latestTransaction.status === "failed"
+                ) {
+                    return {
+                        hash: latestTransaction.onChain?.txId ?? "",
+                        status: latestTransaction.status,
+                    };
+                }
+
+                await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait 2 seconds
             }
         };
 
@@ -172,7 +239,54 @@ export function smartWalletFactory(apiKey: string) {
                         }
 
                         return {
-                            signedMessage: latestSignature.outputSignature,
+                            signature: latestSignature.outputSignature,
+                        };
+                    }
+
+                    if (latestSignature.status === "failed") {
+                        throw new Error("Signature failed");
+                    }
+
+                    await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait 2 seconds
+                }
+            },
+            async signTypedData(data: EVMTypedData) {
+                const { id: signatureId, approvals } =
+                    await client.signTypedDataForSmartWallet(
+                        address,
+                        data,
+                        chain,
+                        signerAccount?.address
+                    );
+
+                if (!hasCustodialSigner) {
+                    const account = privateKeyToAccount(signer.secretKey);
+                    const toSign = approvals?.pending[0].message;
+                    const signature = await account.signMessage({
+                        message: { raw: toSign as `0x${string}` },
+                    });
+
+                    await client.approveSignatureForSmartWallet(
+                        signatureId,
+                        address,
+                        `evm-keypair:${signerAccount?.address}`,
+                        signature
+                    );
+                }
+
+                while (true) {
+                    const latestSignature = await client.checkSignatureStatus(
+                        signatureId,
+                        address
+                    );
+
+                    if (latestSignature.status === "success") {
+                        if (!latestSignature.outputSignature) {
+                            throw new Error("Signature is undefined");
+                        }
+
+                        return {
+                            signature: latestSignature.outputSignature,
                         };
                     }
 
@@ -184,73 +298,10 @@ export function smartWalletFactory(apiKey: string) {
                 }
             },
             async sendTransaction(transaction: EVMTransaction) {
-                const {
-                    to: recipientAddress,
-                    abi,
-                    functionName,
-                    args,
-                    value,
-                } = transaction;
-
-                const transactionData = buildTransactionData({
-                    recipientAddress,
-                    abi,
-                    functionName,
-                    args,
-                    value,
-                });
-
-                const transactionResponse =
-                    await client.createTransactionForSmartWallet(
-                        address,
-                        [transactionData],
-                        chain,
-                        signerAccount?.address
-                    );
-
-                if (!hasCustodialSigner) {
-                    const account = privateKeyToAccount(signer.secretKey);
-                    const userOpHash =
-                        transactionResponse.approvals?.pending[0].message;
-
-                    if (!userOpHash) {
-                        throw new Error("User operation hash is not available");
-                    }
-                    const signature = await account.signMessage({
-                        message: { raw: userOpHash as `0x${string}` },
-                    });
-
-                    await client.approveTransaction(
-                        locator,
-                        transactionResponse.id,
-                        [
-                            {
-                                signature,
-                                signer: `evm-keypair:${signerAccount?.address}`,
-                            },
-                        ]
-                    );
-                }
-
-                while (true) {
-                    const latestTransaction =
-                        await client.checkTransactionStatus(
-                            locator,
-                            transactionResponse.id
-                        );
-
-                    if (
-                        latestTransaction.status === "success" ||
-                        latestTransaction.status === "failed"
-                    ) {
-                        return {
-                            hash: latestTransaction.onChain?.txId ?? "",
-                            status: latestTransaction.status,
-                        };
-                    }
-
-                    await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait 2 seconds
-                }
+                return await sendBatchOfTransactions([transaction]);
+            },
+            async sendBatchOfTransactions(transactions: EVMTransaction[]) {
+                return await sendBatchOfTransactions(transactions);
             },
             async read(request: EVMReadRequest) {
                 const {
@@ -278,13 +329,16 @@ export function smartWalletFactory(apiKey: string) {
                     value: result,
                 };
             },
-            async nativeTokenBalanceOf(address: string) {
+            async balanceOf(address: string) {
                 const resolvedAddress = await resolveAddressImpl(address);
                 const balance = await viemClient.getBalance({
                     address: resolvedAddress,
                 });
 
                 return {
+                    decimals: 18,
+                    symbol: "ETH",
+                    name: "Ethereum",
                     value: balance,
                 };
             },

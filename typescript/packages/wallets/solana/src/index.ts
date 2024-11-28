@@ -37,7 +37,7 @@ export function solana({
                 keypair.secretKey
             );
             return {
-                signedMessage: Buffer.from(signature).toString("hex"),
+                signature: Buffer.from(signature).toString("hex"),
             };
         },
         async sendTransaction({ instructions }: SolanaTransaction) {
@@ -75,11 +75,14 @@ export function solana({
                 value: accountInfo,
             };
         },
-        async nativeTokenBalanceOf(address: string) {
+        async balanceOf(address: string) {
             const pubkey = new PublicKey(address);
             const balance = await connection.getBalance(pubkey);
 
             return {
+                decimals: 9,
+                symbol: "SOL",
+                name: "Solana",
                 value: BigInt(balance),
             };
         },

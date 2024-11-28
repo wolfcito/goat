@@ -1,4 +1,5 @@
-import type { SupportedEVMChains } from "./chains";
+import type { EVMTypedData } from "@goat-sdk/core";
+import type { SupportedSmartWalletChains } from "./chains";
 
 type CoreSignerType =
     | "evm-keypair"
@@ -138,6 +139,31 @@ interface SignMessageResponse {
 }
 
 ////////////////////////////////////////////////////////////////////
+// Sign Typed Data
+////////////////////////////////////////////////////////////////////
+interface SignTypedDataRequest {
+    type: "evm-typed-data";
+    params: {
+        typedData: EVMTypedData;
+        chain?: string;
+        signer: string;
+    };
+}
+
+interface SignTypedDataResponse {
+    id: string;
+    type: "evm-typed-data";
+    params: {
+        typedData: EVMTypedData;
+        chain?: string;
+        signer: string;
+    };
+    status: string;
+    createdAt: string;
+    approvals: TransactionApprovals;
+}
+
+////////////////////////////////////////////////////////////////////
 // Approve Signature
 ////////////////////////////////////////////////////////////////////
 interface ApproveSignatureRequest {
@@ -167,6 +193,7 @@ type APIResponse =
     | GetWalletResponse
     | SubmitApprovalResponse
     | SignMessageResponse
+    | SignTypedDataResponse
     | ApproveSignatureResponse;
 
 export function createCrossmintAPI(apiKey: string, env: "staging" | "production") {
@@ -268,7 +295,7 @@ export function createCrossmintAPI(apiKey: string, env: "staging" | "production"
         signMessageForSmartWallet: async (
             walletAddress: string,
             message: string,
-            chain: SupportedEVMChains,
+            chain: SupportedSmartWalletChains,
             signer?: string
         ): Promise<SignMessageResponse> => {
             const endpoint = `/wallets/${encodeURIComponent(
@@ -288,6 +315,28 @@ export function createCrossmintAPI(apiKey: string, env: "staging" | "production"
                 method: "POST",
                 body: JSON.stringify(payload),
             })) as SignMessageResponse;
+        },
+        signTypedDataForSmartWallet: async (
+            walletAddress: string,
+            typedData: EVMTypedData,
+            chain: SupportedSmartWalletChains,
+            signer?: string
+        ): Promise<SignTypedDataResponse> => {
+            const endpoint = `/wallets/${encodeURIComponent(walletAddress)}/signatures`;
+
+            const payload = {
+                type: "evm-typed-data",
+                params: {
+                    typedData: typedData,
+                    chain: chain,
+                    signer: signer,
+                },
+            } as SignTypedDataRequest;
+
+            return (await request(endpoint, {
+                method: "POST",
+                body: JSON.stringify(payload),
+            })) as SignTypedDataResponse;
         },
         checkSignatureStatus: async (
             signatureId: string,
@@ -344,7 +393,7 @@ export function createCrossmintAPI(apiKey: string, env: "staging" | "production"
         createTransactionForSmartWallet: async (
             walletAddress: string,
             calls: Call[],
-            chain: SupportedEVMChains,
+            chain: SupportedSmartWalletChains,
             signer?: string
         ): Promise<CreateTransactionResponse> => {
             const endpoint = `/wallets/${encodeURIComponent(

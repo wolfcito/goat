@@ -167,7 +167,7 @@ importers:
     dependencies:
       '@goat-sdk/core':
         specifier: ^0.3.1
-        version: 0.3.1(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
+        version: 0.3.1(typescript@5.6.3)
       '@langchain/core':
         specifier: ^0.3.6
         version: 0.3.18(openai@4.73.0(zod@3.23.8))
@@ -198,7 +198,7 @@ importers:
     dependencies:
       '@goat-sdk/core':
         specifier: ^0.3.1
-        version: 0.3.1(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
+        version: 0.3.1(typescript@5.6.3)
       ai:
         specifier: ^4.0.3
         version: 4.0.3(react@18.3.1)(zod@3.23.8)
@@ -262,8 +262,8 @@ importers:
   packages/plugins/erc20:
     dependencies:
       '@goat-sdk/core':
-        specifier: ^0.3.1
-        version: 0.3.1(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
+        specifier: workspace:*
+        version: link:../../core
       viem:
         specifier: ^2.21.49
         version: 2.21.49(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
@@ -293,8 +293,8 @@ importers:
   packages/wallets/crossmint:
     dependencies:
       '@goat-sdk/core':
-        specifier: ^0.3.2
-        version: 0.3.2(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
+        specifier: workspace:*
+        version: link:../../core
       '@solana/web3.js':
         specifier: 1.95.5
         version: 1.95.5(bufferutil@4.0.8)(utf-8-validate@5.0.10)
@@ -333,8 +333,8 @@ importers:
   packages/wallets/solana:
     dependencies:
       '@goat-sdk/core':
-        specifier: ^0.3.1
-        version: 0.3.1(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
+        specifier: workspace:*
+        version: link:../../core
       '@solana/web3.js':
         specifier: 1.95.5
         version: 1.95.5(bufferutil@4.0.8)(utf-8-validate@5.0.10)
@@ -2236,7 +2236,7 @@ snapshots:
       ai: 4.0.3(react@18.3.1)(zod@3.23.8)
       zod: 3.23.8
 
-  '@goat-sdk/core@0.3.1(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)':
+  '@goat-sdk/core@0.3.1(typescript@5.6.3)':
     dependencies:
       '@solana/web3.js': 1.95.5(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       abitype: 1.0.6(typescript@5.6.3)(zod@3.23.8)

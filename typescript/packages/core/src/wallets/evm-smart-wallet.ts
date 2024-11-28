@@ -18,5 +18,5 @@ export function isEVMSmartWalletClient(
 export interface EVMSmartWalletClient extends EVMWalletClient {
     sendBatchOfTransactions: (
         transactions: EVMTransaction[]
-    ) => Promise<EVMTransactionResult[]>;
+    ) => Promise<EVMTransactionResult>;
 }

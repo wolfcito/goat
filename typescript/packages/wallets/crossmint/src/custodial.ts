@@ -83,7 +83,7 @@ export function custodialFactory(apiKey: string) {
                             }
 
                             return {
-                                signedMessage: latestSignature.outputSignature,
+                                signature: latestSignature.outputSignature,
                             };
                         }
 
@@ -158,12 +158,15 @@ export function custodialFactory(apiKey: string) {
                     value: accountInfo,
                 };
             },
-            async nativeTokenBalanceOf(address: string) {
+            async balanceOf(address: string) {
                 const pubkey = new PublicKey(address);
                 const balance = await connection.getBalance(pubkey);
 
                 return {
                     value: BigInt(balance),
+                    decimals: 9,
+                    symbol: "SOL",
+                    name: "Solana",
                 };
             },
         };

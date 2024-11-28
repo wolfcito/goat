@@ -1,7 +1,7 @@
 import type { z } from "zod";
 
 import type { Tool } from "../tools";
-import type { SolanaWalletClient } from "../wallets/core";
+import type { SolanaWalletClient } from "../wallets";
 import { getAddress, getBalance, sendSOL } from "./methods";
 import {
     getAddressParametersSchema,

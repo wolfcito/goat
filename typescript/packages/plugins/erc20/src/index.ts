@@ -1,4 +1,4 @@
-import type { EVMWalletClient, Plugin } from "@goat-sdk/core";
+import type { EVMWalletClient, Plugin, Chain } from "@goat-sdk/core";
 import {
 	PEPE,
 	type Token,
@@ -17,6 +17,8 @@ export type ERC20Options = {
 export function erc20({ tokens }: ERC20Options): Plugin<EVMWalletClient> {
     return {
         name: "ERC20",
+        supportsChain: (chain: Chain) => chain.type === "evm",
+        supportsSmartWallets: () => true,
         getTools: async (walletClient: EVMWalletClient) => {
             const network = walletClient.getChain();
 

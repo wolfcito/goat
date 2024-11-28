@@ -1,5 +1,6 @@
-import type { EVMWalletClient, Plugin } from "@goat-sdk/core";
+import type { EVMWalletClient, Plugin, Chain } from "@goat-sdk/core";
 import { z } from "zod";
+import { isChainSupportedByFaucet } from "./chains";
 
 export const topUpBalanceParametersSchema = z.object({
     wallet: z.string().optional(),
@@ -10,13 +11,25 @@ export function faucetFactory(apiKey: string) {
     return function faucet(): Plugin<EVMWalletClient> {
         return {
             name: "Crossmint Faucet",
+            supportsChain: (chain: Chain) => {
+                if (chain.type !== "evm") {
+                    return false;
+                }
+
+                if (!chain.id) {
+                    return false;
+                }
+
+                return isChainSupportedByFaucet(chain.id);
+            },
+            supportsSmartWallets: () => true,
             getTools: async (walletClient: EVMWalletClient) => {
                 return [
                     {
                         name: "top_up_usdc",
                         description: "Top up your USDC balance",
                         parameters: topUpBalanceParametersSchema,
-                        method: async (parameters) => {
+                        method: async (parameters: z.infer<typeof topUpBalanceParametersSchema>) => {
                             const wallet =
                                 parameters.wallet ?? walletClient.getAddress();
 

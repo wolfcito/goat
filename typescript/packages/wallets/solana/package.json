@@ -24,13 +24,13 @@
 		"vitest": "^2.1.5"
 	},
 	"dependencies": {
-		"@goat-sdk/core": "^0.3.1",
+		"@goat-sdk/core": "workspace:*",
 		"@solana/web3.js": "1.95.5",
 		"bs58": "^6.0.0",
 		"tweetnacl": "^1.0.3"
 	},
 	"peerDependencies": {
-		"@goat-sdk/core": "^0.3.1",
+		"@goat-sdk/core": "workspace:*",
 		"@solana/web3.js": "1.95.5"
 	},
 	"engines": {

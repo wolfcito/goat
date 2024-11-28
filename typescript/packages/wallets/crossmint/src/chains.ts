@@ -3,60 +3,64 @@ import {
     arbitrumSepolia,
     base,
     baseSepolia,
-    bsc,
-    mainnet,
     sepolia,
     optimism,
     optimismSepolia,
     polygon,
-    zora,
-    zoraSepolia,
-    type Chain,
     polygonAmoy,
+    victionTestnet,
+    skaleNebulaTestnet,
+    avalancheFuji,
+    type Chain,
 } from "viem/chains";
 
-export type SupportedEVMChains =
-    | "arbitrum"
-    | "arbitrum-sepolia"
-    | "base"
-    | "base-sepolia"
-    | "bsc"
-    | "ethereum"
-    | "ethereum-sepolia"
-    | "optimism"
-    | "optimism-sepolia"
-    | "polygon"
-    | "polygon-amoy"
-    | "zora"
-    | "zora-sepolia";
+const faucetChains = [
+    "arbitrum-sepolia",
+    "avalanche-fuji",
+    "base-sepolia",
+    "ethereum-sepolia",
+    "optimism-sepolia",
+    "polygon-amoy",
+    "skale-nebula-testnet",
+    "viction-testnet",
+] as const;
 
-export type SupportedSmartWalletChains =
-    | "polygon"
-    | "polygon-amoy"
-    | "base"
-    | "base-sepolia"
-    | "arbitrum"
-    | "arbitrum-sepolia"
-    | "optimism"
-    | "optimism-sepolia";
+type SupportedFaucetChains = (typeof faucetChains)[number];
 
-export function getViemChain(chain: SupportedEVMChains): Chain {
-    const chainMap: Record<SupportedEVMChains, Chain> = {
-        arbitrum: arbitrum,
-        "arbitrum-sepolia": arbitrumSepolia,
-        base: base,
-        "base-sepolia": baseSepolia,
-        bsc: bsc,
-        ethereum: mainnet,
-        "ethereum-sepolia": sepolia,
-        optimism: optimism,
-        "optimism-sepolia": optimismSepolia,
-        polygon: polygon,
-        "polygon-amoy": polygonAmoy,
-        zora: zora,
-        "zora-sepolia": zoraSepolia,
-    };
+const smartWalletChains = [
+    "polygon",
+    "polygon-amoy",
+    "base",
+    "base-sepolia",
+    "arbitrum",
+    "arbitrum-sepolia",
+    "optimism",
+    "optimism-sepolia",
+] as const;
 
+export type SupportedSmartWalletChains = (typeof smartWalletChains)[number];
+
+const chainMap: Record<
+    SupportedFaucetChains | SupportedSmartWalletChains,
+    Chain
+> = {
+    arbitrum: arbitrum,
+    "arbitrum-sepolia": arbitrumSepolia,
+    base: base,
+    "base-sepolia": baseSepolia,
+    optimism: optimism,
+    "optimism-sepolia": optimismSepolia,
+    polygon: polygon,
+    "polygon-amoy": polygonAmoy,
+    "avalanche-fuji": avalancheFuji,
+    "ethereum-sepolia": sepolia,
+    "skale-nebula-testnet": skaleNebulaTestnet,
+    "viction-testnet": victionTestnet,
+};
+
+export function getViemChain(
+    chain: SupportedSmartWalletChains | SupportedFaucetChains
+): Chain {
     const viemChain = chainMap[chain];
     if (!viemChain) {
         throw new Error(`Unsupported chain: ${chain}`);
@@ -64,15 +68,25 @@ export function getViemChain(chain: SupportedEVMChains): Chain {
     return viemChain;
 }
 
-export function getEnv(chain: SupportedEVMChains): "staging" | "production" {
-    const testnets: SupportedEVMChains[] = [
-        "arbitrum-sepolia",
-        "base-sepolia",
-        "ethereum-sepolia",
-        "optimism-sepolia",
-        "polygon-amoy",
-        "zora-sepolia",
-    ];
+const testnetChains = [
+    "arbitrum-sepolia",
+    "base-sepolia",
+    "optimism-sepolia",
+    "polygon-amoy",
+] as const;
 
-    return testnets.includes(chain) ? "staging" : "production";
+export function getEnv(
+    chain: SupportedSmartWalletChains
+): "staging" | "production" {
+    return (testnetChains as readonly string[]).includes(chain)
+        ? "staging"
+        : "production";
+}
+
+const faucetChainIds = new Set(
+    faucetChains.map((chainName) => chainMap[chainName].id)
+);
+
+export function isChainSupportedByFaucet(chainId: number): boolean {
+    return faucetChainIds.has(chainId);
 }

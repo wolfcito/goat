@@ -2,6 +2,7 @@ import {
     type EVMWalletClient,
     type EVMTransaction,
     type EVMReadRequest,
+    type EVMTypedData,
     isEVMWalletClient,
 } from "./evm";
 import {
@@ -29,6 +30,7 @@ export type {
     Signature,
     Balance,
     EVMSmartWalletClient,
+    EVMTypedData,
 };
 
 export {

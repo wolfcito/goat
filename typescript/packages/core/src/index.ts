@@ -5,11 +5,17 @@ import type {
     EVMTransaction,
     EVMReadRequest,
     EVMWalletClient,
+    EVMSmartWalletClient,
     SolanaTransaction,
     SolanaReadRequest,
     SolanaWalletClient,
     Signature,
     Balance,
+    EVMTypedData,
+    isEVMWalletClient,
+    isEVMSmartWalletClient,
+    isSolanaWalletClient,
+    Chain,
 } from "./wallets";
 
 export {
@@ -21,9 +27,15 @@ export {
     type EVMTransaction,
     type EVMReadRequest,
     type EVMWalletClient,
+    type EVMSmartWalletClient,
     type SolanaTransaction,
     type SolanaReadRequest,
     type SolanaWalletClient,
     type Signature,
     type Balance,
+    type EVMTypedData,
+    type isEVMWalletClient,
+    type isEVMSmartWalletClient,
+    type isSolanaWalletClient,
+    type Chain,
 };
