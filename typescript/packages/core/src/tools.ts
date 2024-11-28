@@ -1,7 +1,12 @@
 import type { z } from "zod";
 import { getEVMTools } from "./evm/tools";
 import type { Plugin } from "./plugins";
-import { isEVMWalletClient, isSolanaWalletClient, type WalletClient } from "./wallet";
+import {
+    isEVMWalletClient,
+    isSolanaWalletClient,
+    isEVMSmartWalletClient,
+    type WalletClient,
+} from "./wallets";
 import { getSolanaTools } from "./solana/tools";
 
 export type Tool = {
@@ -18,7 +23,7 @@ export type GetToolsParams<TWalletClient extends WalletClient> = {
 
 export async function getTools<TWalletClient extends WalletClient>({
     wallet,
-    plugins,
+    plugins = [],
 }: GetToolsParams<TWalletClient>) {
     const tools: Tool[] = [];
 
@@ -30,10 +35,22 @@ export async function getTools<TWalletClient extends WalletClient>({
         throw new Error(`Unsupported chain type: ${wallet.getChain().type}`);
     }
 
-    if (plugins) {
-        for (const plugin of plugins) {
-            tools.push(...(await plugin.getTools(wallet)));
+    for (const plugin of plugins) {
+        if (!plugin.supportsChain(wallet.getChain())) {
+            console.warn(
+                `Plugin ${plugin.name} does not support chain ${wallet.getChain().type}. Skipping.`
+            );
+            continue;
         }
+
+        if (!plugin.supportsSmartWallets() && isEVMSmartWalletClient(wallet)) {
+            console.warn(
+                `Plugin ${plugin.name} does not support smart wallets. Skipping.`
+            );
+            continue;
+        }
+
+        tools.push(...(await plugin.getTools(wallet)));
     }
 
     return tools;

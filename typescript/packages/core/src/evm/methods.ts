@@ -1,6 +1,6 @@
 import { formatUnits, parseEther } from "viem";
 import type { z } from "zod";
-import type { EVMWalletClient } from "../wallet";
+import type { EVMWalletClient } from "../wallets";
 import type {
     getAddressParametersSchema,
     getETHBalanceParametersSchema,
@@ -19,11 +19,13 @@ export async function getBalance(
     parameters: z.infer<typeof getETHBalanceParametersSchema>
 ): Promise<string> {
     try {
-        const balance = await walletClient.nativeTokenBalanceOf(
+        const address = walletClient.resolveAddress(
             parameters.address ?? getAddress(walletClient, {})
         );
 
-        return formatUnits(balance.value, 18);
+        const balance = await walletClient.balanceOf(address.toString());
+
+        return formatUnits(balance.value, balance.decimals);
     } catch (error) {
         throw new Error(`Failed to fetch balance: ${error}`);
     }

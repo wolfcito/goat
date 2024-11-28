@@ -1,7 +1,7 @@
 import type { z } from "zod";
 
 import type { Tool } from "../tools";
-import type { EVMWalletClient } from "../wallet";
+import type { EVMWalletClient } from "../wallets/core";
 import { getAddress, getBalance, sendETH } from "./methods";
 import {
     getAddressParametersSchema,

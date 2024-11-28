@@ -1,6 +1,6 @@
 import { formatUnits, parseUnits } from "viem";
 import type { z } from "zod";
-import type { SolanaWalletClient } from "../wallet";
+import type { SolanaWalletClient } from "../wallets";
 import type {
     getAddressParametersSchema,
     getSOLBalanceParametersSchema,
@@ -20,11 +20,11 @@ export async function getBalance(
     parameters: z.infer<typeof getSOLBalanceParametersSchema>
 ): Promise<string> {
     try {
-        const balance = await walletClient.nativeTokenBalanceOf(
+        const balance = await walletClient.balanceOf(
             parameters.address ?? getAddress(walletClient, {})
         );
 
-        return formatUnits(balance.value, 9);
+        return formatUnits(balance.value, balance.decimals);
     } catch (error) {
         throw new Error(`Failed to fetch balance: ${error}`);
     }

@@ -1,6 +1,16 @@
 import type { Plugin } from "./plugins";
 import { type GetToolsParams, type Tool, getTools } from "./tools";
-import type { EVMReadRequest, EVMTransaction, EVMWalletClient, SolanaReadRequest, SolanaTransaction, SolanaWalletClient, WalletClient } from "./wallet";
+import type {
+    WalletClient,
+    EVMTransaction,
+    EVMReadRequest,
+    EVMWalletClient,
+    SolanaTransaction,
+    SolanaReadRequest,
+    SolanaWalletClient,
+    Signature,
+    Balance,
+} from "./wallets";
 
 export {
     getTools,
@@ -14,4 +24,6 @@ export {
     type SolanaTransaction,
     type SolanaReadRequest,
     type SolanaWalletClient,
+    type Signature,
+    type Balance,
 };
