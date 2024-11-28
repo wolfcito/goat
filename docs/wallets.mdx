@@ -1,10 +1,9 @@
 ---
 title: Wallets
 ---
-Goat 🐐 is designed to work seamlessly with your own wallet regardless of the wallet provider you use. 
+Goat 🐐 is designed to work seamlessly with any wallet provider you use.
 
-This flexibility allows developers to integrate everything from basic key pair wallets to advanced smart wallets, 
-such as those provided by companies like Crossmint or Coinbase. 
+Use basic key pair wallets or advanced smart wallets, such as those provided by companies like Crossmint or Coinbase.
 
 <CodeGroup>
 ```typescript viem
@@ -109,8 +108,11 @@ const tools = await getOnChainTools({
 </CodeGroup>
 
 ## Creating your own wallet client
-If you don't see your wallet provider supported, you can easily create your own wallet client by implementing the specific `WalletClient` interface for the chain you want to support.
+If you don't see your wallet provider supported, you can easily integrate it by implementing the specific [WalletClient](https://github.com/goat-sdk/goat/blob/main/typescript/packages/core/src/wallet.ts) interface for the chain you want to support.
 
-Checkout [here how the viem client](https://github.com/goat-sdk/goat/blob/main/typescript/packages/wallet-viem/src/index.ts) is created.
+1. [EVMWalletClient](https://github.com/goat-sdk/goat/blob/main/typescript/packages/core/src/wallet.ts) for all EVM chains
+2. [SolanaWalletClient](https://github.com/goat-sdk/goat/blob/main/typescript/packages/core/src/wallet.ts) for Solana
+
+Checkout [here how the viem client implementation](https://github.com/goat-sdk/goat/blob/main/typescript/packages/wallets/viem/src/index.ts).
 
 If you would like to see your wallet provider supported, please open an issue or submit a PR.

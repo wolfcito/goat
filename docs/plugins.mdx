@@ -2,32 +2,26 @@
 title: Plugins
 ---
 
-Goat plugins are modular extensions that enhance the functionality of your AI agents by enabling it to interact with various blockchain protocols.
+Goat plugins are extensions that enable your agent to interact with various blockchain protocols. 
 
-The goal of plugins is to provide your agent with the **exact capabilities it needs** to interact with the blockchain.
-
-Instead of giving it generic tools to execute arbitrary transactions, plugins provide **specific tools for common protocols to reduce the risk of hallucinations**.
+Instead of having a generic function to execute arbitrary transactions, plugins provide specific tools for common protocols to **reduce the risk of hallucinations**.
 
 ## Key Benefits
-- **Modularity**: Easily add or remove functionalities without altering the core library.
-- **Reusability**: Leverage community-built plugins or share your own with others.
-- **Customization**: Design plugins to meet the unique needs of your project or integrate with any protocol.
+- **Modularity**: Easily add or remove functionalities.
+- **Reusability**: Leverage community-built plugins.
+- **Customization**: Design plugins to meet the unique needs.
+
+----
 
 ## Chain Compatibility
-Plugins can be EVM/Solana specific or chain-agnostic. If a plugin is chain-specific it will fail to compile when being used with a different chain.
+Plugins can be EVM/Solana specific or chain-agnostic. If a plugin is chain-specific it will fail to compile when being used with a wallet of a different chain.
 
-<CardGroup cols={1}>
-  <Card
-    title="See all available plugins"
-    icon="puzzle"
-    href="/chains-wallets-plugins#plugins"
-  />
-</CardGroup>
+See all available plugins [here](/chains-wallets-plugins#plugins).
 
 ----
 
 ## Plugin Architecture
-Plugins implement the `Plugin` interface which is defined as follows:
+Plugins implement the `Plugin` interface defined in the [core package](https://github.com/goat-sdk/goat/tree/main/typescript/packages/core/src/plugins.ts):
 
 ```typescript
 import type { Tool } from "./tools";
@@ -43,7 +37,7 @@ export interface Plugin<TWalletClient extends WalletClient = WalletClient> {
 }
 ```
 
-Goat provides plugins with a [WalletClient](https://github.com/goat-sdk/goat/tree/main/typescript/packages/core/src/wallet.ts) interface that can be EVM/Solana specific or chain-agnostic.
+Plugins get passed a [WalletClient](https://github.com/goat-sdk/goat/tree/main/typescript/packages/core/src/wallet.ts) interface that can be EVM/Solana specific or chain-agnostic.
 
 The WalletClient abstracts the underlying wallet implementation and provides a common interface to:
 1. Get wallet information
@@ -52,8 +46,9 @@ The WalletClient abstracts the underlying wallet implementation and provides a c
 
 This allows plugins to:
 1. Work with any wallet implementation that implements the WalletClient interface, from key pairs to smart wallets.
-2. Focus on the specific communication with the protocol without worrying about handling transactions, message signing, etc. for specific wallet implementations.
+2. Focus on the specific communication with the protocol without worrying about handling transactions, message signing, etc. for each wallet implementation.
 
+----
 
 ## Creating your own Goat plugin
 Building a custom Goat plugin is straightforward. Below, we'll walk you through creating a plugin that signs messages with "BAAAA" 🐐 prefixed to them.
@@ -141,10 +136,9 @@ const tools = getOnChainTools({
 
     // Prompt: Sign the message "Go out and eat grass 🐐"
     ```
-  </Step>
-  <Step title="Publish your plugin">
-    If you want to share your plugin with others, you can publish it to npm or any other package manager!
-
-    If you want your plugin to be published through the Goat SDK, please open a PR to add it to the [plugins registry](https://github.com/goat-sdk/goat/tree/main/typescript/packages/plugins).
-  </Step>
+  </Step>    
 </Steps>
+
+### Next steps
+- Share your plugin with others!
+- Open a PR to add it to the [plugins registry](https://github.com/goat-sdk/goat/tree/main/typescript/packages/plugins) in the [Goat SDK](https://github.com/goat-sdk/goat).
