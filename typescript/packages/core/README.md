@@ -6,9 +6,6 @@ Go out and eat some grass.
 [Docs](https://ohmygoat.dev) | [Examples](https://github.com/goat-sdk/goat/tree/main/typescript/examples) | [Discord](https://discord.gg/2F8zTVnnFz)</div>
 
 ## Goat 🐐
----
-title: Introduction
----
 Goat 🐐 (Great Onchain Agent Toolkit) is an open-source framework for connecting AI agents to any onchain app.
 
 **Problem**: 
