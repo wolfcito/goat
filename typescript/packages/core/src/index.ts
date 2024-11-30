@@ -6,6 +6,8 @@ import {
     type Tool,
     getTools,
     type DeferredTool,
+    getDeferredTools,
+    type GetDeferredToolsParams,
 } from "./tools";
 import { addParametersToDescription } from "./utils";
 import type {
@@ -28,12 +30,14 @@ import type {
 
 export {
     getTools,
+    getDeferredTools,
     sendETH,
     sendSOL,
     addParametersToDescription,
     type Tool,
     type DeferredTool,
     type GetToolsParams,
+    type GetDeferredToolsParams,
     type Plugin,
     type WalletClient,
     type EVMTransaction,
