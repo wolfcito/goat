@@ -48,6 +48,7 @@ const wallet = ...
 const tools = getOnChainTools({
   wallet: viem(wallet),
   plugins: [
+    sendETH(),
     erc20({ tokens: [USDC, PEPE] }),
     faucet(),
     polymarket(),
@@ -64,6 +65,7 @@ const wallet = ...
 const tools = getOnChainTools({
   wallet: viem(wallet),
   plugins: [ 
+    sendETH(),
     erc20({ tokens: [USDC, PEPE] }), 
     faucet(), 
     polymarket(), 

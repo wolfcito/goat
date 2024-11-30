@@ -21,15 +21,13 @@ See all available plugins [here](/chains-wallets-plugins#plugins).
 ----
 
 ## Plugin Architecture
-Plugins implement the `Plugin` interface defined in the [core package](https://github.com/goat-sdk/goat/tree/main/typescript/packages/core/src/plugins.ts):
+Plugins implement the `Plugin` interface defined in the [core package](https://github.com/goat-sdk/goat/tree/main/typescript/packages/core/src/plugins/plugins.ts):
 
 ```typescript
-import type { Tool, WalletClient, Chain } from "@goat-sdk/core";
-
 /**
  * Plugin interface that can be chain-specific or chain-agnostic.
  * Defaults to WalletClient for chain-agnostic plugins.
- * 
+ *
  * @param TWalletClient - The type of wallet client to support. Defaults to WalletClient for chain-agnostic plugins.
  * @param name - The name of the plugin.
  * @param supportsChain - A function that returns true if the plugin supports the given chain.
@@ -37,14 +35,16 @@ import type { Tool, WalletClient, Chain } from "@goat-sdk/core";
  * @param getTools - A function that returns the tools provided by the plugin.
  */
 export interface Plugin<TWalletClient extends WalletClient = WalletClient> {
-    name: string;
+    name: string; // send_eth
     supportsChain: (chain: Chain) => boolean;
     supportsSmartWallets: () => boolean;
-    getTools: (wallet: TWalletClient) => Promise<Tool[]>;
+    getTools: (
+        chain: ChainForWalletClient<TWalletClient>
+    ) => Promise<DeferredTool<TWalletClient>[]>;
 }
 ```
 
-Plugins get passed a [WalletClient](https://github.com/goat-sdk/goat/tree/main/typescript/packages/core/src/wallet.ts) interface that can be EVM/Solana specific or chain-agnostic.
+Plugins get passed a [WalletClient](https://github.com/goat-sdk/goat/tree/main/typescript/packages/core/src/wallets/core.ts) interface that can be EVM/Solana specific or chain-agnostic.
 
 The WalletClient abstracts the underlying wallet implementation and provides a common interface to:
 1. Get wallet information
@@ -62,7 +62,7 @@ Building a custom Goat plugin is straightforward. Below, we'll walk you through 
 
 <Steps>
   <Step title="Define the plugin interface">
-  Start by defining your plugin using the [Plugin](https://github.com/goat-sdk/goat/tree/main/typescript/packages/core/src/plugins.ts) interface.
+  Start by defining your plugin using the [Plugin](https://github.com/goat-sdk/goat/tree/main/typescript/packages/core/src/plugins/plugins.ts) interface.
 
   Since we are just signing messages, we will create a chain-agnostic plugin that works both on EVM and Solana chains.
 
@@ -74,7 +74,7 @@ function baaaSigner(): Plugin<WalletClient> { // We use the WalletClient interfa
         name: "Sign Message with BAAAA",
         supportsChain: (chain: Chain) => ["evm", "solana"].includes(chain.type),
         supportsSmartWallets: () => true,
-        getTools: async (walletClient: WalletClient) => {
+        getTools: async () => {
             return [];
         },
     };
@@ -82,18 +82,27 @@ function baaaSigner(): Plugin<WalletClient> { // We use the WalletClient interfa
 ```
   </Step>
   <Step title="Add tools to the plugin">
-    The `getTools` method returns an array of Tools that will be added to the agent.
+    The `getTools` method returns an array of DeferredTools that will be added to the agent.
 
-    Tools have the following interface:
-
+    DeferredTools have the following interface:
+    <Note>
+    It's important to note that the description uses `{{tool}}` to refer to the tool name. This is a placeholder gets replaced by the words action or tool depending on the adapter being used.
+    </Note>
     ```typescript
     import { z } from "zod";
+    import type { WalletClient } from "@goat-sdk/core";
 
-    export type Tool = {
-        name: string; // The name of the tool,
-        description: string; // The description of the tool
-        parameters: z.ZodSchema; // The parameters schema of the tool
-        method: (parameters: z.infer<z.ZodSchema>) => string | Promise<string>; // The method that will be called with the parameters
+    /**
+     * Deferred tools defer which wallet client to be passed to the method until the tool is called.
+     */
+    export type DeferredTool<TWalletClient extends WalletClient> = {
+        name: string; // Send ETH
+        description: string; // This {{tool}} sends ETH to an address.
+        parameters: z.ZodSchema; // { to: z.string(), amount: z.string() }
+        method: (
+            walletClient: TWalletClient,
+            parameters: z.infer<z.ZodSchema>
+        ) => string | Promise<string>;
     };
     ```
 
@@ -104,29 +113,29 @@ function baaaSigner(): Plugin<WalletClient> { // We use the WalletClient interfa
     import type { Plugin, WalletClient, Chain } from "@goat-sdk/core";
 
     export function signMessagePlugin(): Plugin<WalletClient> {
-    return {
-        name: "Sign Message with BAAAA",
-        supportsChain: (chain: Chain) => ["evm", "solana"].includes(chain.type),
-        supportsSmartWallets: () => true,
-        getTools: async (walletClient: WalletClient) => {
-            return [
-                {
-                    name: "sign_message_baaaa",
-                    description: "Signs a message with 'BAAAA' prefix",
-                    parameters: z.object({
-                        message: z.string(),
-                    }),
-                    method: async (parameters) => {
-                        const originalMessage: string = parameters.message;
-                        const prefixedMessage = `BAAAA${originalMessage}`;
-                        const signed = await walletClient.signMessage(prefixedMessage);
-                        return signed.signedMessage;
+        return {
+            name: "Sign Message with BAAAA",
+            supportsChain: (chain: Chain) => ["evm", "solana"].includes(chain.type),
+            supportsSmartWallets: () => true,
+            getTools: async (walletClient: WalletClient) => {
+                return [
+                    {
+                        name: "sign_message_baaaa",
+                        description: "This {{tool}} signs a message with 'BAAAA' prefix",
+                        parameters: z.object({
+                            message: z.string(),
+                        }),
+                        method: async (parameters) => {
+                            const originalMessage: string = parameters.message;
+                            const prefixedMessage = `BAAAA${originalMessage}`;
+                            const signed = await walletClient.signMessage(prefixedMessage);
+                            return signed.signedMessage;
+                        },
                     },
-                },
-            ];
-        },
-    };
-}
+                ];
+            },
+        };
+    }
     ```
   </Step>
   <Step title="Add the plugin to the agent">
