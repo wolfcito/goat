@@ -9,6 +9,10 @@
 			"path": "./typescript/packages/core"
 		},
 		{
+			"name": "[Adapter] 🟠 eliza",
+			"path": "./typescript/packages/adapters/eliza"
+		},
+		{
 			"name": "[Adapter] 🦜 langchain",
 			"path": "./typescript/packages/adapters/langchain"
 		},

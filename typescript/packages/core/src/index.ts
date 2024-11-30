@@ -9,7 +9,7 @@ import {
     getDeferredTools,
     type GetDeferredToolsParams,
 } from "./tools";
-import { addParametersToDescription } from "./utils";
+import { addParametersToDescription, parametersToJsonExample} from "./utils";
 import type {
     Balance,
     Chain,
@@ -26,6 +26,7 @@ import type {
     isEVMSmartWalletClient,
     isEVMWalletClient,
     isSolanaWalletClient,
+    ChainForWalletClient
 } from "./wallets";
 
 export {
@@ -34,6 +35,7 @@ export {
     sendETH,
     sendSOL,
     addParametersToDescription,
+    parametersToJsonExample,
     type Tool,
     type DeferredTool,
     type GetToolsParams,
@@ -54,4 +56,5 @@ export {
     type isEVMSmartWalletClient,
     type isSolanaWalletClient,
     type Chain,
+    type ChainForWalletClient,
 };
