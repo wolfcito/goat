@@ -3,8 +3,8 @@ import { z } from "zod";
 import { isChainSupportedByFaucet } from "./chains";
 
 export const topUpBalanceParametersSchema = z.object({
-    wallet: z.string().optional(),
-    amount: z.number().min(1).max(100),
+    wallet: z.string().optional().describe("The address to top up the balance of"),
+    amount: z.number().min(1).max(100).describe("The amount of tokens to top up"),
 });
 
 export function faucetFactory(apiKey: string) {
