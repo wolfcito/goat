@@ -18,6 +18,14 @@ export type Chain = {
 	id?: number; // optional for EVM
 };
 
+export type EVMChain = Chain & {
+	type: "evm";
+};
+
+export type SolanaChain = Chain & {
+	type: "solana";
+};
+
 export interface WalletClient {
 	getAddress: () => string;
 	getChain: () => Chain;

@@ -1,66 +1,23 @@
-import type { z } from "zod";
-
-import type { Tool } from "../tools";
+import type { DeferredTool } from "../tools";
 import type { SolanaWalletClient } from "../wallets";
-import { getAddress, getBalance, sendSOL } from "./methods";
+import { getAddress, getBalance } from "./methods";
 import {
-	getAddressParametersSchema,
-	getSOLBalanceParametersSchema,
-	sendSOLParametersSchema,
+    getAddressParametersSchema,
+    getSOLBalanceParametersSchema,
 } from "./parameters";
-import {
-	getAddressPrompt,
-	getSOLBalancePrompt,
-	sendSOLPrompt,
-} from "./prompts";
 
-export type SolanaTool = {
-	name: string;
-	description: string;
-	parametersSchema: z.ZodSchema;
-	method: (
-		walletClient: SolanaWalletClient,
-		parameters: z.infer<z.ZodSchema>,
-	) => string | Promise<string>;
-};
-
-export const unwrappedTools: SolanaTool[] = [
-	{
-		name: "get_address",
-		description: getAddressPrompt,
-		parametersSchema: getAddressParametersSchema,
-		method: getAddress,
-	},
-	{
-		name: "get_sol_balance",
-		description: getSOLBalancePrompt,
-		parametersSchema: getSOLBalanceParametersSchema,
-		method: getBalance,
-	},
-	{
-		name: "send_sol",
-		description: sendSOLPrompt,
-		parametersSchema: sendSOLParametersSchema,
-		method: sendSOL,
-	},
+export const deferredSolanaTools: DeferredTool<SolanaWalletClient>[] = [
+    {
+        name: "get_address",
+        description: "This {{tool}} returns the address of the Solana wallet.",
+        parameters: getAddressParametersSchema,
+        method: getAddress,
+    },
+    {
+        name: "get_sol_balance",
+        description:
+            "This {{tool}} returns the SOL balance of a Solana wallet.",
+        parameters: getSOLBalanceParametersSchema,
+        method: getBalance,
+    },
 ];
-
-export function getSolanaTools(walletClient: SolanaWalletClient): Tool[] {
-	const tools: Tool[] = unwrappedTools.map(
-		({ method: func, name, description, parametersSchema }) => {
-			const method = async (parameters: z.infer<typeof parametersSchema>) => {
-				const validatedParams = parametersSchema.parse(parameters);
-				return await func(walletClient, validatedParams);
-			};
-
-			return {
-				name,
-				description,
-				parameters: parametersSchema,
-				method,
-			};
-		},
-	);
-
-	return tools;
-}

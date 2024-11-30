@@ -3,10 +3,5 @@ import { z } from "zod";
 export const getAddressParametersSchema = z.object({});
 
 export const getETHBalanceParametersSchema = z.object({
-	address: z.optional(z.string()),
-});
-
-export const sendETHParametersSchema = z.object({
-	to: z.string(),
-	amount: z.string(),
+	address: z.optional(z.string()).describe("The address to get the balance of, defaults to the address of the wallet"),
 });
