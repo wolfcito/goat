@@ -100,6 +100,7 @@ export function smartWalletFactory(apiKey: string) {
 		});
 
 		const resolveAddressImpl = async (address: string) => {
+			console.log("Address", address);
 			if (/^0x[a-fA-F0-9]{40}$/.test(address)) {
 				return address as `0x${string}`;
 			}

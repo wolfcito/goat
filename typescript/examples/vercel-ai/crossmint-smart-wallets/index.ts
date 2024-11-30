@@ -4,6 +4,7 @@ import { generateText } from "ai";
 import { getOnChainTools } from "@goat-sdk/adapter-vercel-ai";
 import { crossmint } from "@goat-sdk/crossmint";
 import { USDC, erc20 } from "@goat-sdk/plugin-erc20";
+import { sendETH } from "@goat-sdk/core";
 
 require("dotenv").config();
 
@@ -13,44 +14,44 @@ const alchemyApiKey = process.env.ALCHEMY_API_KEY_BASE_SEPOLIA;
 const smartWalletAddress = process.env.SMART_WALLET_ADDRESS;
 
 if (
-	!apiKey ||
-	!walletSignerSecretKey ||
-	!alchemyApiKey ||
-	!smartWalletAddress
+    !apiKey ||
+    !walletSignerSecretKey ||
+    !alchemyApiKey ||
+    !smartWalletAddress
 ) {
-	throw new Error("Missing environment variables");
+    throw new Error("Missing environment variables");
 }
 
 const { smartwallet, faucet } = crossmint(apiKey);
 
 (async () => {
-	const tools = await getOnChainTools({
-		wallet: await smartwallet({
-			address: smartWalletAddress,
-			signer: {
-				secretKey: walletSignerSecretKey as `0x${string}`,
-			},
-			chain: "base-sepolia",
-			provider: alchemyApiKey,
-		}),
-		plugins: [erc20({ tokens: [USDC] }), faucet()],
-	});
+    const tools = await getOnChainTools({
+        wallet: await smartwallet({
+            address: smartWalletAddress,
+            signer: {
+                secretKey: walletSignerSecretKey as `0x${string}`,
+            },
+            chain: "base-sepolia",
+            provider: alchemyApiKey,
+        }),
+        plugins: [sendETH(), erc20({ tokens: [USDC] }), faucet()],
+    });
 
-	const result1 = await generateText({
-		model: openai("gpt-4o-mini"),
-		tools: tools,
-		maxSteps: 5,
-		prompt: "Top up my wallet with USDC",
-	});
+    const result1 = await generateText({
+        model: openai("gpt-4o-mini"),
+        tools: tools,
+        maxSteps: 5,
+        prompt: "Top up my wallet with USDC",
+    });
 
-	console.log(result1.text);
+    console.log(result1.text);
 
-	const result2 = await generateText({
-		model: openai("gpt-4o-mini"),
-		tools: tools,
-		maxSteps: 5,
-		prompt: "Get my balance in ETH and USDC",
-	});
+    const result2 = await generateText({
+        model: openai("gpt-4o-mini"),
+        tools: tools,
+        maxSteps: 5,
+        prompt: "Get my balance in USDC",
+    });
 
-	console.log(result2.text);
+    console.log(result2.text);
 })();

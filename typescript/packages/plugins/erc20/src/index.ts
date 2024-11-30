@@ -14,15 +14,15 @@ export function erc20({ tokens }: ERC20Options): Plugin<EVMWalletClient> {
 		name: "ERC20",
 		supportsChain: (chain: Chain) => chain.type === "evm",
 		supportsSmartWallets: () => true,
-		getTools: async (walletClient: EVMWalletClient) => {
-			const network = walletClient.getChain();
+		getTools: async (chain: Chain) => {
+			const network = chain;
 
 			if (!network.id) {
 				throw new Error("Network ID is required");
 			}
 
 			const tokenList = getTokensForNetwork(network.id, tokens);
-			return getTools(walletClient, tokenList);
+			return getTools(tokenList);
 		},
 	};
 }

@@ -1,8 +1,9 @@
 import {
-	type GetToolsParams,
-	type Tool,
-	type WalletClient,
-	getTools,
+    type GetToolsParams,
+    type Tool,
+    type WalletClient,
+    getTools,
+    addParametersToDescription,
 } from "@goat-sdk/core";
 
 import { type CoreTool, tool } from "ai";
@@ -15,13 +16,16 @@ export async function getOnChainTools<TWalletClient extends WalletClient>({
 	wallet,
 	plugins,
 }: GetOnChainToolsParams<TWalletClient>) {
-	const tools: Tool[] = await getTools({ wallet, plugins });
+	const tools: Tool[] = await getTools<TWalletClient>({
+        wallet,
+        plugins,
+    });
 
 	const aiTools: { [key: string]: CoreTool } = {};
 
 	for (const t of tools) {
 		aiTools[t.name] = tool({
-			description: t.description,
+			description: addParametersToDescription(t.description, t.parameters),
 			parameters: t.parameters,
 			execute: async (arg: z.output<typeof t.parameters>) => {
 				return await t.method(arg);

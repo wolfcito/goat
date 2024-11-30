@@ -2,6 +2,7 @@ import {
 	type GetToolsParams,
 	type Tool,
 	type WalletClient,
+	addParametersToDescription,
 	getTools,
 } from "@goat-sdk/core";
 
@@ -24,7 +25,7 @@ export async function getOnChainTools<TWalletClient extends WalletClient>({
 			},
 			{
 				name: t.name,
-				description: t.description,
+				description: addParametersToDescription(t.description, t.parameters),
 				schema: t.parameters,
 			},
 		),
