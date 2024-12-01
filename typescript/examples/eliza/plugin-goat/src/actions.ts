@@ -26,6 +26,12 @@ type GetOnChainActionsParams<TWalletClient extends WalletClient> = {
     supportsSmartWallets?: boolean;
 };
 
+/**
+ * Get all the on chain actions for the given wallet client and plugins
+ *
+ * @param params
+ * @returns
+ */
 export async function getOnChainActions<TWalletClient extends WalletClient>({
     getWalletClient,
     plugins,
@@ -62,9 +68,8 @@ function createAction<TWalletClient extends WalletClient>(
                 const walletClient = await getWalletClient(runtime);
                 let currentState =
                     state ?? (await runtime.composeState(message));
-                currentState = await runtime.updateRecentMessageState(
-                    currentState
-                );
+                currentState =
+                    await runtime.updateRecentMessageState(currentState);
 
                 const parameterContext = composeParameterContext(
                     tool,
