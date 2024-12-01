@@ -1,7 +1,18 @@
-import { balanceOf, transfer } from "./methods";
 import {
-    getBalanceParametersSchema,
-    transferParametersSchema,
+    allowance,
+    approve,
+    balanceOf,
+    totalSupply,
+    transfer,
+    transferFrom,
+} from "./methods";
+import {
+    allowanceParametersSchema,
+    approveParametersSchema,
+	getBalanceParametersSchema,
+	totalSupplyParametersSchema,
+	transferFromParametersSchema,
+	transferParametersSchema,
 } from "./parameters";
 
 import type { DeferredTool, EVMWalletClient } from "@goat-sdk/core";
@@ -34,7 +45,54 @@ export function getTools(
             ) => transfer(walletClient, token, parameters),
         };
 
-        tools.push(balanceTool, transferTool);
+        const totalSupplyTool: DeferredTool<EVMWalletClient> = {
+            name: `get_${token.symbol}_total_supply`,
+            description: `This {{tool}} gets the total supply of ${token.symbol}`,
+            parameters: totalSupplyParametersSchema,
+            method: (
+                walletClient: EVMWalletClient,
+                parameters: z.infer<typeof totalSupplyParametersSchema>
+            ) => totalSupply(walletClient, token),
+        };
+
+        const allowanceTool: DeferredTool<EVMWalletClient> = {
+            name: `get_${token.symbol}_allowance`,
+            description: `This {{tool}} gets the allowance of ${token.symbol}`,
+            parameters: allowanceParametersSchema,
+            method: (
+                walletClient: EVMWalletClient,
+                parameters: z.infer<typeof allowanceParametersSchema>
+            ) => allowance(walletClient, token, parameters),
+        };
+
+        const approveTool: DeferredTool<EVMWalletClient> = {
+            name: `approve_${token.symbol}`,
+            description: `This {{tool}} approves the allowance of ${token.symbol}`,
+            parameters: approveParametersSchema,
+            method: (
+                walletClient: EVMWalletClient,
+                parameters: z.infer<typeof approveParametersSchema>
+            ) => approve(walletClient, token, parameters),
+        };
+
+        const transferFromTool: DeferredTool<EVMWalletClient> = {
+            name: `transfer_${token.symbol}_from`,
+            description: `This {{tool}} transfers ${token.symbol} from the specified address`,
+            parameters: transferFromParametersSchema,
+            method: (
+                walletClient: EVMWalletClient,
+                parameters: z.infer<typeof transferFromParametersSchema>
+            ) => transferFrom(walletClient, token, parameters),
+        };
+
+        tools.push(
+            balanceTool,
+            transferTool,
+            totalSupplyTool,
+            allowanceTool,
+            approveTool,
+            transferFromTool
+        );
     }
 
     return tools;
