@@ -26,8 +26,7 @@
 	},
 	"peerDependencies": {
 		"@ai16z/eliza": "0.1.4-alpha.3",
-		"@goat-sdk/core": "workspace:*",
-		"ai": "^4.0.3"
+		"@goat-sdk/core": "workspace:*"
 	},
 	"engines": {
 		"node": ">=20.12.2 <21",
