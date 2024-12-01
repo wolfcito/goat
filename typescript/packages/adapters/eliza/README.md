@@ -1,8 +1,8 @@
-# Goat Adapter Vercel AI 🐐 - TypeScript
+# Goat Adapter Eliza 🐐 - TypeScript
 
 ## Installation
 ```
-npm install @goat-sdk/adapter-vercel-ai
+npm install @goat-sdk/adapter-eliza
 ```
 
 ## Goat
