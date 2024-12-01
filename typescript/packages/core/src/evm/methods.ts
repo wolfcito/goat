@@ -18,7 +18,7 @@ export async function getBalance(
 	parameters: z.infer<typeof getETHBalanceParametersSchema>,
 ): Promise<string> {
 	try {
-		const address = walletClient.resolveAddress(
+		const address = await walletClient.resolveAddress(
 			parameters.address ?? getAddress(walletClient, {}),
 		);
 
