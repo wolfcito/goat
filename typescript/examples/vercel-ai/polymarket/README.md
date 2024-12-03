@@ -34,6 +34,11 @@ pnpm polymarket:setup-allowance
 ```
 npx ts-node index.ts
 ```
+Some examples:
+* Prompt it to list events that have not closed yet
+* Purchase a position on an event
+* Prompt it to list all your active orders
+* Prompt it to cancel all your active orders
 
 ## Actions it supports
 
