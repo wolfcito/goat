@@ -5,7 +5,7 @@ dotenv.config();
 import { privateKeyToAccount } from "viem/accounts";
 import { createWalletClient } from "viem";
 import { http } from "viem";
-import { polygonAmoy } from "viem/chains";
+import { polygon } from "viem/chains";
 
 import { createOrDeriveAPIKey } from "@goat-sdk/plugin-polymarket";
 import { viem } from "@goat-sdk/wallet-viem";
@@ -17,7 +17,7 @@ const account = privateKeyToAccount(
 const walletClient = createWalletClient({
     account: account,
     transport: http(process.env.ALCHEMY_API_KEY),
-    chain: polygonAmoy,
+    chain: polygon,
 });
 
 const wallet = viem(walletClient);
