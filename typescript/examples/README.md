@@ -18,5 +18,4 @@
 - [Viem](https://github.com/goat-sdk/goat/tree/main/typescript/examples/langchain/viem)
 
 ## Eliza
-- [Viem](https://github.com/goat-sdk/goat/tree/main/typescript/examples/eliza/viem)
-- [Crossmint Smart Wallets](https://github.com/goat-sdk/goat/tree/main/typescript/examples/eliza/crossmint-smart-wallets)
+- [Plugin Goat](https://github.com/ai16z/eliza/tree/main/packages/plugin-goat)
