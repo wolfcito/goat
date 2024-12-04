@@ -9,6 +9,10 @@
 			"path": "./typescript/packages/core"
 		},
 		{
+			"name": "[Adapter] 🎧 eleven-labs",
+			"path": "./typescript/packages/adapters/eleven-labs"
+		},
+		{
 			"name": "[Adapter] 🟠 eliza",
 			"path": "./typescript/packages/adapters/eliza"
 		},
