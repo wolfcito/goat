@@ -2,6 +2,8 @@
 
 This example uses the ElevenLabs base project described [here](https://elevenlabs.io/docs/conversational-ai/guides/conversational-ai-guide-nextjs) and follows the steps to add client tool calling described [here](https://elevenlabs.io/docs/conversational-ai/customization/client-tools).
 
+https://github.com/user-attachments/assets/67c7f2d2-0b6a-4e0a-b24b-423e35a94c69
+
 ## Setup
 
 1. Copy the `.env.template` and populate with your values.
