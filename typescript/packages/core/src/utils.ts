@@ -34,6 +34,10 @@ export function addParametersToDescription(
 }
 
 function getTypeString(schema: z.ZodTypeAny): string {
+    if (schema instanceof z.ZodOptional) {
+        // Recursively get the type of the inner schema
+        return getTypeString(schema.unwrap());
+    }
     if (schema instanceof z.ZodString) {
         return "string";
     }
