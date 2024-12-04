@@ -3,7 +3,7 @@
 <div align="center">
 Go out and eat some grass.
 
-[Docs](https://ohmygoat.dev) | [Examples](https://github.com/goat-sdk/goat/tree/main/typescript/examples) | [Discord](https://discord.gg/2F8zTVnnFz)
+[Docs](https://ohmygoat.dev) | [Examples](https://github.com/goat-sdk/goat/tree/main/typescript/examples) | [Discord](https://discord.gg/goat-sdk)
 
 GOAT is free software, MIT licensed, sponsored by [Crossmint](https://www.crossmint.com)
 </div>
