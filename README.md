@@ -29,6 +29,8 @@ GOAT solves this by providing an open-source, provider-agnostic framework that a
 3. **Multi-Chain**: Supports EVM chains and Solana (more coming 👀).
 4. **Customizable**: Use or build plugins for any onchain functionality (sending tokens, checking wallet balance, etc) and protocol (Polymarket, Uniswap, etc).
 
+![goat](https://github.com/user-attachments/assets/f6aa46ce-5684-4136-be29-7867acab3f27)
+
 ### How it works
 GOAT plugs into your agents tool calling capabilities adding all the functions your agent needs to interact with the blockchain. 
 
