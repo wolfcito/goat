@@ -20,8 +20,8 @@ For developers without blockchain expertise, finding clear instructions to perfo
 
 GOAT solves this by providing an open-source, provider-agnostic framework that abstracts away all these combinations.
 
-* For agent developers: goat offers an always-growing catalog of ready made blockchain actions (sending tokens, using a DeFi protocol, ...) that can be imported as tools into your existing agent. It works with the most popular agent frameworks (Langchain, Vercel's AI SDK, Eliza, etc), Typescript and Python, 30+ blockchains (Solana, Base, Polygon, Mode, ...), and many wallet providers.
-* For dApp / smart contract developers: develop a plug-in in goat, and allow agents built with any of the most popular agent develoment frameworks to access your service.
+- **For agent developers**: GOAT offers an always-growing catalog of ready made blockchain actions (sending tokens, using a DeFi protocol, ...) that can be imported as tools into your existing agent. It works with the most popular agent frameworks (Langchain, Vercel's AI SDK, Eliza, etc), Typescript and Python, 30+ blockchains (Solana, Base, Polygon, Mode, ...), and many wallet providers.
+- **For dApp / smart contract developers**: develop a plug-in in GOAT, and allow agents built with any of the most popular agent develoment frameworks to access your service.
 
 ### Key features
 1. **Works Everywhere**: Compatible with Langchain, Vercel’s AI SDK, Eliza, and more.
@@ -30,7 +30,7 @@ GOAT solves this by providing an open-source, provider-agnostic framework that a
 4. **Customizable**: Use or build plugins for any onchain functionality (sending tokens, checking wallet balance, etc) and protocol (Polymarket, Uniswap, etc).
 
 ### How it works
-Goat plugs into your agents tool calling capabilities adding all the functions your agent needs to interact with the blockchain. 
+GOAT plugs into your agents tool calling capabilities adding all the functions your agent needs to interact with the blockchain. 
 
 High-level, here's how it works:
 
