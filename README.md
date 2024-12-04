@@ -5,7 +5,7 @@ Go out and eat some grass.
 
 [Docs](https://ohmygoat.dev) | [Examples](https://github.com/goat-sdk/goat/tree/main/typescript/examples) | [Discord](https://discord.gg/2F8zTVnnFz)
 
-GOAT is sponsored by [Crossmint](https://www.crossmint.com)
+GOAT is free software, MIT licensed, sponsored by [Crossmint](https://www.crossmint.com)
 </div>
 
 ## Goat 🐐
