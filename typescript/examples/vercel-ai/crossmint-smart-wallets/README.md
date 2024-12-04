@@ -1,5 +1,7 @@
 # Vercel AI with Crossmint Smart Wallets Example
 
+
+
 ## Setup
 
 Copy the `.env.template` and populate with your values.
@@ -16,12 +18,12 @@ cp .env.template .env
 npx ts-node create-smart-wallet.ts
 ```
 
-3. Get the smart wallet address and add it to the `.env` file.
+2. Get the smart wallet address and add it to the `.env` file.
 ```
 SMART_WALLET_ADDRESS=<your smart wallet address>
 ```
 
-4. Run the example.
+3. Run the example.
 ```
 npx ts-node index.ts
 ```

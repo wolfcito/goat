@@ -60,7 +60,7 @@ This section lists the labels we use to help us track and manage issues and pull
 
 ## Getting Help
 
--   Join [Discord](https://discord.com/invite/2F8zTVnnFz)
+-   Join [Discord](https://discord.gg/goat-sdk)
 -   Create GitHub issues
 
 ## Additional Resources

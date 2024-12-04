@@ -7,6 +7,7 @@ import { getOnChainTools } from "@goat-sdk/adapter-eleven-labs";
 import { viem } from "@goat-sdk/wallet-viem";
 import { useAccount, useWalletClient } from "wagmi";
 import { ConnectKitButton } from "connectkit";
+import { sendETH } from "../../../../../../packages/core/dist/plugins/send-eth";
 
 export function Conversation() {
     const { isConnected } = useAccount();
@@ -31,6 +32,7 @@ export function Conversation() {
             // const wallet = viem Client
             const tools = await getOnChainTools({
                 wallet: viem(wallet),
+                plugins: [sendETH()],
                 options: {
                     logTools: true,
                 },
