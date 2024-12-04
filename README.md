@@ -25,7 +25,7 @@ GOAT solves this by providing an open-source, provider-agnostic framework that a
 
 ### Key features
 1. **Works Everywhere**: Compatible with Langchain, Vercel’s AI SDK, Eliza, and more.
-2. **Wallet Agnostic**: Supports all wallets, from your own key pairs to [Crossmint Smart Wallets](https://www.crossmint.com) and Coinbase.
+2. **Wallet Agnostic**: Supports all wallets, from your own key pairs to [Crossmint Smart Wallets](https://docs.crossmint.com/wallets/smart-wallets/overview) and Coinbase.
 3. **Multi-Chain**: Supports EVM chains and Solana (more coming 👀).
 4. **Customizable**: Use or build plugins for any onchain functionality (sending tokens, checking wallet balance, etc) and protocol (Polymarket, Uniswap, etc).
 
