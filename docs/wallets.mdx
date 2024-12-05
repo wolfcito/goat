@@ -81,6 +81,31 @@ const tools = await getOnChainTools({
 
 ```
 
+```typescript Dynamic
+import { getOnChainTools } from "@goat-sdk/adapter-vercel-ai";
+import { viem } from "@goat-sdk/wallet-viem";
+import { useDynamicContext, useIsLoggedIn } from "@dynamic-labs/sdk-react-core";
+import { isEthereumWallet } from "@dynamic-labs/ethereum";
+
+const isLoggedIn = useIsLoggedIn();
+const { primaryWallet } = useDynamicContext();
+
+if (!isLoggedIn) {
+    throw new Error("User is not logged in");
+}
+
+if (!isEthereumWallet(primaryWallet)) {
+    throw new Error("Primary wallet is not an Ethereum wallet");
+}
+
+const walletClient = await primaryWallet.getWalletClient();
+
+const tools = await getOnChainTools({
+    wallet: viem(walletClient),
+});
+```
+
+
 ```typescript Solana
 import { getOnChainTools } from "@goat-sdk/adapter-vercel-ai";
 import { solana } from "@goat-sdk/wallet-solana";
