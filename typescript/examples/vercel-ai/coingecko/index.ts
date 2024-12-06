@@ -31,7 +31,7 @@ const walletClient = createWalletClient({
 		plugins: [
 			sendETH(),
 			erc20({ tokens: [USDC, PEPE] }),
-			coingecko()
+			coingecko({ key: process.env.COINGECKO_API_KEY as string }),
 		],
 	});
 

@@ -27,7 +27,9 @@ async function fetchCoinPrice(coinId: string, vsCurrency: string) {
     return await response.json();
 }
 
-export function getTools(): DeferredTool<any>[] {
+export function getTools(credentials: {
+	key: string;
+}): DeferredTool<any>[] {
     const tools: DeferredTool<any>[] = [];
 
     const getTrendingCoinsTool: DeferredTool<any> = {
