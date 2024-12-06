@@ -12,7 +12,7 @@ npm install @goat-sdk/plugin-coingecko
 ```typescript
 import { coingecko } from "@goat-sdk/plugin-coingecko";
 
-const plugin = coingecko();
+const plugin = coingecko({ key: process.env.COINGECKO_API_KEY as string });
 
 // Get trending coins
 const trendingCoins = await plugin.getTrendingCoins();
