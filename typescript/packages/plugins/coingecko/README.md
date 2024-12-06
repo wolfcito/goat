@@ -7,27 +7,23 @@ Coingecko plugin for Goat. Allows you to create tools for interacting with the C
 npm install @goat-sdk/plugin-coingecko
 ```
 
-## Usage
+## Setup
     
 ```typescript
 import { coingecko } from "@goat-sdk/plugin-coingecko";
 
-const plugin = coingecko({ key: process.env.COINGECKO_API_KEY as string });
-
-// Get trending coins
-const trendingCoins = await plugin.getTrendingCoins();
-console.log("Trending coins:", trendingCoins);
-
-// Get Bonk price in USD with additional market data
-const bonkPrice = await plugin.getCoinPrice({
-    coinId: "bonk",
-    vsCurrency: "usd",
-    include_market_cap: true,
-    include_24hr_vol: true,
-    include_24hr_change: true
+const plugin = coingecko({ 
+    apiKey: process.env.COINGECKO_API_KEY 
 });
-console.log("Bonk price data:", bonkPrice);
 ```
+
+## Available Actions
+
+### Get Trending Coins
+Fetches the current trending cryptocurrencies.
+
+### Get Coin Price
+Fetches the current price and optional market data for a specific cryptocurrency.
 
 ## Goat
 

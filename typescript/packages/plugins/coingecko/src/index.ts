@@ -2,7 +2,7 @@ import type { Chain, EVMWalletClient, Plugin } from "@goat-sdk/core";
 import { getTools } from "./tools";
 
 export function coingecko(credentials: {
-	key: string;
+	apiKey: string;
 }): Plugin<any> {
 	return {
 		name: "coingecko",
@@ -10,7 +10,7 @@ export function coingecko(credentials: {
 		supportsSmartWallets: () => true,
 		getTools: async () => {
 			return getTools({
-				key: credentials.key,
+				apiKey: credentials.apiKey,
 			});
 		},
 	};
