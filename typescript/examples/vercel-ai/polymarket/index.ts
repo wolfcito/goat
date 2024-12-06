@@ -12,36 +12,34 @@ import { viem } from "@goat-sdk/wallet-viem";
 
 require("dotenv").config();
 
-const account = privateKeyToAccount(
-	process.env.WALLET_PRIVATE_KEY as `0x${string}`,
-);
+const account = privateKeyToAccount(process.env.WALLET_PRIVATE_KEY as `0x${string}`);
 
 const walletClient = createWalletClient({
-	account: account,
-	transport: http(process.env.ALCHEMY_API_KEY),
-	chain: polygon,
+    account: account,
+    transport: http(process.env.ALCHEMY_API_KEY),
+    chain: polygon,
 });
 
 (async () => {
-	const tools = await getOnChainTools({
-		wallet: viem(walletClient),
-		plugins: [
-			polymarket({
-				credentials: {
-					key: process.env.POLYMARKET_API_KEY as string,
-					secret: process.env.POLYMARKET_SECRET as string,
-					passphrase: process.env.POLYMARKET_PASSPHRASE as string,
-				},
-			}),
-		],
-	});
+    const tools = await getOnChainTools({
+        wallet: viem(walletClient),
+        plugins: [
+            polymarket({
+                credentials: {
+                    key: process.env.POLYMARKET_API_KEY as string,
+                    secret: process.env.POLYMARKET_SECRET as string,
+                    passphrase: process.env.POLYMARKET_PASSPHRASE as string,
+                },
+            }),
+        ],
+    });
 
-	const result = await generateText({
-		model: openai("gpt-4o-mini"),
-		tools: tools,
-		maxSteps: 5,
-		prompt: "List all my active orders on Polymarket",
-	});
+    const result = await generateText({
+        model: openai("gpt-4o-mini"),
+        tools: tools,
+        maxSteps: 5,
+        prompt: "List all my active orders on Polymarket",
+    });
 
-	console.log(result.text);
+    console.log(result.text);
 })();

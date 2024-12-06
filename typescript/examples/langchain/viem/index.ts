@@ -16,44 +16,40 @@ import { viem } from "@goat-sdk/wallet-viem";
 
 require("dotenv").config();
 
-const account = privateKeyToAccount(
-	process.env.WALLET_PRIVATE_KEY as `0x${string}`,
-);
+const account = privateKeyToAccount(process.env.WALLET_PRIVATE_KEY as `0x${string}`);
 
 const walletClient = createWalletClient({
-	account: account,
-	transport: http(process.env.ALCHEMY_API_KEY),
-	chain: sepolia,
+    account: account,
+    transport: http(process.env.ALCHEMY_API_KEY),
+    chain: sepolia,
 });
 
 const llm = new ChatOpenAI({
-	model: "gpt-4o-mini",
+    model: "gpt-4o-mini",
 });
 
 (async (): Promise<void> => {
-	const prompt = await pull<ChatPromptTemplate>(
-		"hwchase17/structured-chat-agent",
-	);
+    const prompt = await pull<ChatPromptTemplate>("hwchase17/structured-chat-agent");
 
-	const tools = await getOnChainTools({
-		wallet: viem(walletClient),
-		plugins: [sendETH(), erc20({ tokens: [USDC, PEPE] })],
-	});
+    const tools = await getOnChainTools({
+        wallet: viem(walletClient),
+        plugins: [sendETH(), erc20({ tokens: [USDC, PEPE] })],
+    });
 
-	const agent = await createStructuredChatAgent({
-		llm,
-		tools,
-		prompt,
-	});
+    const agent = await createStructuredChatAgent({
+        llm,
+        tools,
+        prompt,
+    });
 
-	const agentExecutor = new AgentExecutor({
-		agent,
-		tools,
-	});
+    const agentExecutor = new AgentExecutor({
+        agent,
+        tools,
+    });
 
-	const response = await agentExecutor.invoke({
-		input: "Get my balance in USDC",
-	});
+    const response = await agentExecutor.invoke({
+        input: "Get my balance in USDC",
+    });
 
-	console.log(response);
+    console.log(response);
 })();

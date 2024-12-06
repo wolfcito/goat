@@ -14,28 +14,26 @@ import { viem } from "@goat-sdk/wallet-viem";
 
 require("dotenv").config();
 
-const account = privateKeyToAccount(
-	process.env.WALLET_PRIVATE_KEY as `0x${string}`,
-);
+const account = privateKeyToAccount(process.env.WALLET_PRIVATE_KEY as `0x${string}`);
 
 const walletClient = createWalletClient({
-	account: account,
-	transport: http(process.env.ALCHEMY_API_KEY),
-	chain: sepolia,
+    account: account,
+    transport: http(process.env.ALCHEMY_API_KEY),
+    chain: sepolia,
 });
 
 (async () => {
-	const tools = await getOnChainTools({
-		wallet: viem(walletClient),
-		plugins: [sendETH(), erc20({ tokens: [USDC, PEPE] })],
-	});
+    const tools = await getOnChainTools({
+        wallet: viem(walletClient),
+        plugins: [sendETH(), erc20({ tokens: [USDC, PEPE] })],
+    });
 
-	const result = await generateText({
-		model: openai("gpt-4o-mini"),
-		tools: tools,
-		maxSteps: 5,
-		prompt: "Get my balance in USDC",
-	});
+    const result = await generateText({
+        model: openai("gpt-4o-mini"),
+        tools: tools,
+        maxSteps: 5,
+        prompt: "Get my balance in USDC",
+    });
 
-	console.log(result.text);
+    console.log(result.text);
 })();
