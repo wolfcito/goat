@@ -1,12 +1,7 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    push:
 
 jobs:
     build-and-test:
@@ -20,7 +15,9 @@ jobs:
               uses: ./.github/actions/pnpm-install
 
             - name: Build all
+              working-directory: ./typescript
               run: pnpm build
 
             - name: Test all
+              working-directory: ./typescript
               run: pnpm test
