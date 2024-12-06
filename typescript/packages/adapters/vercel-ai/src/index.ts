@@ -1,9 +1,9 @@
 import {
-    type GetToolsParams,
-    type Tool,
-    type WalletClient,
-    getTools,
-    addParametersToDescription,
+	type GetToolsParams,
+	type Tool,
+	type WalletClient,
+	addParametersToDescription,
+	getTools,
 } from "@goat-sdk/core";
 
 import { type CoreTool, tool } from "ai";
@@ -17,9 +17,9 @@ export async function getOnChainTools<TWalletClient extends WalletClient>({
 	plugins,
 }: GetOnChainToolsParams<TWalletClient>) {
 	const tools: Tool[] = await getTools<TWalletClient>({
-        wallet,
-        plugins,
-    });
+		wallet,
+		plugins,
+	});
 
 	const aiTools: { [key: string]: CoreTool } = {};
 

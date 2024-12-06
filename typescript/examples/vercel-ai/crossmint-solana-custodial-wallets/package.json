@@ -5,7 +5,7 @@
 	"private": true,
 	"scripts": {
 		"create-wallet": "ts-node create-custodial-wallet.ts",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "vitest run --passWithNoTests"
 	},
 	"author": "",
 	"license": "MIT",
@@ -19,8 +19,5 @@
 		"ai": "^4.0.3",
 		"dotenv": "^16.4.5",
 		"viem": "2.21.49"
-	},
-	"devDependencies": {
-		"@types/node": "^22.9.1"
 	}
 }

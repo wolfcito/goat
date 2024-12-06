@@ -7,7 +7,7 @@
 		"polymarket:api-key": "ts-node create-or-derive-api-key.ts",
 		"polymarket:setup-allowance": "ts-node setup-allowance.ts",
 		"polymarket:test-create-order": "ts-node test-create-order.ts",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "vitest run --passWithNoTests"
 	},
 	"author": "",
 	"license": "MIT",
@@ -20,8 +20,5 @@
 		"ai": "^4.0.3",
 		"dotenv": "^16.4.5",
 		"viem": "2.21.49"
-	},
-	"devDependencies": {
-		"@types/node": "^22.7.4"
 	}
 }

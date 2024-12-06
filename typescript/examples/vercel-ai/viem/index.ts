@@ -9,8 +9,8 @@ import { sepolia } from "viem/chains";
 import { getOnChainTools } from "@goat-sdk/adapter-vercel-ai";
 import { PEPE, USDC, erc20 } from "@goat-sdk/plugin-erc20";
 
-import { viem } from "@goat-sdk/wallet-viem";
 import { sendETH } from "@goat-sdk/core";
+import { viem } from "@goat-sdk/wallet-viem";
 
 require("dotenv").config();
 
@@ -27,9 +27,7 @@ const walletClient = createWalletClient({
 (async () => {
 	const tools = await getOnChainTools({
 		wallet: viem(walletClient),
-		plugins: [
-			sendETH(),
-			erc20({ tokens: [USDC, PEPE] })],
+		plugins: [sendETH(), erc20({ tokens: [USDC, PEPE] })],
 	});
 
 	const result = await generateText({

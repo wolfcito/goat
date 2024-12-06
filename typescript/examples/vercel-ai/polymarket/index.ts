@@ -17,9 +17,9 @@ const account = privateKeyToAccount(
 );
 
 const walletClient = createWalletClient({
-    account: account,
-    transport: http(process.env.ALCHEMY_API_KEY),
-    chain: polygon,
+	account: account,
+	transport: http(process.env.ALCHEMY_API_KEY),
+	chain: polygon,
 });
 
 (async () => {
@@ -37,11 +37,11 @@ const walletClient = createWalletClient({
 	});
 
 	const result = await generateText({
-        model: openai("gpt-4o-mini"),
-        tools: tools,
-        maxSteps: 5,
-        prompt: "List all my active orders on Polymarket",
-    });
+		model: openai("gpt-4o-mini"),
+		tools: tools,
+		maxSteps: 5,
+		prompt: "List all my active orders on Polymarket",
+	});
 
 	console.log(result.text);
 })();
