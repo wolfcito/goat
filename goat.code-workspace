@@ -37,6 +37,10 @@
 			"path": "./typescript/packages/plugins/polymarket"
 		},
 		{
+			"name": "[Plugin] 💰 coingecko",
+			"path": "./typescript/packages/plugins/coingecko"
+		},
+		{
 			"name": "[Wallet] 🍀 crossmint",
 			"path": "./typescript/packages/wallets/crossmint"
 		},

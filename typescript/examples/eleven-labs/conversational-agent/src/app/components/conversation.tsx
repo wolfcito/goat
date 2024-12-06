@@ -8,6 +8,7 @@ import { viem } from "@goat-sdk/wallet-viem";
 import { ConnectKitButton } from "connectkit";
 import { useAccount, useWalletClient } from "wagmi";
 import { sendETH } from "../../../../../../packages/core/dist/plugins/send-eth";
+import { coingecko } from "@goat-sdk/plugin-coingecko";
 
 export function Conversation() {
     const { isConnected } = useAccount();
@@ -32,7 +33,12 @@ export function Conversation() {
             // const wallet = viem Client
             const tools = await getOnChainTools({
                 wallet: viem(wallet),
-                plugins: [sendETH()],
+                plugins: [
+                    sendETH(),
+                    coingecko({
+                        apiKey: process.env.NEXT_PUBLIC_COINGECKO_API_KEY ?? "",
+                    }),
+                ],
                 options: {
                     logTools: true,
                 },
