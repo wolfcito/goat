@@ -1,11 +1,12 @@
 name: CI
 
-env:
-    TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-    TURBO_TEAM: ${{ vars.TURBO_TEAM }}
-
 on:
-    push:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
     build-and-test:
