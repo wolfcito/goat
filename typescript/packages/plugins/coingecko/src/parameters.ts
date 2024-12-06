@@ -10,19 +10,19 @@ export const getCoinPriceParametersSchema = z.object({
 	vsCurrency: z.string()
 		.default("usd")
 		.describe("The target currency to get price in (e.g., 'usd', 'eur', 'jpy')"),
-	include_market_cap: z.boolean()
+	includeMarketCap: z.boolean()
 		.optional()
 		.default(false)
 		.describe("Include market cap data in the response"),
-	include_24hr_vol: z.boolean()
+	include24hrVol: z.boolean()
 		.optional()
 		.default(false)
 		.describe("Include 24 hour volume data in the response"),
-	include_24hr_change: z.boolean()
+	include24hrChange: z.boolean()
 		.optional()
 		.default(false)
 		.describe("Include 24 hour price change data in the response"),
-	include_last_updated_at: z.boolean()
+	includeLastUpdatedAt: z.boolean()
 		.optional()
 		.default(false)
 		.describe("Include last updated timestamp in the response"),
