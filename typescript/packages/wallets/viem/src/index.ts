@@ -64,7 +64,8 @@ export function viem(client: ViemWalletClient, options?: ViemOptions): EVMWallet
             const signature = await client.signTypedData({
                 domain: {
                     ...data.domain,
-                    chainId: typeof data.domain.chainId === 'bigint' ? Number(data.domain.chainId) : data.domain.chainId,
+                    chainId:
+                        typeof data.domain.chainId === "bigint" ? Number(data.domain.chainId) : data.domain.chainId,
                 },
                 types: data.types,
                 primaryType: data.primaryType,
