@@ -2,9 +2,8 @@ import { openai } from "@ai-sdk/openai";
 import { generateText } from "ai";
 
 import { getOnChainTools } from "@goat-sdk/adapter-vercel-ai";
-import { solana } from "@goat-sdk/wallet-solana";
+import { sendSOL, solana } from "@goat-sdk/wallet-solana";
 
-import { sendSOL } from "@goat-sdk/core";
 import { Connection, Keypair } from "@solana/web3.js";
 
 import { jupiter } from "@goat-sdk/plugin-jupiter";
@@ -22,7 +21,7 @@ const keypair = Keypair.fromSecretKey(base58.decode(process.env.SOLANA_PRIVATE_K
             keypair,
             connection,
         }),
-        plugins: [sendSOL(), jupiter({ connection }), splToken({ connection, network: "mainnet" })],
+        plugins: [sendSOL(), jupiter(), splToken({ connection, network: "mainnet" })],
     });
 
     const result = await generateText({
