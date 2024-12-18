@@ -1,11 +1,19 @@
 import { Tool } from "@goat-sdk/core";
 import { SolanaWalletClient } from "@goat-sdk/wallet-solana";
 import { createJupiterApiClient } from "@jup-ag/api";
-import { ComputeBudgetProgram, PublicKey, TransactionInstruction } from "@solana/web3.js";
+import {
+    ComputeBudgetProgram,
+    PublicKey,
+    Transaction,
+    TransactionInstruction,
+} from "@solana/web3.js";
+
 import { GetQuoteParameters } from "./parameters";
 
 export class JupiterService {
-    private readonly jupiterApiClient: ReturnType<typeof createJupiterApiClient>;
+    private readonly jupiterApiClient: ReturnType<
+        typeof createJupiterApiClient
+    >;
 
     constructor() {
         this.jupiterApiClient = createJupiterApiClient();
@@ -23,7 +31,6 @@ export class JupiterService {
                 const response = error.response as Response;
 
                 const result = await response.json();
-                console.error(result);
                 throw new Error(`Failed to get quote: ${result.error}`);
             }
             throw error;
@@ -33,38 +40,70 @@ export class JupiterService {
     @Tool({
         description: "Swap an SPL token for another token on the Jupiter DEX",
     })
-    async swapTokens(walletClient: SolanaWalletClient, parameters: GetQuoteParameters) {
+    async swapTokens(
+        walletClient: SolanaWalletClient,
+        parameters: GetQuoteParameters
+    ) {
         const quoteResponse = await this.getQuote(parameters);
 
-        const { swapInstruction, addressLookupTableAddresses } = await this.jupiterApiClient.swapInstructionsPost({
+        const { swapTransaction } = await this.jupiterApiClient.swapPost({
             swapRequest: {
                 userPublicKey: walletClient.getAddress(),
                 quoteResponse: quoteResponse,
+                dynamicComputeUnitLimit: true,
+                prioritizationFeeLamports: "auto",
             },
         });
 
-        const deserializedInstruction = new TransactionInstruction({
-            programId: new PublicKey(swapInstruction.programId),
-            keys: swapInstruction.accounts.map((key) => ({
-                pubkey: new PublicKey(key.pubkey),
-                isSigner: key.isSigner,
-                isWritable: key.isWritable,
-            })),
-            data: Buffer.from(swapInstruction.data, "base64"),
-        });
-
-        // TODO: Make this dynamic?
-        const computeBudgetIx = ComputeBudgetProgram.setComputeUnitLimit({
-            units: 400000, // Adjust this value as needed
-        });
+        const versionedTransaction = VersionedTransaction.deserialize(
+            Buffer.from(swapTransaction, "base64")
+        );
+        const instructions = await decompileVersionedTransactionToInstructions(
+            walletClient.getConnection(),
+            versionedTransaction
+        );
 
         const { hash } = await walletClient.sendTransaction({
-            instructions: [computeBudgetIx, deserializedInstruction],
-            addressLookupTableAddresses,
+            instructions,
+            addressLookupTableAddresses:
+                versionedTransaction.message.addressTableLookups.map((lookup) =>
+                    lookup.accountKey.toBase58()
+                ),
         });
 
         return {
             hash,
         };
     }
+}
+
+import { type DecompileArgs, TransactionMessage } from "@solana/web3.js";
+
+import { type Connection, VersionedTransaction } from "@solana/web3.js";
+
+export async function decompileVersionedTransactionToInstructions(
+    connection: Connection,
+    versionedTransaction: VersionedTransaction
+) {
+    const lookupTableAddresses =
+        versionedTransaction.message.addressTableLookups.map(
+            (lookup) => lookup.accountKey
+        );
+    const addressLookupTableAccounts = await Promise.all(
+        lookupTableAddresses.map((address) =>
+            connection
+                .getAddressLookupTable(address)
+                .then((lookupTable) => lookupTable.value)
+        )
+    );
+    const nonNullAddressLookupTableAccounts = addressLookupTableAccounts.filter(
+        (lookupTable) => lookupTable != null
+    );
+    const decompileArgs: DecompileArgs = {
+        addressLookupTableAccounts: nonNullAddressLookupTableAccounts,
+    };
+    return TransactionMessage.decompile(
+        versionedTransaction.message,
+        decompileArgs
+    ).instructions;
 }
