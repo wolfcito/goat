@@ -1,9 +1,7 @@
 import { Tool } from "@goat-sdk/core";
 import type { EVMWalletClient } from "@goat-sdk/wallet-evm";
 import { parseUnits } from "viem";
-import { decodeEventLog, formatUnits } from "viem";
 import { encodeAbiParameters } from "viem";
-import { z } from "zod";
 import { ERC20_ABI } from "./abi/erc20";
 import { KIM_FACTORY_ABI } from "./abi/factory";
 import { POOL_ABI } from "./abi/pool";
