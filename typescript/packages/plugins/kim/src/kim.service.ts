@@ -1,5 +1,5 @@
 import { Tool } from "@goat-sdk/core";
-import type { EVMWalletClient } from "@goat-sdk/wallet-evm";
+import { EVMWalletClient } from "@goat-sdk/wallet-evm";
 import { parseUnits } from "viem";
 import { encodeAbiParameters } from "viem";
 import { ERC20_ABI } from "./abi/erc20";
@@ -26,45 +26,37 @@ const FACTORY_ADDRESS = "0xB5F00c2C5f8821155D8ed27E31932CFD9DB3C5D5";
 
 export class KimService {
     @Tool({
-        name: "kim_swap_exact_input_single_hop",
         description: "Swap an exact amount of input tokens for a single hop",
     })
-    async swapExactInputSingleHop(walletClient: EVMWalletClient, parameters: ExactInputSingleParams): Promise<string> {
+    async swapExactInputSingleHop(walletClient: EVMWalletClient, parameters: ExactInputSingleParams) {
         try {
-            const tokenIn = await walletClient.resolveAddress(parameters.tokenIn);
-            const tokenOut = await walletClient.resolveAddress(parameters.tokenOut);
+            console.log(JSON.stringify(parameters, null, 2));
+            console.log(walletClient.getChain());
             const recipient = await walletClient.resolveAddress(parameters.recipient);
 
-            const tokenInDecimals = Number(
-                await walletClient.read({
-                    address: parameters.tokenIn as `0x${string}`,
-                    abi: ERC20_ABI,
-                    functionName: "decimals",
-                }),
-            );
-
-            const tokenOutDecimals = Number(
-                await walletClient.read({
-                    address: parameters.tokenOut as `0x${string}`,
-                    abi: ERC20_ABI,
-                    functionName: "decimals",
-                }),
-            );
-
-            const amountIn = parseUnits(parameters.amountIn, tokenInDecimals);
-            const amountOutMinimum = parseUnits(parameters.amountOutMinimum, tokenOutDecimals);
-            const limitSqrtPrice = parseUnits(parameters.limitSqrtPrice, 96);
+            const amountIn = parameters.amountIn;
+            const amountOutMinimum = parameters.amountOutMinimum;
+            const limitSqrtPrice = parameters.limitSqrtPrice;
+            const timestamp = Math.floor(Date.now() / 1000) + parameters.deadline;
 
             const hash = await walletClient.sendTransaction({
                 to: SWAP_ROUTER_ADDRESS,
                 abi: SWAP_ROUTER_ABI,
                 functionName: "exactInputSingle",
-                args: [tokenIn, tokenOut, recipient, parameters.deadline, amountIn, amountOutMinimum, limitSqrtPrice],
+                args: [
+                    {
+                        tokenIn: parameters.tokenIn,
+                        tokenOut: parameters.tokenOut,
+                        recipient: recipient,
+                        deadline: timestamp,
+                        amountIn: amountIn,
+                        amountOutMinimum: amountOutMinimum,
+                        limitSqrtPrice: limitSqrtPrice,
+                    },
+                ],
             });
 
             return hash.hash;
-
-            // TODO get the amountOut
         } catch (error) {
             throw Error(`Failed to swap: ${error}`);
         }

@@ -59,6 +59,17 @@ export const USDC: Token = {
     },
 };
 
+export const MODE: Token = {
+    decimals: 18,
+    symbol: "MODE",
+    name: "Mode",
+    chains: {
+        "34443": {
+            contractAddress: "0xDfc7C877a950e49D2610114102175A06C2e3167a",
+        },
+    },
+};
+
 export function getTokensForNetwork(chainId: number, tokens: Token[]): ChainSpecificToken[] {
     const result: ChainSpecificToken[] = [];
 

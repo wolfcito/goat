@@ -18,7 +18,8 @@
         "zod": "catalog:"
     },
     "peerDependencies": {
-        "@goat-sdk/core": "workspace:*"
+        "@goat-sdk/core": "workspace:*",
+        "viem": "catalog:"
     },
     "homepage": "https://ohmygoat.dev",
     "repository": {

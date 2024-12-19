@@ -2,16 +2,16 @@ import { createToolParameters } from "@goat-sdk/core";
 import { z } from "zod";
 
 export const pathSchema = z.object({
-    tokenIn: z.string().describe("First token in the path"),
-    tokenOut: z.string().describe("Last token in the path"),
-    intermediateTokens: z.array(z.string()).describe("Intermediate tokens in the path"),
+    tokenIn: z.string().describe("Address of the first token in the path"),
+    tokenOut: z.string().describe("Address of the last token in the path"),
+    intermediateTokens: z.array(z.string()).describe("Addresses of the intermediate tokens in the path"),
     fees: z.array(z.number()).describe("Fee tiers between each hop"),
 });
 
 export class ExactInputParams extends createToolParameters(
     z.object({
         path: pathSchema.describe("The path of the swap"),
-        recipient: z.string().describe("The address to receive the output tokens"),
+        recipient: z.string().describe("Address to receive the output tokens"),
         deadline: z.number().describe("The deadline for the swap"),
         amountIn: z.string().describe("The amount of tokens to swap in"),
         amountOutMinimum: z.string().describe("The minimum amount of tokens to receive"),
@@ -30,12 +30,16 @@ export class ExactOutputParams extends createToolParameters(
 
 export class ExactInputSingleParams extends createToolParameters(
     z.object({
-        tokenIn: z.string().describe("The token to swap in"),
-        tokenOut: z.string().describe("The token to swap out"),
+        tokenIn: z.string().describe("The address of the token to swap in"),
+        tokenOut: z.string().describe("The address of the token to swap out"),
         recipient: z.string().describe("The address to receive the output tokens"),
-        deadline: z.number().describe("The deadline for the swap"),
-        amountIn: z.string().describe("The amount of tokens to swap in"),
-        amountOutMinimum: z.string().describe("The minimum amount of tokens to receive"),
+        deadline: z
+            .number()
+            .optional()
+            .default(60 * 60 * 24)
+            .describe("The deadline for the swap in seconds from now"),
+        amountIn: z.string().describe("The amount of tokens to swap in in base units"),
+        amountOutMinimum: z.string().describe("The minimum amount of tokens to receive in base units"),
         limitSqrtPrice: z.string().describe("The limit price for the swap"),
     }),
 ) {}
