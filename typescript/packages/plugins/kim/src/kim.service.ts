@@ -15,6 +15,7 @@ import {
     ExactInputSingleParams,
     ExactOutputParams,
     ExactOutputSingleParams,
+    GetSwapRouterAddressParams,
     GlobalStateResponseParams,
     IncreaseLiquidityParams,
     MintParams,
@@ -26,12 +27,19 @@ const FACTORY_ADDRESS = "0xB5F00c2C5f8821155D8ed27E31932CFD9DB3C5D5";
 
 export class KimService {
     @Tool({
-        description: "Swap an exact amount of input tokens for a single hop",
+        name: "kim_get_swap_router_address",
+        description: "Get the address of the swap router",
+    })
+    async getSwapRouterAddress(parameters: GetSwapRouterAddressParams) {
+        return SWAP_ROUTER_ADDRESS;
+    }
+
+    @Tool({
+        description:
+            "Swap an exact amount of input tokens for a single hop. Make sure tokens are approved for the swap router.",
     })
     async swapExactInputSingleHop(walletClient: EVMWalletClient, parameters: ExactInputSingleParams) {
         try {
-            console.log(JSON.stringify(parameters, null, 2));
-            console.log(walletClient.getChain());
             const recipient = await walletClient.resolveAddress(parameters.recipient);
 
             const amountIn = parameters.amountIn;

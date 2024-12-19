@@ -119,7 +119,7 @@ export class Erc20Service {
                 functionName: "allowance",
                 args: [owner, spender],
             });
-            return rawAllowance.value;
+            return Number(rawAllowance.value);
         } catch (error) {
             throw Error(`Failed to fetch allowance: ${error}`);
         }

@@ -1,6 +1,8 @@
 import { createToolParameters } from "@goat-sdk/core";
 import { z } from "zod";
 
+export class GetSwapRouterAddressParams extends createToolParameters(z.object({})) {}
+
 export const pathSchema = z.object({
     tokenIn: z.string().describe("Address of the first token in the path"),
     tokenOut: z.string().describe("Address of the last token in the path"),
