@@ -55,6 +55,10 @@
             "path": "./typescript/packages/plugins/jupiter"
         },
         {
+            "name": "[Plugin] 🔶 kim",
+            "path": "./typescript/packages/plugins/kim"
+        },
+        {
             "name": "[Plugin] ☄️ meteora",
             "path": "./typescript/packages/plugins/meteora"
         },
