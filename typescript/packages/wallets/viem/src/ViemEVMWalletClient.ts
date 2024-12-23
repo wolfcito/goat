@@ -124,7 +124,7 @@ export class ViemEVMWalletClient extends EVMWalletClient {
             functionName,
             args,
             chain: this.#client.chain,
-            value:value,
+            value: value,
         });
 
         // Encode the call data ourselves
