@@ -695,6 +695,7 @@ importers:
       reflect-metadata:
         specifier: 0.2.2
         version: 0.2.2
+    devDependencies:
       zod:
         specifier: 'catalog:'
         version: 3.23.8

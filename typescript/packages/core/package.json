@@ -12,8 +12,7 @@
     "module": "./dist/index.mjs",
     "types": "./dist/index.d.ts",
     "dependencies": {
-        "reflect-metadata": "0.2.2",
-        "zod": "catalog:"
+        "reflect-metadata": "0.2.2"
     },
     "devDependencies": {
         "zod": "catalog:"
