@@ -1,6 +1,6 @@
 export const MODESPRAY_ADDRESSES: Record<number, string> = {
-    919: "0xDBA7D42BAC31Fa58A6Ab7ffE95D9FfA4bD398A0f", // Mode Sepolia
-    34443: "0x669Fa5586E6508dFde75a1a7CDe89f44D32d8A2A", // Mode Mainnet
+    919: "0xF2C41003582a9348F6132690A9A9D1fE2479Fb5d", // Mode Sepolia
+    34443: "0xBc829d22952Bcf8221298CffC674648B3e329aaf", // Mode Mainnet
 };
 
 export const MODESPRAY_ABI = [
@@ -16,19 +16,24 @@ export const MODESPRAY_ABI = [
         type: "constructor",
     },
     {
-        inputs: [
-            {
-                internalType: "address",
-                name: "account",
-                type: "address",
-            },
-        ],
-        name: "AddressInsufficientBalance",
+        inputs: [],
+        name: "FailedCall",
         type: "error",
     },
     {
-        inputs: [],
-        name: "FailedInnerCall",
+        inputs: [
+            {
+                internalType: "uint256",
+                name: "balance",
+                type: "uint256",
+            },
+            {
+                internalType: "uint256",
+                name: "needed",
+                type: "uint256",
+            },
+        ],
+        name: "InsufficientBalance",
         type: "error",
     },
     {
@@ -76,25 +81,6 @@ export const MODESPRAY_ABI = [
         anonymous: false,
         inputs: [
             {
-                indexed: false,
-                internalType: "uint256",
-                name: "allowed",
-                type: "uint256",
-            },
-            {
-                indexed: false,
-                internalType: "uint256",
-                name: "total",
-                type: "uint256",
-            },
-        ],
-        name: "SmsAllowed",
-        type: "event",
-    },
-    {
-        anonymous: false,
-        inputs: [
-            {
                 indexed: true,
                 internalType: "address",
                 name: "sender",
@@ -117,6 +103,26 @@ export const MODESPRAY_ABI = [
         type: "event",
     },
     {
+        inputs: [],
+        name: "owner",
+        outputs: [
+            {
+                internalType: "address",
+                name: "",
+                type: "address",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [],
+        name: "renounceOwnership",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+    },
+    {
         inputs: [
             {
                 internalType: "address[]",
@@ -129,7 +135,7 @@ export const MODESPRAY_ABI = [
                 type: "uint256[]",
             },
         ],
-        name: "disperseEther",
+        name: "sprayEther",
         outputs: [],
         stateMutability: "payable",
         type: "function",
@@ -152,27 +158,7 @@ export const MODESPRAY_ABI = [
                 type: "uint256[]",
             },
         ],
-        name: "disperseToken",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [],
-        name: "owner",
-        outputs: [
-            {
-                internalType: "address",
-                name: "",
-                type: "address",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-    },
-    {
-        inputs: [],
-        name: "renounceOwnership",
+        name: "sprayToken",
         outputs: [],
         stateMutability: "nonpayable",
         type: "function",

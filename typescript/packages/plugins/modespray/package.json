@@ -1,13 +1,7 @@
 {
     "name": "@goat-sdk/plugin-modespray",
     "version": "0.1.0",
-    "type": "module",
-    "files": [
-        "dist/**/*",
-        "README.md",
-        "CHANGELOG.md",
-        "package.json"
-    ],
+    "files": ["dist/**/*", "README.md", "package.json"],
     "scripts": {
         "build": "tsup",
         "clean": "rm -rf dist",
@@ -36,11 +30,5 @@
     "bugs": {
         "url": "https://github.com/goat-sdk/goat/issues"
     },
-    "keywords": [
-        "ai",
-        "agents",
-        "web3",
-        "spray",
-        "tooling"
-    ]
+    "keywords": ["ai", "agents", "web3", "spray", "tooling"]
 }

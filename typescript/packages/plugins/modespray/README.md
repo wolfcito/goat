@@ -13,12 +13,12 @@ This plugin enables AI agents to interact with ModeSpray on Mode Network, allowi
 ## Usage
 
 ```typescript
-import { modeSprayPlugin } from "@goat-sdk/plugin-modespray";
+import { modeSpray } from "@goat-sdk/plugin-modespray";
 
 const tools = await getOnChainTools({
     wallet: viem(wallet),
     plugins: [
-        modeSprayPlugin(),
+        modeSpray(),
         // ... other plugins
     ],
 });
