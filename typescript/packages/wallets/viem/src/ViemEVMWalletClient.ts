@@ -1,5 +1,15 @@
-import { type EVMReadRequest, type EVMTransaction, type EVMTypedData, EVMWalletClient } from "@goat-sdk/wallet-evm";
-import { type WalletClient as ViemWalletClient, encodeFunctionData, formatUnits, publicActions } from "viem";
+import {
+    type EVMReadRequest,
+    type EVMTransaction,
+    type EVMTypedData,
+    EVMWalletClient,
+} from "@goat-sdk/wallet-evm";
+import {
+    type WalletClient as ViemWalletClient,
+    encodeFunctionData,
+    formatUnits,
+    publicActions,
+} from "viem";
 import { mainnet } from "viem/chains";
 import { normalize } from "viem/ens";
 import { eip712WalletActions, getGeneralPaymasterInput } from "viem/zksync";
@@ -23,7 +33,8 @@ export class ViemEVMWalletClient extends EVMWalletClient {
     constructor(client: ViemWalletClient, options?: ViemOptions) {
         super();
         this.#client = client;
-        this.#defaultPaymaster = options?.paymaster?.defaultAddress ?? ("" as `0x${string}`);
+        this.#defaultPaymaster =
+            options?.paymaster?.defaultAddress ?? ("" as `0x${string}`);
         this.#defaultPaymasterInput =
             options?.paymaster?.defaultInput ??
             getGeneralPaymasterInput({
@@ -43,7 +54,8 @@ export class ViemEVMWalletClient extends EVMWalletClient {
     }
 
     async resolveAddress(address: string) {
-        if (/^0x[a-fA-F0-9]{40}$/.test(address)) return address as `0x${string}`;
+        if (/^0x[a-fA-F0-9]{40}$/.test(address))
+            return address as `0x${string}`;
 
         try {
             const resolvedAddress = (await this.publicClient.getEnsAddress({
@@ -74,7 +86,10 @@ export class ViemEVMWalletClient extends EVMWalletClient {
         const signature = await this.#client.signTypedData({
             domain: {
                 ...data.domain,
-                chainId: typeof data.domain.chainId === "bigint" ? Number(data.domain.chainId) : data.domain.chainId,
+                chainId:
+                    typeof data.domain.chainId === "bigint"
+                        ? Number(data.domain.chainId)
+                        : data.domain.chainId,
             },
             types: data.types,
             primaryType: data.primaryType,
@@ -92,11 +107,14 @@ export class ViemEVMWalletClient extends EVMWalletClient {
         const toAddress = await this.resolveAddress(to);
 
         const paymaster = options?.paymaster?.address ?? this.#defaultPaymaster;
-        const paymasterInput = options?.paymaster?.input ?? this.#defaultPaymasterInput;
+        const paymasterInput =
+            options?.paymaster?.input ?? this.#defaultPaymasterInput;
         const txHasPaymaster = !!paymaster && !!paymasterInput;
 
         // If paymaster params exist, extend with EIP712 actions
-        const sendingClient = txHasPaymaster ? this.#client.extend(eip712WalletActions()) : this.#client;
+        const sendingClient = txHasPaymaster
+            ? this.#client.extend(eip712WalletActions())
+            : this.#client;
 
         // Simple ETH transfer (no ABI)
         if (!abi) {
@@ -124,6 +142,7 @@ export class ViemEVMWalletClient extends EVMWalletClient {
             functionName,
             args,
             chain: this.#client.chain,
+            value: value,
         });
 
         // Encode the call data ourselves
