@@ -18,7 +18,7 @@
         "zod": "catalog:"
     },
     "peerDependencies": {
-        "zod": "catalog:"
+        "zod": "^3.0.0"
     },
     "homepage": "https://ohmygoat.dev",
     "repository": {
