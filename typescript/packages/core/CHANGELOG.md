@@ -1,5 +1,17 @@
 # @goat-sdk/core
 
+## 0.4.2
+
+### Patch Changes
+
+- 279dfcd: Fix peer dependency
+
+## 0.4.1
+
+### Patch Changes
+
+- 6c03f61: Fix zod versions
+
 ## 0.4.0
 
 ### Minor Changes
