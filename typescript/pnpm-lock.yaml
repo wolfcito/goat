@@ -650,6 +650,9 @@ importers:
       '@goat-sdk/core':
         specifier: workspace:*
         version: link:../../../packages/core
+      '@goat-sdk/plugin-coingecko':
+        specifier: 0.2.0
+        version: 0.2.0(@goat-sdk/core@packages+core)
       '@goat-sdk/plugin-jupiter':
         specifier: workspace:*
         version: link:../../../packages/plugins/jupiter
@@ -3136,6 +3139,11 @@ packages:
 
   '@fuels/vm-asm@0.58.2':
     resolution: {integrity: sha512-1/5azTzKJP508BXbZvM6Y0V5bCCX5JgEnd/8mXdBFmFvNLOhiYbwb25yk26auqOokfBXvthSkdkrvipEFft6jQ==}
+
+  '@goat-sdk/plugin-coingecko@0.2.0':
+    resolution: {integrity: sha512-0sFFbY9JI73ISrrW+OQ05eG8HCwtUhoSdjEsDjOqIX149UliR6aPpQy/Ygx6oK+6OW4TzTQsxgVf89KBOy7FRQ==}
+    peerDependencies:
+      '@goat-sdk/core': 0.4.0
 
   '@google-cloud/vertexai@1.9.0':
     resolution: {integrity: sha512-8brlcJwFXI4fPuBtsDNQqCdWZmz8gV9jeEKOU0vc5H2SjehCQpXK/NwuSEr916zbhlBHtg/sU37qQQdgvh5BRA==}
@@ -12333,6 +12341,11 @@ snapshots:
       cli-table: 0.3.11
 
   '@fuels/vm-asm@0.58.2': {}
+
+  '@goat-sdk/plugin-coingecko@0.2.0(@goat-sdk/core@packages+core)':
+    dependencies:
+      '@goat-sdk/core': link:packages/core
+      zod: 3.23.8
 
   '@google-cloud/vertexai@1.9.0':
     dependencies:
