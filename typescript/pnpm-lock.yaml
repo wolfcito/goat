@@ -261,7 +261,7 @@ importers:
     dependencies:
       '@ai-sdk/openai':
         specifier: ^1.0.4
-        version: 1.0.11(zod@3.24.1)
+        version: 1.0.5(zod@3.24.1)
       '@goat-sdk/adapter-model-context-protocol':
         specifier: workspace:*
         version: link:../../../packages/adapters/model-context-protocol
@@ -547,7 +547,7 @@ importers:
     dependencies:
       '@ai-sdk/openai':
         specifier: ^1.0.4
-        version: 1.0.5(zod@3.24.1)
+        version: 1.0.11(zod@3.24.1)
       '@goat-sdk/adapter-vercel-ai':
         specifier: workspace:*
         version: link:../../../packages/adapters/vercel-ai
@@ -1013,6 +1013,21 @@ importers:
       crypto:
         specifier: ^1.0.1
         version: 1.0.1
+      viem:
+        specifier: 'catalog:'
+        version: 2.21.49(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
+      zod:
+        specifier: 'catalog:'
+        version: 3.23.8
+
+  packages/plugins/renzo:
+    dependencies:
+      '@goat-sdk/core':
+        specifier: workspace:*
+        version: link:../../core
+      '@goat-sdk/wallet-evm':
+        specifier: workspace:*
+        version: link:../../wallets/evm
       viem:
         specifier: 'catalog:'
         version: 2.21.49(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
