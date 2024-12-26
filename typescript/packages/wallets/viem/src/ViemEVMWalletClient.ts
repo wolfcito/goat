@@ -198,4 +198,3 @@ export class ViemEVMWalletClient extends EVMWalletClient {
 export function viem(client: ViemWalletClient, options?: ViemOptions) {
     return new ViemEVMWalletClient(client, options);
 }
-
