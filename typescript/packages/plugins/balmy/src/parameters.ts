@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createToolParameters } from "@goat-sdk/core";
 import { z } from "zod";
 
@@ -21,21 +22,13 @@ export class GetAllowanceParameters extends createToolParameters(
 export class GetQuoteParameters extends createToolParameters(
     z.object({
         chainId: z.number().describe("The chain ID"),
-        tokenIn: z.string().describe("The input token address"),
-        tokenOut: z.string().describe("The output token address"),
+        tokenIn: z.string().describe("The input token symbol or address"),
+        tokenOut: z.string().describe("The output token symbol or address"),
         order: z.object({
             type: z.enum(["sell", "buy"]),
             sellAmount: z.string().describe("Amount in basis points (e.g., 1000000 for 1 USDC)")
         }).describe("Order details"),
-        slippagePercentage: z.number().describe("Maximum allowed slippage"),
-        gasSpeed: z.object({
-            speed: z.enum(["instant", "fast", "standard", "slow"])
-        }).optional(),
-        config: z.object({
-            sort: z.object({
-                by: z.string()
-            })
-        }).optional()
+        slippagePercentage: z.number().describe("Maximum allowed slippage (e.g., 0.5 for 0.5%)")
     })
 ) {}
 

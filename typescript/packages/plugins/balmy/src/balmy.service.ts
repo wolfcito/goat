@@ -11,8 +11,10 @@ import {
 export class BalmyService {
     private sdk;
 
+
+
     constructor() {
-        this.sdk = buildSDK({});
+        this.sdk = buildSDK();
     }
 
     @Tool({
@@ -65,16 +67,22 @@ export class BalmyService {
             order: parameters.order,
             slippagePercentage: parameters.slippagePercentage,
             gasSpeed: parameters.gasSpeed,
-            takerAddress: parameters.takerAddress,
+            takerAddress: parameters.takerAddress || "0x666446eC2343e9E7e3D75C4C5b6A15355Ec7d7D4",
             
         }
+
+        console.log(request);
         
-        return await this.sdk.quoteService.getQuotes({
+        const quotes = await this.sdk.quoteService.getQuotes({
             request: request,
             config: {
                 timeout: "10s"
             }
         });
+
+        console.log(quotes);
+
+        return quotes;
     }
 
     @Tool({
