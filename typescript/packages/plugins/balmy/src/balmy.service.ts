@@ -1,6 +1,6 @@
 import { Tool } from "@goat-sdk/core";
 import { EVMWalletClient } from "@goat-sdk/wallet-evm";
-import { buildSDK } from "@balmy/sdk";
+import { buildSDK, QuoteRequest } from "@balmy/sdk";
 import {
     GetBalanceParameters,
     GetAllowanceParameters,
@@ -19,19 +19,32 @@ export class BalmyService {
         description: "Get token balances for an account"
     })
     async getBalances(walletClient: EVMWalletClient, parameters: GetBalanceParameters) {
-        return await this.sdk.balanceService.getBalances({
+        const balances = await this.sdk.balanceService.getBalances({
             tokens: [{
                 chainId: parameters.chainId,
                 account: parameters.account,
                 token: parameters.token
             }]
         });
+
+        // Convert nested object structure with BigInt values to strings
+        return Object.entries(balances).reduce((acc: Record<string, any>, [chainId, tokens]) => {
+            acc[chainId] = Object.entries(tokens).reduce((tokenAcc: Record<string, any>, [token, balance]) => {
+                tokenAcc[token] = Object.entries(balance).reduce((balAcc: Record<string, string>, [address, amount]) => {
+                    // @ts-ignore
+                    balAcc[address] = amount.toString();
+                    return balAcc;
+                }, {} as Record<string, string>);
+                return tokenAcc;
+            }, {} as Record<string, any>);
+            return acc;
+        }, {} as Record<string, any>);
     }
 
     @Tool({
-        description: "Get token allowance for an account"
+        description: "Get token allowance for my account"
     })
-    async getAllowance(walletClient: EVMWalletClient, parameters: GetAllowanceParameters) {
+    async getAllowances(walletClient: EVMWalletClient, parameters: GetAllowanceParameters) {
         return await this.sdk.allowanceService.getAllowanceInChain({
             chainId: parameters.chainId,
             token: parameters.token,
@@ -52,7 +65,8 @@ export class BalmyService {
             order: parameters.order,
             slippagePercentage: parameters.slippagePercentage,
             gasSpeed: parameters.gasSpeed,
-            config: parameters.config
+            takerAddress: parameters.takerAddress,
+            
         }
         
         return await this.sdk.quoteService.getQuotes({
@@ -69,6 +83,11 @@ export class BalmyService {
     async executeSwap(walletClient: EVMWalletClient, parameters: ExecuteSwapParameters) {
         const quotes = await this.getQuote(walletClient, parameters);
         const bestQuote = quotes[0];
-        return await walletClient.sendTransaction(bestQuote.tx as `0x${string}`);
+
+        console.log(bestQuote);
+        return bestQuote;
+        // return await walletClient.sendTransaction(
+        //     bestQuote.tx as `0x${string}`
+        // );
     }
 } 
