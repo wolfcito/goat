@@ -102,6 +102,10 @@
             "name": "[Plugin] 🦄 uniswap",
             "path": "./typescript/packages/plugins/uniswap"
         },
+        {
+            "name": "[Plugin] ⛽️ opensea",
+            "path": "./typescript/packages/plugins/opensea"
+        },
         // Wallets
         {
             "name": "[Wallet] 🅰 aptos",
