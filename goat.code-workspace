@@ -51,6 +51,10 @@
             "path": "./typescript/packages/plugins/polymarket"
         },
         {
+            "name": "[Plugin] 🌸 allora",
+            "path": "./typescript/packages/plugins/allora"
+        },
+        {
             "name": "[Plugin] 💰 coingecko",
             "path": "./typescript/packages/plugins/coingecko"
         },
