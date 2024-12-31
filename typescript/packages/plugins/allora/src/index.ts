@@ -1,2 +1,2 @@
-export * from './allora.plugin'
-export * from './parameters'
+export * from "./allora.plugin";
+export * from "./parameters";

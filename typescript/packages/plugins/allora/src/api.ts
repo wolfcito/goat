@@ -48,32 +48,24 @@ export class AlloraAPIClient {
         this.apiKey = opts.apiKey;
 
         const apiRoot = opts.apiRoot || "https://api.upshot.xyz/v2/allora";
-        this.apiRoot =
-            apiRoot[apiRoot.length - 1] === "/"
-                ? apiRoot.slice(0, apiRoot.length - 1)
-                : apiRoot;
+        this.apiRoot = apiRoot[apiRoot.length - 1] === "/" ? apiRoot.slice(0, apiRoot.length - 1) : apiRoot;
     }
 
     public async fetchAlloraPricePrediction(
         asset: AlloraPricePredictionToken,
         timeframe: AlloraPricePredictionTimeframe,
-        signatureFormat: AlloraPricePredictionSignatureFormat = AlloraPricePredictionSignatureFormat.EthereumSepolia
+        signatureFormat: AlloraPricePredictionSignatureFormat = AlloraPricePredictionSignatureFormat.EthereumSepolia,
     ): Promise<Partial<AlloraInferenceData>> {
         const url = `consumer/price/${signatureFormat}/${asset}/${timeframe}`;
         const resp = await this.fetchAlloraAPIData(url);
         if (!resp?.data?.inference_data) {
-            throw new Error(
-                `API response missing data: ${JSON.stringify(resp)}`
-            );
+            throw new Error(`API response missing data: ${JSON.stringify(resp)}`);
         }
         return resp.data.inference_data;
     }
 
-    private async fetchAlloraAPIData(
-        endpoint: string
-    ): Promise<Partial<AlloraAPIResponse>> {
-        const cleanEndpoint =
-            endpoint[0] === "/" ? endpoint.slice(1) : endpoint;
+    private async fetchAlloraAPIData(endpoint: string): Promise<Partial<AlloraAPIResponse>> {
+        const cleanEndpoint = endpoint[0] === "/" ? endpoint.slice(1) : endpoint;
         const url = `${this.apiRoot}/${cleanEndpoint}`;
         const headers: Record<string, string> = {
             "Content-Type": "application/json",
@@ -88,7 +80,7 @@ export class AlloraAPIClient {
             throw new Error(
                 `Allora plugin: error requesting price prediction: url=${url} status=${
                     response.status
-                } body=${JSON.stringify(response.data, null, 4)}`
+                } body=${JSON.stringify(response.data, null, 4)}`,
             );
         }
 
