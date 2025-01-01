@@ -110,6 +110,10 @@
             "name": "[Plugin] ⛽️ opensea",
             "path": "./typescript/packages/plugins/opensea"
         },
+        {
+            "name": "[Plugin] 🌍 zerodev-global-address",
+            "path": "./typescript/packages/plugins/zerodev-global-address"
+        },
         // Wallets
         {
             "name": "[Wallet] 🅰 aptos",
