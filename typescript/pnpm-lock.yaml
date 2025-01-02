@@ -1018,6 +1018,15 @@ importers:
         specifier: ^0.34.6
         version: 0.34.6(less@4.2.1)(lightningcss@1.22.1)(terser@5.37.0)
 
+  packages/plugins/jsonrpc:
+    dependencies:
+      '@goat-sdk/core':
+        specifier: workspace:*
+        version: link:../../core
+      zod:
+        specifier: 'catalog:'
+        version: 3.23.8
+
   packages/plugins/jupiter:
     dependencies:
       '@goat-sdk/core':
@@ -11486,7 +11495,7 @@ snapshots:
     dependencies:
       '@ai-sdk/provider': 1.0.1
       eventsource-parser: 3.0.0
-      nanoid: 3.3.7
+      nanoid: 3.3.8
       secure-json-parse: 2.7.0
     optionalDependencies:
       zod: 3.23.8
@@ -11495,7 +11504,7 @@ snapshots:
     dependencies:
       '@ai-sdk/provider': 1.0.1
       eventsource-parser: 3.0.0
-      nanoid: 3.3.7
+      nanoid: 3.3.8
       secure-json-parse: 2.7.0
     optionalDependencies:
       zod: 3.24.1
