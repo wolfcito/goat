@@ -1,20 +1,27 @@
 [tool.poetry]
-name = "goat-sdk-plugin-erc20"
+name = "goat-sdk-example-langchain-web3"
 version = "0.1.0"
-description = "Goat plugin for ERC20"
+description = "Goat example for Langchain with web3.py"
 authors = ["Andrea Villa <andreakarimodm@gmail.com>"]
 readme = "README.md"
 keywords = ["goat", "sdk", "web3", "agents", "ai"]
 homepage = "https://ohmygoat.dev/"
 repository = "https://github.com/goat-sdk/goat"
 packages = [
-    { include = "goat_plugins/erc20" },
-] 
+    { include = "src" },
+]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.12"
+langchain = "^0.3.2"
+langchain-openai = "^0.2.14"
+python-dotenv = "^1.0.1" 
+web3 = "^7.6.1"
 goat-sdk = "^0.1.0"
 goat-sdk-wallet-evm = "^0.1.0"
+goat-sdk-wallet-web3 = "^0.1.0"
+goat-sdk-plugin-erc20 = "^0.1.0"
+goat-sdk-adapter-langchain = "^0.1.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^8.3.4"
@@ -36,9 +43,11 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.8.6"
-goat-sdk = { path = "../../goat-sdk", develop = true }
-goat-sdk-wallet-evm = { path = "../../wallets/goat-wallet-evm", develop = true }
-
+goat-sdk = { path = "../../src/goat-sdk", develop = true }
+goat-sdk-wallet-evm = { path = "../../src/wallets/goat-wallet-evm", develop = true }
+goat-sdk-wallet-web3 = { path = "../../src/wallets/goat-wallet-web3", develop = true }
+goat-sdk-plugin-erc20 = { path = "../../src/plugins/goat-plugin-erc20", develop = true }
+goat-sdk-adapter-langchain = { path = "../../src/adapters/goat-adapter-langchain", develop = true }
 
 [tool.ruff]
 line-length = 120
