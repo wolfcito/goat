@@ -150,6 +150,9 @@
             "name": "[Plugin] 📇 sns",
             "path": "./typescript/packages/plugins/sns"
         },
+            "name" : "[Plugin] 🦓 zilliqa",
+            "path": "./typescript/packages/plugins/zilliqa"
+        },
         // Wallets
         {
             "name": "[Wallet] 🅰 aptos",
@@ -182,6 +185,10 @@
         {
             "name": "[Wallet] 🔥 lit",
             "path": "./typescript/packages/wallets/lit-protocol"
+        },
+        {
+            "name": "[Wallet] 🦓 zilliqa",
+            "path": "./typescript/packages/wallets/zilliqa"
         },
         // Docs
         {
