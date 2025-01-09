@@ -1,4 +1,4 @@
-# Vercel AI with viem Example
+# GAME with viem Example
 
 ## Setup
 
