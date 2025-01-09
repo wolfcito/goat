@@ -1,42 +1,14 @@
 import { Tool } from "@goat-sdk/core";
 import { EVMWalletClient } from "@goat-sdk/wallet-evm";
-import {
-    CreateGlobalAddressParams,
-    FLEX,
-    TOKEN_TYPE,
-    createCall,
-    createGlobalAddress,
-} from "@zerodev/global-address";
+import { CreateGlobalAddressParams, FLEX, TOKEN_TYPE, createCall, createGlobalAddress } from "@zerodev/global-address";
 
 import { Chain, erc20Abi } from "viem";
 import { ZodError } from "zod";
 
-import {
-    arbitrum,
-    base,
-    blast,
-    mainnet,
-    mode,
-    optimism,
-    polygon,
-    scroll,
-    worldchain,
-    zora,
-} from "viem/chains";
+import { arbitrum, base, blast, mainnet, mode, optimism, polygon, scroll, worldchain, zora } from "viem/chains";
 import { GlobalAddressParams } from "./parameters";
 
-const chains: Chain[] = [
-    mainnet,
-    optimism,
-    polygon,
-    worldchain,
-    base,
-    mode,
-    arbitrum,
-    blast,
-    scroll,
-    zora,
-];
+const chains: Chain[] = [mainnet, optimism, polygon, worldchain, base, mode, arbitrum, blast, scroll, zora];
 
 const chainNameMap: Record<string, string> = {
     mainnet: mainnet.name,
@@ -58,7 +30,7 @@ export class GlobalAddressService {
     })
     async createGlobalAddress(
         walletClient: EVMWalletClient,
-        parameters: GlobalAddressParams
+        parameters: GlobalAddressParams,
     ): Promise<{
         globalAddress: string;
         estimatedFees: unknown;
@@ -81,9 +53,7 @@ export class GlobalAddressService {
                 };
             }
 
-            srcTokens = srcTokens?.filter(
-                (entry) => entry.chain.id !== destChain.id
-            );
+            srcTokens = srcTokens?.filter((entry) => entry.chain.id !== destChain.id);
 
             const logs = `Creating global address for ${destChain.name} chain`;
 
@@ -124,15 +94,9 @@ export class GlobalAddressService {
             return { globalAddress, estimatedFees, logs };
         } catch (error) {
             if (error instanceof ZodError) {
-                throw new Error(
-                    `Validation Error: ${error.errors
-                        .map((e) => e.message)
-                        .join(", ")}`
-                );
+                throw new Error(`Validation Error: ${error.errors.map((e) => e.message).join(", ")}`);
             }
-            throw new Error(
-                `Failed to create global address: ${(error as Error).message}`
-            );
+            throw new Error(`Failed to create global address: ${(error as Error).message}`);
         }
     }
 
@@ -160,9 +124,6 @@ export class GlobalAddressService {
         const actualChainName = chainNameMap[chainName.toLowerCase()];
         if (!actualChainName) return undefined;
 
-        return chains.find(
-            (chain) =>
-                chain.name.toLowerCase() === actualChainName.toLowerCase()
-        );
+        return chains.find((chain) => chain.name.toLowerCase() === actualChainName.toLowerCase());
     }
 }
