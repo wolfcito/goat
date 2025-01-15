@@ -72,11 +72,11 @@ export class EtherscanService {
         return etherscanRequest(
             buildUrl(network, "account", "txlist", {
                 address,
-                startblock: startBlock,
-                endblock: endBlock,
-                page,
-                offset,
-                sort,
+                startblock: startBlock ?? "",
+                endblock: endBlock ?? "",
+                page: page ?? "",
+                offset: offset ?? "",
+                sort: sort ?? "",
             }),
             this.apiKey,
         );
@@ -243,8 +243,8 @@ export class EtherscanService {
         const { address, fromBlock, toBlock, topic0, topic1, topic2, topic3, network } = parameters;
         const params: Record<string, string | number> = {
             address,
-            fromBlock: typeof fromBlock === "number" ? `0x${fromBlock.toString(16)}` : fromBlock,
-            toBlock: typeof toBlock === "number" ? `0x${toBlock.toString(16)}` : toBlock,
+            fromBlock: typeof fromBlock === "number" ? `0x${fromBlock.toString(16)}` : (fromBlock ?? ""),
+            toBlock: typeof toBlock === "number" ? `0x${toBlock.toString(16)}` : (toBlock ?? ""),
         };
 
         if (topic0) params.topic0 = topic0;
