@@ -1,4 +1,4 @@
-export const poolAbi = [
+export const TOKEN_POOL_ABI = [
     {
         anonymous: false,
         inputs: [
@@ -387,13 +387,7 @@ export const poolAbi = [
         type: "event",
     },
     {
-        inputs: [
-            {
-                internalType: "bytes",
-                name: "",
-                type: "bytes",
-            },
-        ],
+        inputs: [{ internalType: "bytes", name: "", type: "bytes" }],
         name: "_becomeImplementation",
         outputs: [],
         stateMutability: "nonpayable",
@@ -421,13 +415,7 @@ export const poolAbi = [
             },
         ],
         name: "_withdrawAdminFees",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "nonpayable",
         type: "function",
     },
@@ -440,39 +428,21 @@ export const poolAbi = [
             },
         ],
         name: "_withdrawIonicFees",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "nonpayable",
         type: "function",
     },
     {
         inputs: [],
         name: "accrualBlockNumber",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "view",
         type: "function",
     },
     {
         inputs: [],
         name: "adminFeeMantissa",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "view",
         type: "function",
     },
@@ -491,16 +461,8 @@ export const poolAbi = [
     },
     {
         inputs: [
-            {
-                internalType: "address",
-                name: "_token",
-                type: "address",
-            },
-            {
-                internalType: "address",
-                name: "_spender",
-                type: "address",
-            },
+            { internalType: "address", name: "_token", type: "address" },
+            { internalType: "address", name: "_spender", type: "address" },
         ],
         name: "approve",
         outputs: [],
@@ -508,34 +470,16 @@ export const poolAbi = [
         type: "function",
     },
     {
-        inputs: [
-            {
-                internalType: "uint256",
-                name: "borrowAmount",
-                type: "uint256",
-            },
-        ],
+        inputs: [{ internalType: "uint256", name: "borrowAmount", type: "uint256" }],
         name: "borrow",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "nonpayable",
         type: "function",
     },
     {
         inputs: [],
         name: "borrowIndex",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "view",
         type: "function",
     },
@@ -562,65 +506,35 @@ export const poolAbi = [
     {
         inputs: [],
         name: "contractType",
-        outputs: [
-            {
-                internalType: "string",
-                name: "",
-                type: "string",
-            },
-        ],
+        outputs: [{ internalType: "string", name: "", type: "string" }],
         stateMutability: "pure",
         type: "function",
     },
     {
         inputs: [],
         name: "decimals",
-        outputs: [
-            {
-                internalType: "uint8",
-                name: "",
-                type: "uint8",
-            },
-        ],
+        outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
         stateMutability: "view",
         type: "function",
     },
     {
         inputs: [],
         name: "delegateType",
-        outputs: [
-            {
-                internalType: "uint8",
-                name: "",
-                type: "uint8",
-            },
-        ],
+        outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
         stateMutability: "pure",
         type: "function",
     },
     {
         inputs: [],
         name: "feeSeizeShareMantissa",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "view",
         type: "function",
     },
     {
         inputs: [],
         name: "getCash",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "view",
         type: "function",
     },
@@ -640,41 +554,21 @@ export const poolAbi = [
     {
         inputs: [],
         name: "ionicAdmin",
-        outputs: [
-            {
-                internalType: "address payable",
-                name: "",
-                type: "address",
-            },
-        ],
+        outputs: [{ internalType: "address payable", name: "", type: "address" }],
         stateMutability: "view",
         type: "function",
     },
     {
         inputs: [],
         name: "ionicFeeMantissa",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "view",
         type: "function",
     },
     {
         inputs: [
-            {
-                internalType: "address",
-                name: "borrower",
-                type: "address",
-            },
-            {
-                internalType: "uint256",
-                name: "repayAmount",
-                type: "uint256",
-            },
+            { internalType: "address", name: "borrower", type: "address" },
+            { internalType: "uint256", name: "repayAmount", type: "uint256" },
             {
                 internalType: "address",
                 name: "cTokenCollateral",
@@ -682,220 +576,94 @@ export const poolAbi = [
             },
         ],
         name: "liquidateBorrow",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "nonpayable",
         type: "function",
     },
     {
-        inputs: [
-            {
-                internalType: "uint256",
-                name: "mintAmount",
-                type: "uint256",
-            },
-        ],
+        inputs: [{ internalType: "uint256", name: "mintAmount", type: "uint256" }],
         name: "mint",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "nonpayable",
         type: "function",
     },
     {
         inputs: [],
         name: "name",
-        outputs: [
-            {
-                internalType: "string",
-                name: "",
-                type: "string",
-            },
-        ],
+        outputs: [{ internalType: "string", name: "", type: "string" }],
         stateMutability: "view",
         type: "function",
     },
     {
         inputs: [],
         name: "protocolSeizeShareMantissa",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "view",
         type: "function",
     },
     {
-        inputs: [
-            {
-                internalType: "uint256",
-                name: "redeemTokens",
-                type: "uint256",
-            },
-        ],
+        inputs: [{ internalType: "uint256", name: "redeemTokens", type: "uint256" }],
         name: "redeem",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "nonpayable",
         type: "function",
     },
     {
-        inputs: [
-            {
-                internalType: "uint256",
-                name: "redeemAmount",
-                type: "uint256",
-            },
-        ],
+        inputs: [{ internalType: "uint256", name: "redeemAmount", type: "uint256" }],
         name: "redeemUnderlying",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "nonpayable",
         type: "function",
     },
     {
-        inputs: [
-            {
-                internalType: "uint256",
-                name: "repayAmount",
-                type: "uint256",
-            },
-        ],
+        inputs: [{ internalType: "uint256", name: "repayAmount", type: "uint256" }],
         name: "repayBorrow",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "nonpayable",
         type: "function",
     },
     {
         inputs: [
-            {
-                internalType: "address",
-                name: "borrower",
-                type: "address",
-            },
-            {
-                internalType: "uint256",
-                name: "repayAmount",
-                type: "uint256",
-            },
+            { internalType: "address", name: "borrower", type: "address" },
+            { internalType: "uint256", name: "repayAmount", type: "uint256" },
         ],
         name: "repayBorrowBehalf",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "nonpayable",
         type: "function",
     },
     {
         inputs: [],
         name: "reserveFactorMantissa",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "view",
         type: "function",
     },
     {
         inputs: [
-            {
-                internalType: "address",
-                name: "liquidator",
-                type: "address",
-            },
-            {
-                internalType: "address",
-                name: "borrower",
-                type: "address",
-            },
-            {
-                internalType: "uint256",
-                name: "seizeTokens",
-                type: "uint256",
-            },
+            { internalType: "address", name: "liquidator", type: "address" },
+            { internalType: "address", name: "borrower", type: "address" },
+            { internalType: "uint256", name: "seizeTokens", type: "uint256" },
         ],
         name: "seize",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "nonpayable",
         type: "function",
     },
     {
         inputs: [
-            {
-                internalType: "address",
-                name: "from",
-                type: "address",
-            },
-            {
-                internalType: "uint256",
-                name: "amount",
-                type: "uint256",
-            },
+            { internalType: "address", name: "from", type: "address" },
+            { internalType: "uint256", name: "amount", type: "uint256" },
         ],
         name: "selfTransferIn",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "nonpayable",
         type: "function",
     },
     {
         inputs: [
-            {
-                internalType: "address",
-                name: "to",
-                type: "address",
-            },
-            {
-                internalType: "uint256",
-                name: "amount",
-                type: "uint256",
-            },
+            { internalType: "address", name: "to", type: "address" },
+            { internalType: "uint256", name: "amount", type: "uint256" },
         ],
         name: "selfTransferOut",
         outputs: [],
@@ -905,91 +673,49 @@ export const poolAbi = [
     {
         inputs: [],
         name: "symbol",
-        outputs: [
-            {
-                internalType: "string",
-                name: "",
-                type: "string",
-            },
-        ],
+        outputs: [{ internalType: "string", name: "", type: "string" }],
         stateMutability: "view",
         type: "function",
     },
     {
         inputs: [],
         name: "totalAdminFees",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "view",
         type: "function",
     },
     {
         inputs: [],
         name: "totalBorrows",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "view",
         type: "function",
     },
     {
         inputs: [],
         name: "totalIonicFees",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "view",
         type: "function",
     },
     {
         inputs: [],
         name: "totalReserves",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "view",
         type: "function",
     },
     {
         inputs: [],
         name: "totalSupply",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "view",
         type: "function",
     },
     {
         inputs: [],
         name: "underlying",
-        outputs: [
-            {
-                internalType: "address",
-                name: "",
-                type: "address",
-            },
-        ],
+        outputs: [{ internalType: "address", name: "", type: "address" }],
         stateMutability: "view",
         type: "function",
     },
