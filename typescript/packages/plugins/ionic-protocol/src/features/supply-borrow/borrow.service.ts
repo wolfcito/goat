@@ -3,16 +3,12 @@ import { BorrowAssetParameters } from "./borrow.parameters";
 
 import { MARKET_CONTROLLER_ABI, TOKEN_POOL_ABI } from "@common/abi";
 import { fetchTokenConfig } from "@common/utils/asset-manager";
-import {
-    getMarketController,
-    getValidatedNetwork,
-} from "@common/utils/network-manager";
-import {
-    BorrowAllowedResponse,
-    BorrowAssetServiceResponse,
-} from "./borrow.types";
+import { getMarketController, getValidatedNetwork } from "@common/utils/network-manager";
+import { BorrowAllowedResponse, BorrowAssetServiceResponse } from "./borrow.types";
 
 export class BorrowService {
+    // according to the Comptroller.sol contract, these are the error codes and their corresponding messages
+    // https://github.com/ionicprotocol/monorepo/blob/development/packages/contracts/contracts/compound/Comptroller.sol#L440
     private static readonly errorMessages: Record<number, string> = {
         1: "Market not listed.",
         2: "Price not available for the token.",
@@ -23,13 +19,11 @@ export class BorrowService {
 
     async borrowAsset(
         walletClient: EVMWalletClient,
-        params: BorrowAssetParameters
+        params: BorrowAssetParameters,
     ): Promise<BorrowAssetServiceResponse> {
         const { asset, amount } = params;
-        console.log("Borrowing asset", { asset, amount });
 
         const network = getValidatedNetwork(walletClient);
-        console.log("Network details:", { network });
 
         const tokenConfig = fetchTokenConfig(network.id, asset);
 
@@ -39,17 +33,11 @@ export class BorrowService {
             address: marketController,
             abi: MARKET_CONTROLLER_ABI,
             functionName: "borrowAllowed",
-            args: [
-                tokenConfig.ionToken.contractAddress,
-                walletClient.getAddress(),
-                amount,
-            ],
+            args: [tokenConfig.ionToken.contractAddress, walletClient.getAddress(), amount],
         })) as BorrowAllowedResponse;
 
         if (borrowAllowed.value !== 0) {
-            const errorMessage =
-                BorrowService.errorMessages[borrowAllowed.value] ||
-                "Unknown error.";
+            const errorMessage = BorrowService.errorMessages[borrowAllowed.value] || "Unknown error.";
 
             return {
                 transactionHash: "",

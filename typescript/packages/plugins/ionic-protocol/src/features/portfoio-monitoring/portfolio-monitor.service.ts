@@ -1,18 +1,12 @@
-import { EVMWalletClient } from "@goat-sdk/wallet-evm";
 import { MARKET_CONTROLLER_ABI } from "@common/abi";
-import {
-    getValidatedNetwork,
-    getMarketController,
-} from "@common/utils/network-manager";
-import { fetchTokenConfig } from "@common/utils/asset-manager";
+import { getMarketController, getValidatedNetwork } from "@common/utils/network-manager";
+import { EVMWalletClient } from "@goat-sdk/wallet-evm";
 
 export class PortfolioMonitorService {
     /**
      * Obtiene las métricas de salud del portafolio, como LTV, Health Factor y riesgo de liquidación.
      */
-    async getPortfolioHealth(
-        walletClient: EVMWalletClient
-    ): Promise<PortfolioHealthResponse> {
+    async getPortfolioHealth(walletClient: EVMWalletClient): Promise<PortfolioHealthResponse> {
         const network = getValidatedNetwork(walletClient);
         const marketController = getMarketController(network.id);
 
@@ -45,26 +39,24 @@ export class PortfolioMonitorService {
                 shortfall > 0
                     ? "At Risk" // Riesgo de liquidación
                     : healthFactor < 1.5
-                    ? "Warning" // Factor de salud bajo
-                    : "Healthy", // Salud financiera estable
+                      ? "Warning" // Factor de salud bajo
+                      : "Healthy", // Salud financiera estable
         };
     }
 
     /**
      * Sugerencias para mejorar el portafolio según su salud actual.
      */
-    getImprovementSuggestions(
-        healthResponse: PortfolioHealthResponse
-    ): string[] {
+    getImprovementSuggestions(healthResponse: PortfolioHealthResponse): string[] {
         const suggestions: string[] = [];
 
         if (healthResponse.shortfall > 0) {
             suggestions.push(
-                "Your account is at risk of liquidation. Consider repaying debt or adding more collateral."
+                "Your account is at risk of liquidation. Consider repaying debt or adding more collateral.",
             );
         } else if (healthResponse.healthFactor < 1.5) {
             suggestions.push(
-                "Your health factor is low. Adding more collateral or reducing your borrowing can improve it."
+                "Your health factor is low. Adding more collateral or reducing your borrowing can improve it.",
             );
         } else {
             suggestions.push("Your portfolio is in good health.");

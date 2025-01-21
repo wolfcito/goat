@@ -26,7 +26,7 @@ export class IonicProtocolService {
     })
     async supplyAsset(
         walletClient: EVMWalletClient,
-        parameters: SupplyAssetParameters
+        parameters: SupplyAssetParameters,
     ): Promise<SupplyAssetServiceResponse> {
         return this.supplyService.supplyAsset(walletClient, parameters);
     }
@@ -38,7 +38,7 @@ export class IonicProtocolService {
     })
     async borrowAsset(
         walletClient: EVMWalletClient,
-        parameters: BorrowAssetParameters
+        parameters: BorrowAssetParameters,
     ): Promise<BorrowAssetServiceResponse> {
         return this.borrowService.borrowAsset(walletClient, parameters);
     }

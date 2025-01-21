@@ -1,12 +1,6 @@
-import {
-    MODE,
-    type Token,
-    USDC,
-    WETH,
-    getTokensForNetwork,
-} from "@goat-sdk/plugin-erc20";
+import { MODE, type Token, USDC, WETH, getTokensForNetwork } from "@goat-sdk/plugin-erc20";
 import { type Address } from "viem";
-import { mode, optimism } from "viem/chains";
+import { mode } from "viem/chains";
 
 export const ionicProtocolConfig: {
     [chainId: number]: IonicProtocolConfigProps;
@@ -73,27 +67,28 @@ export interface TokenConfig {
  */
 function generateTokenConfig(
     chainId: number,
-    tokenData: { token: Token; ionContract: Address }[]
+    tokenData: { token: Token; ionContract: Address }[],
 ): { [symbol: string]: TokenConfig } {
-    return tokenData.reduce((config, { token, ionContract }) => {
-        const [baseToken] = getTokensForNetwork(chainId, [token]);
-        console.log(baseToken);
-        if (!baseToken) {
-            throw new Error(
-                `Base token configuration not found for ${token.symbol} on chain ${chainId}`
-            );
-        }
+    return tokenData.reduce(
+        (config, { token, ionContract }) => {
+            const [baseToken] = getTokensForNetwork(chainId, [token]);
+            console.log(baseToken);
+            if (!baseToken) {
+                throw new Error(`Base token configuration not found for ${token.symbol} on chain ${chainId}`);
+            }
 
-        config[token.symbol] = {
-            ionToken: {
-                contractAddress: ionContract,
-                decimals: token.decimals,
-            },
-            baseToken: {
-                contractAddress: baseToken.contractAddress,
-                decimals: baseToken.decimals,
-            },
-        };
-        return config;
-    }, {} as { [symbol: string]: TokenConfig });
+            config[token.symbol] = {
+                ionToken: {
+                    contractAddress: ionContract,
+                    decimals: token.decimals,
+                },
+                baseToken: {
+                    contractAddress: baseToken.contractAddress,
+                    decimals: baseToken.decimals,
+                },
+            };
+            return config;
+        },
+        {} as { [symbol: string]: TokenConfig },
+    );
 }
