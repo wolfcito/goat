@@ -4,25 +4,23 @@ import { TOKEN_POOL_ABI } from "@common/abi";
 
 import { Logger } from "@common/utils/logger";
 
+import { fetchTokenConfig } from "@common/utils/asset-manager";
+import { getValidatedNetwork } from "@common/utils/network-manager";
 import { erc20Abi } from "viem";
 import { SupplyAssetParameters } from "./supply.parameters";
 import { SupplyAssetServiceResponse } from "./supply.types";
-import { fetchTokenConfig } from "@common/utils/asset-manager";
-import { getValidatedNetwork } from "@common/utils/network-manager";
 
 export class SupplyService {
     async supplyAsset(
         walletClient: EVMWalletClient,
-        params: SupplyAssetParameters
+        params: SupplyAssetParameters,
     ): Promise<SupplyAssetServiceResponse> {
         const { asset, amount } = params;
 
         try {
             const network = getValidatedNetwork(walletClient);
 
-            const ionAsset = asset.startsWith("ion")
-                ? asset.replace(/^ion/, "")
-                : asset;
+            const ionAsset = asset.startsWith("ion") ? asset.replace(/^ion/, "") : asset;
 
             const tokenConfig = fetchTokenConfig(network.id, ionAsset);
 
@@ -30,17 +28,14 @@ export class SupplyService {
                 address: tokenConfig.baseToken.contractAddress,
                 abi: erc20Abi,
                 functionName: "allowance",
-                args: [
-                    walletClient.getAddress(),
-                    tokenConfig.ionToken.contractAddress,
-                ],
+                args: [walletClient.getAddress(), tokenConfig.ionToken.contractAddress],
             });
 
             const allowance = BigInt(allowanceResult.value as string);
 
             if (allowance < BigInt(amount)) {
                 Logger.info(
-                    `Allowance is insufficient (${allowance}). Approving ${amount} for ${tokenConfig.ionToken.contractAddress}...`
+                    `Allowance is insufficient (${allowance}). Approving ${amount} for ${tokenConfig.ionToken.contractAddress}...`,
                 );
 
                 await walletClient.sendTransaction({
@@ -50,9 +45,7 @@ export class SupplyService {
                     args: [tokenConfig.ionToken.contractAddress, amount],
                 });
 
-                Logger.info(
-                    `Approval successful for ${amount} to ${tokenConfig.ionToken.contractAddress}.`
-                );
+                Logger.info(`Approval successful for ${amount} to ${tokenConfig.ionToken.contractAddress}.`);
             }
 
             Logger.info("Supplying asset to the pool...");

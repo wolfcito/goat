@@ -1,4 +1,10 @@
-import { MODE, type Token, USDC, WETH, getTokensForNetwork } from "@goat-sdk/plugin-erc20";
+import {
+    MODE,
+    type Token,
+    USDC,
+    WETH,
+    getTokensForNetwork,
+} from "@goat-sdk/plugin-erc20";
 import { type Address } from "viem";
 import { mode, optimism } from "viem/chains";
 
@@ -22,23 +28,23 @@ export const ionicProtocolConfig: {
         ]),
         marketController: "0xfb3323e24743caf4add0fdccfb268565c0685556",
     },
-    [optimism.id]: {
-        tokens: generateTokenConfig(optimism.id, [
-            {
-                token: USDC,
-                ionContract: "0x2BE717340023C9e14C1Bb12cb3ecBcfd3c3fB038",
-            },
-            {
-                token: WETH,
-                ionContract: "0x71ef7EDa2Be775E5A7aa8afD02C45F059833e9d2",
-            },
-            {
-                token: MODE,
-                ionContract: "0x4341620757Bee7EB4553912FaFC963e59C949147",
-            },
-        ]),
-        marketController: "0xfb3323e24743caf4add0fdccfb268565c0685556",
-    },
+    // [optimism.id]: {
+    //     tokens: generateTokenConfig(optimism.id, [
+    //         {
+    //             token: USDC,
+    //             ionContract: "0x2BE717340023C9e14C1Bb12cb3ecBcfd3c3fB038",
+    //         },
+    //         {
+    //             token: WETH,
+    //             ionContract: "0x71ef7EDa2Be775E5A7aa8afD02C45F059833e9d2",
+    //         },
+    //         {
+    //             token: MODE,
+    //             ionContract: "0x4341620757Bee7EB4553912FaFC963e59C949147",
+    //         },
+    //     ]),
+    //     marketController: "0xfb3323e24743caf4add0fdccfb268565c0685556",
+    // },
 };
 
 export interface IonicProtocolConfigProps {
@@ -67,28 +73,27 @@ export interface TokenConfig {
  */
 function generateTokenConfig(
     chainId: number,
-    tokenData: { token: Token; ionContract: Address }[],
+    tokenData: { token: Token; ionContract: Address }[]
 ): { [symbol: string]: TokenConfig } {
-    return tokenData.reduce(
-        (config, { token, ionContract }) => {
-            const [baseToken] = getTokensForNetwork(chainId, [token]);
+    return tokenData.reduce((config, { token, ionContract }) => {
+        const [baseToken] = getTokensForNetwork(chainId, [token]);
+        console.log(baseToken);
+        if (!baseToken) {
+            throw new Error(
+                `Base token configuration not found for ${token.symbol} on chain ${chainId}`
+            );
+        }
 
-            if (!baseToken) {
-                throw new Error(`Base token configuration not found for ${token.symbol} on chain ${chainId}`);
-            }
-
-            config[token.symbol] = {
-                ionToken: {
-                    contractAddress: ionContract,
-                    decimals: token.decimals,
-                },
-                baseToken: {
-                    contractAddress: baseToken.contractAddress,
-                    decimals: baseToken.decimals,
-                },
-            };
-            return config;
-        },
-        {} as { [symbol: string]: TokenConfig },
-    );
+        config[token.symbol] = {
+            ionToken: {
+                contractAddress: ionContract,
+                decimals: token.decimals,
+            },
+            baseToken: {
+                contractAddress: baseToken.contractAddress,
+                decimals: baseToken.decimals,
+            },
+        };
+        return config;
+    }, {} as { [symbol: string]: TokenConfig });
 }

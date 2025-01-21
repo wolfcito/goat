@@ -8,7 +8,8 @@ export class IonicProtocolPlugin extends PluginBase {
         super("ionicprotocol", [new IonicProtocolService()]);
     }
 
-    supportsChain = (chain: Chain) => chain.type === "evm" && SUPPORTED_CHAINS.some((c) => c.id === chain.id);
+    supportsChain = (chain: Chain) =>
+        chain.type === "evm" && SUPPORTED_CHAINS.some((c) => c.id === chain.id);
 }
 
 export function ionicprotocol() {

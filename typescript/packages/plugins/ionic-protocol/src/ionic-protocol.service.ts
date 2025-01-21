@@ -2,6 +2,8 @@ import { Tool } from "@goat-sdk/core";
 import { EVMWalletClient } from "@goat-sdk/wallet-evm";
 
 import {
+    BorrowAssetParameters,
+    BorrowAssetServiceResponse,
     BorrowService,
     SupplyAssetParameters,
     SupplyAssetServiceResponse,
@@ -24,7 +26,7 @@ export class IonicProtocolService {
     })
     async supplyAsset(
         walletClient: EVMWalletClient,
-        parameters: SupplyAssetParameters,
+        parameters: SupplyAssetParameters
     ): Promise<SupplyAssetServiceResponse> {
         return this.supplyService.supplyAsset(walletClient, parameters);
     }
@@ -32,9 +34,12 @@ export class IonicProtocolService {
     @Tool({
         name: "ionic_protocol_asset_borrow",
         description:
-            "Allows users to borrow a specified asset to an Ionic Protocol pool. Validates the asset configuration for the current network and executes the borrow transaction.",
+            "Allows borrowing a specified asset from an Ionic Protocol pool by verifying network and asset configurations before executing the transaction.",
     })
-    async borrowAsset(walletClient: EVMWalletClient, parameters: SupplyAssetParameters): Promise<string> {
+    async borrowAsset(
+        walletClient: EVMWalletClient,
+        parameters: BorrowAssetParameters
+    ): Promise<BorrowAssetServiceResponse> {
         return this.borrowService.borrowAsset(walletClient, parameters);
     }
 }

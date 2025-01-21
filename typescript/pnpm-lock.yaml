@@ -593,9 +593,6 @@ importers:
       '@goat-sdk/plugin-ionic-protocol':
         specifier: workspace:*
         version: link:../../../packages/plugins/ionic-protocol
-      '@goat-sdk/plugin-kim':
-        specifier: workspace:*
-        version: link:../../../packages/plugins/kim
       '@goat-sdk/wallet-evm':
         specifier: workspace:*
         version: link:../../../packages/wallets/evm
