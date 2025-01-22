@@ -1139,6 +1139,21 @@ importers:
         specifier: ^0.34.6
         version: 0.34.6(terser@5.37.0)
 
+  packages/plugins/ionic:
+    dependencies:
+      '@goat-sdk/core':
+        specifier: workspace:*
+        version: link:../../core
+      '@goat-sdk/wallet-evm':
+        specifier: workspace:*
+        version: link:../../wallets/evm
+      viem:
+        specifier: 'catalog:'
+        version: 2.21.49(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
+      zod:
+        specifier: 'catalog:'
+        version: 3.23.8
+
   packages/plugins/ironclad:
     dependencies:
       '@goat-sdk/core':
