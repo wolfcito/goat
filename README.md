@@ -1,34 +1,73 @@
 
 
 <div align="center">
-Go out and eat some grass.
 
 [Docs](https://ohmygoat.dev) | [Examples](https://github.com/goat-sdk/goat/tree/main/typescript/examples) | [Chains](https://ohmygoat.dev/chains-wallets-plugins) | [Plugins](https://ohmygoat.dev/chains-wallets-plugins#plugins) | [Discord](https://discord.gg/goat-sdk)
 
 GOAT is free software, MIT licensed, sponsored by [Crossmint](https://www.crossmint.com)
+
+![NPM Downloads](https://img.shields.io/npm/dm/%40goat-sdk%2Fcore)
+![GitHub License](https://img.shields.io/github/license/goat-sdk/goat)
+
+![Static Badge](https://img.shields.io/badge/v20.12.2-1?label=typescript&color=blue)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/goat-sdk)
+
+
 </div>
 
-## Goat 🐐
-GOAT 🐐 (Great Onchain Agent Toolkit) is an open-source framework for adding blockchain tools such as wallets, being able to hold or trade tokens, or interacting with blockchain smart contracts, to your AI agent.
+# GOAT 🐐 (Great Onchain Agent Toolkit)
+GOAT is a library that adds more than +200 onchain tools to your AI agent. Allow your agent to use any DeFi protocol, mint NFTs, buy and sell assets, and much more.
+Supports
+* **+200 tools**
+* **Provider agnostic**
+* **Works across all major agent frameworks, chains and  wallets types**
 
-**Problem**: 
+### Tools
 
-Making agents perform onchain actions is tedious. The ecosystem is heavily fragmented, spanning 5+ popular agent development frameworks, multiple programming languages, and dozens of different blockchains and wallet architectures.
-For developers without blockchain expertise, finding clear instructions to perform simple actions - like sending USDC payments or placing Polymarket bets - is nearly impossible.
 
-**Solution**: 
+### Chains
+* **All** EVM chains (Base, Polygon, Mode, Sei, etc.)
+* Solana  
+* Aptos  
+* Chromia  
+* Fuel  
+* Sui 
+* Starknet 
+* Zilliqa 
 
-GOAT solves this by providing an open-source, provider-agnostic framework that abstracts away all these combinations.
+### Plugins
 
-- **For agent developers**: GOAT offers an always-growing catalog of ready made blockchain actions (sending tokens, using a DeFi protocol, ...) that can be imported as tools into your existing agent. It works with the most popular agent frameworks (Langchain, Vercel's AI SDK, Eliza, etc), Typescript and Python, 30+ blockchains (Solana, Base, Polygon, Mode, ...), and many wallet providers.
 
-- **For dApp / smart contract developers**: develop a plug-in in GOAT, and allow agents built with any of the most popular agent development frameworks to access your service.
 
-### Key features
-1. **Works Everywhere**: Compatible with Langchain, Vercel’s AI SDK, Eliza, and more.
-2. **Wallet Agnostic**: Supports all wallets, from your own key pairs to [Crossmint Smart Wallets](https://docs.crossmint.com/wallets/smart-wallets/overview) and Coinbase.
-3. **Multi-Chain**: Supports EVM chains and Solana (more coming 👀).
-4. **Customizable**: Use or build plugins for any onchain functionality (sending tokens, checking wallet balance, etc) and protocol (Polymarket, Uniswap, etc).
+
+### Installation
+1. Install the core package
+```bash
+npm install @goat-sdk/goat
+```
+2. Depending on the type of wallet you want to use, install the corresponding wallet:
+
+For Solana:
+```bash
+npm install @goat-sdk/wallet-solana
+```
+
+For EVM:
+```bash
+npm install @goat-sdk/wallet-evm @goat-sdk/wallet-evm-viem
+```
+
+3. Install the plugins for the protocols you need (see all available plugins [here](https://ohmygoat.dev/chains-wallets-plugins#plugins))
+
+4. Install the adapter for the agent framework you want to use (see all available adapters [here](https://ohmygoat.dev/chains-wallets-plugins#adapters))
+
+
+### Usage
+
+
+
+
+
 
 ![goat](https://github.com/user-attachments/assets/f6aa46ce-5684-4136-be29-7867acab3f27)
 
