@@ -14,12 +14,10 @@
     "types": "./dist/index.d.ts",
     "dependencies": {
         "@goat-sdk/core": "workspace:*",
-        "@goat-sdk/wallet-evm": "workspace:*",
         "zod": "catalog:"
     },
     "peerDependencies": {
-        "@goat-sdk/core": "workspace:*",
-        "@goat-sdk/wallet-evm": "workspace:*"
+        "@goat-sdk/core": "workspace:*"
     },
     "homepage": "https://ohmygoat.dev",
     "repository": {
