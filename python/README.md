@@ -377,19 +377,19 @@ If you would like to see your wallet provider supported, please open an issue or
 **ZerePy and GAME have direct integrations on their respective repos.*
 
 ### Plugins
-| Plugin | PyPI package |
-| --- | --- |
-| 1inch | [goat-sdk-plugin-1inch](https://pypi.org/project/goat-sdk-plugin-1inch/) |
-| Allora | [goat-sdk-plugin-allora](https://pypi.org/project/goat-sdk-plugin-allora/) |  |
-| CoinGecko | [@goat-sdk/plugin-coingecko](https://www.npmjs.com/package/@goat-sdk/plugin-coingecko) |  |
-| Dexscreener | [@goat-sdk/plugin-dexscreener](https://www.npmjs.com/package/@goat-sdk/plugin-dexscreener) |  |
-| ERC20 | [@goat-sdk/plugin-erc20](https://www.npmjs.com/package/@goat-sdk/plugin-erc20) |  |
-| Farcaster | [@goat-sdk/plugin-farcaster](https://www.npmjs.com/package/@goat-sdk/plugin-farcaster) |
-| JSON RPC | [@goat-sdk/plugin-json-rpc](https://www.npmjs.com/package/@goat-sdk/plugin-json-rpc) |  |
-| Jupiter | [@goat-sdk/plugin-jupiter](https://www.npmjs.com/package/@goat-sdk/plugin-jupiter) |  |
-| Nansen | [@goat-sdk/plugin-nansen](https://www.npmjs.com/package/@goat-sdk/plugin-nansen) |  |
-| OpenSea | [@goat-sdk/plugin-opensea](https://www.npmjs.com/package/@goat-sdk/plugin-opensea) |  |
-| Rugcheck | [@goat-sdk/plugin-rugcheck](https://www.npmjs.com/package/@goat-sdk/plugin-rugcheck) |  |
-| SPL Tokens | [@goat-sdk/plugin-spl-tokens](https://www.npmjs.com/package/@goat-sdk/plugin-spl-tokens) |  |
-| Superfluid | [@goat-sdk/plugin-superfluid](https://www.npmjs.com/package/@goat-sdk/plugin-superfluid) |  |
-| Uniswap | [@goat-sdk/plugin-uniswap](https://www.npmjs.com/package/@goat-sdk/plugin-uniswap) |  |
+| Plugin | Tools | PyPI package |
+| --- | --- | --- |
+| 1inch | Get wallet balances using 1inch API | [goat-sdk-plugin-1inch](https://pypi.org/project/goat-sdk-plugin-1inch/) |
+| Allora | Get price predictions using Allora API | [goat-sdk-plugin-allora](https://pypi.org/project/goat-sdk-plugin-allora/) |
+| CoinGecko | Get coin information using CoinGecko API | [goat-sdk-plugin-coingecko](https://pypi.org/project/goat-sdk-plugin-coingecko/) |
+| Dexscreener | Get token information using Dexscreener API | [goat-sdk-plugin-dexscreener](https://pypi.org/project/goat-sdk-plugin-dexscreener/) |
+| ERC20 | Interact with any ERC20 token | [goat-sdk-plugin-erc20](https://pypi.org/project/goat-sdk-plugin-erc20/) |
+| Farcaster | Read and post casts on Farcaster | [goat-sdk-plugin-farcaster](https://pypi.org/project/goat-sdk-plugin-farcaster/) |
+| JSON RPC | Call any JSON RPC endpoint |[goat-sdk-plugin-json-rpc](https://pypi.org/project/goat-sdk-plugin-json-rpc/) |  |
+| Jupiter | Get price predictions using Jupiter API | [goat-sdk-plugin-jupiter](https://pypi.org/project/goat-sdk-plugin-jupiter/) |  |
+| Nansen | Get wallet insights using Nansen API | [goat-sdk-plugin-nansen](https://pypi.org/project/goat-sdk-plugin-nansen/) |  |
+| OpenSea | Get NFT and sales data from OpenSea | [goat-sdk-plugin-opensea](https://pypi.org/project/goat-sdk-plugin-opensea/) |  |
+| Rugcheck | Check if tokens are legit with Rugcheck | [goat-sdk-plugin-rugcheck](https://pypi.org/project/goat-sdk-plugin-rugcheck/) |  |
+| SPL Tokens | Interact with SPL tokens | [goat-sdk-plugin-spl-tokens](https://pypi.org/project/goat-sdk-plugin-spl-tokens/) |  |
+| Superfluid | Create streams with Superfluid | [goat-sdk-plugin-superfluid](https://pypi.org/project/goat-sdk-plugin-superfluid/) |  |
+| Uniswap | Get quotes and swap on Uniswap | [goat-sdk-plugin-uniswap](https://pypi.org/project/goat-sdk-plugin-uniswap/) |  |
