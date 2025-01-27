@@ -28,6 +28,7 @@ GOAT (Great Onchain Agent Toolkit) is a library that adds more than +200 onchain
 - [See all plugins](#plugins)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Set up the project locally](#set-up-the-project-locally)
 - [Examples](https://github.com/goat-sdk/goat/tree/main/typescript/examples)
 - [How to create a plugin](#how-to-create-a-plugin)
     - [Using the plugin generator](#using-the-plugin-generator)
@@ -100,6 +101,35 @@ const result = await generateText({
 
 console.log(result);
 ```
+
+## Set up the project locally
+
+1. Clone the repository
+```bash
+git clone https://github.com/goat-sdk/goat.git
+```
+
+2. Go into the typescript directory
+```bash
+cd goat/typescript
+```
+
+3. Install the dependencies
+```bash
+pnpm install
+```
+
+4. Build the project
+```bash
+pnpm build
+```
+
+Now you can run the examples in the `examples` directory. Follow the README in each example to see how to use the SDK for that specific agent framework.
+
+Every time you make changes to a plugin/wallet/adapter/etc., you will need to run the build command again to use it in the examples.
+
+You can run `pnpm build:libs` to only build the libraries and not the examples.
+
 
 ## How to create a plugin
 GOAT plugins enable your agent to interact with various blockchain protocols. 
@@ -447,4 +477,3 @@ If you would like to see your wallet provider supported, please open an issue or
 | Worldstore | Purchase physical assets on Worldstore | [@goat-sdk/plugin-worldstore](https://www.npmjs.com/package/@goat-sdk/plugin-worldstore) |  |
 | ZeroDev Global Address | Create a global address on ZeroDev | [@goat-sdk/plugin-zero-dev-global-address](https://www.npmjs.com/package/@goat-sdk/plugin-zero-dev-global-address) |  |
 | Zilliqa | Interact with Zilliqa | [@goat-sdk/plugin-zilliqa](https://www.npmjs.com/package/@goat-sdk/plugin-zilliqa) |  |
-
