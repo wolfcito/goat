@@ -2,6 +2,15 @@
 
 This example demonstrates how to integrate GOAT with the Virtuals Protocol GAME framework using viem for Ethereum operations. It shows how to create a GameAgent that can execute on-chain actions through custom GameFunctions, specifically focusing on token swaps and transfers on the Mode network.
 
+## Overview
+The example showcases:
+- Integration with Virtuals Protocol GAME framework
+- Custom GameFunction creation from GOAT tools
+- Mode network integration
+- ERC20 token operations (USDC, PEPE)
+- ETH transfer capabilities
+- Automated agent execution
+
 ## Setup
 
 1. Install dependencies:
