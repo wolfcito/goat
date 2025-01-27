@@ -2,6 +2,16 @@
 
 This example demonstrates how to use GOAT with Vercel AI SDK to create an interactive DeFi assistant for the Solana ecosystem. It provides a natural language interface for trading, token swaps, and market analysis using multiple Solana protocols and data providers.
 
+## Overview
+The example showcases:
+- Jupiter DEX integration for token swaps
+- SPL token operations
+- Coingecko price data integration
+- PumpFun protocol interaction
+- Interactive chat interface
+- Natural language DeFi operations
+- Solana blockchain integration
+
 ## Setup
 
 1. Install dependencies:
