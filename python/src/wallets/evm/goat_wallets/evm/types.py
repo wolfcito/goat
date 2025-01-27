@@ -1,6 +1,8 @@
 from typing import Any, Dict, List, TypedDict
 from typing_extensions import NotRequired
 
+from eth_typing import HexStr
+
 class PaymasterOptions(TypedDict):
     address: str  # hex address
     input: str  # hex input
@@ -17,6 +19,7 @@ class EVMTransaction(TypedDict):
     value: NotRequired[int]  # Using int for bigint
     abi: NotRequired[List[Dict[str, Any]]]  # ABI type
     options: NotRequired[EVMTransactionOptions]
+    data: NotRequired[HexStr]
 
 
 class EVMReadRequest(TypedDict):
