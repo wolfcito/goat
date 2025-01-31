@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "goat-plugin-rugcheck"
+name = "goat-sdk-plugin-rugcheck"
 version = "0.1.0"
 description = "A Python rugcheck plugin for the GOAT SDK"
 authors = ["GOAT SDK Team"]
