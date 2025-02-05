@@ -20,7 +20,7 @@ GOAT (Great Onchain Agent Toolkit) is a library that adds more than +200 onchain
 
 * **[+200 tools](#plugins)**: DeFi (Uniswap, Jupiter, KIM, Orca, etc.), minting (OpenSea, MagicEden, etc.), betting (Polymarket, etc.), analytics (CoinGecko, BirdEye, Allora, etc.) and more
 * **Chains**: EVM (Base, Polygon, Mode, Sei, etc.), Solana, Aptos, Chromia, Fuel, Sui, Starknet and Zilliqa
-* **[Wallets](#wallets)**: keypair, smart wallets (Crossmint, etc.), LIT, MPC (Coinbase, etc.)
+* **[Wallets](#wallets)**: keypair, smart wallets (Crossmint, Safe, etc.), LIT, MPC (Coinbase, etc.)
 * **[Agent Frameworks](#agent-frameworks-adapters)**: AI SDK, Langchain, Eliza, ZerePy, GAME, ElevenLabs, etc.
 
 
@@ -404,8 +404,8 @@ If you would like to see your wallet provider supported, please open an issue or
 ### Wallets
 | Wallet | NPM package |
 | --- | --- |
-|EVM | [@goat-sdk/wallet-evm](https://www.npmjs.com/package/@goat-sdk/wallet-evm) |
-|Viem | [@goat-sdk/wallet-evm-viem](https://www.npmjs.com/package/@goat-sdk/wallet-evm-viem) | [goat-sdk-wallet-evm](https://pypi.org/project/goat-sdk-wallet-evm/) |
+| EVM | [@goat-sdk/wallet-evm](https://www.npmjs.com/package/@goat-sdk/wallet-evm) |
+| Viem | [@goat-sdk/wallet-evm-viem](https://www.npmjs.com/package/@goat-sdk/wallet-evm-viem) | [goat-sdk-wallet-evm](https://pypi.org/project/goat-sdk-wallet-evm/) |
 | Solana | [@goat-sdk/wallet-solana](https://www.npmjs.com/package/@goat-sdk/wallet-solana) | [@goat-sdk-wallet-solana](https://pypi.org/project/goat-sdk-wallet-solana/) |
 | Crossmint (smart and custodial wallets) | [@goat-sdk/wallet-crossmint](https://www.npmjs.com/package/@goat-sdk/wallet-crossmint) | [@goat-sdk-wallet-crossmint](https://pypi.org/project/goat-sdk-wallet-crossmint/) |
 | Aptos | [@goat-sdk/wallet-aptos](https://www.npmjs.com/package/@goat-sdk/wallet-aptos) |
@@ -413,6 +413,7 @@ If you would like to see your wallet provider supported, please open an issue or
 | Cosmos | [@goat-sdk/wallet-cosmos](https://www.npmjs.com/package/@goat-sdk/wallet-cosmos) |
 | Fuel | [@goat-sdk/wallet-fuel](https://www.npmjs.com/package/@goat-sdk/wallet-fuel) |
 | Radix | [@goat-sdk/wallet-radix](https://www.npmjs.com/package/@goat-sdk/wallet-radix) |
+| Safe | [@goat-sdk/wallet-safe](https://www.npmjs.com/package/@goat-sdk/wallet-safe) |
 | Sui | [@goat-sdk/wallet-sui](https://www.npmjs.com/package/@goat-sdk/wallet-sui) |
 | Starknet | [@goat-sdk/wallet-starknet](https://www.npmjs.com/package/@goat-sdk/wallet-starknet) |
 | Zilliqa | [@goat-sdk/wallet-zilliqa](https://www.npmjs.com/package/@goat-sdk/wallet-zilliqa) |
