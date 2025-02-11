@@ -1,4 +1,4 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from typing import Dict, Optional, TypedDict, List, Any
 
 import base64
@@ -33,7 +33,7 @@ class SolanaOptions:
         pass
 
 
-class SolanaWalletClient(WalletClientBase):
+class SolanaWalletClient(WalletClientBase, ABC):
     """Base class for Solana wallet implementations."""
 
     def __init__(self, client: SolanaClient):

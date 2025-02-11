@@ -8,26 +8,27 @@ load_dotenv()
 from langchain_openai import ChatOpenAI
 from langchain.agents import AgentExecutor, create_tool_calling_agent
 from langchain_core.prompts import ChatPromptTemplate
-from solana.rpc.api import Client as SolanaClient
-from solders.keypair import Keypair
 
 from goat_adapters.langchain import get_on_chain_tools
-from goat_wallets.solana import solana
-from goat_plugins.jupiter import jupiter, JupiterPluginOptions
-from goat_plugins.spl_token import spl_token, SplTokenPluginOptions
-from goat_plugins.spl_token.tokens import SPL_TOKENS
+from goat_plugins.erc20 import erc20, ERC20PluginOptions
+from goat_plugins.erc20.token import USDC, PEPE
+from goat_wallets.evm.send_eth import send_eth
+from goat_wallets.crossmint import crossmint
 
-# Initialize Solana client
-client = SolanaClient(os.getenv("SOLANA_RPC_ENDPOINT"))
+crossmint = crossmint(os.getenv("CROSSMINT_API_KEY"))
 
-# Initialize regular Solana wallet
-keypair = Keypair.from_base58_string(os.getenv("SOLANA_WALLET_SEED") or "")
-wallet = solana(client, keypair)
+crossmint_wallet = crossmint["smartwallet"]({
+    "address": "0x60096F6E9143DbfdeB12aB81C81eD560584B2954",
+    "signer": "0x0b76745250FEF8fBa8e597b84CdaE46B5aC03573",
+    "provider": "https://base-mainnet.g.alchemy.com/v2/demo",
+    "ensProvider": "https://base-mainnet.g.alchemy.com/v2/demo",
+    "chain": "base",
+})
 
 # Initialize LLM
 llm = ChatOpenAI(model="gpt-4o-mini")
 
-def main():
+async def main():
     
     # Get the prompt template
     prompt = ChatPromptTemplate.from_messages(
@@ -41,16 +42,13 @@ def main():
 
     # Initialize tools with Solana wallet
     tools = get_on_chain_tools(
-        wallet=wallet,
+        wallet=crossmint_wallet,
         plugins=[
-            jupiter(JupiterPluginOptions()),  # No options needed for Jupiter v6
-            spl_token(SplTokenPluginOptions(
-                network="mainnet",  # Using devnet as specified in .env
-                tokens=SPL_TOKENS
-            )),
+            send_eth(),
+            erc20(options=ERC20PluginOptions(tokens=[USDC, PEPE])),
         ],
     )
-
+    
     agent = create_tool_calling_agent(llm, tools, prompt)
     agent_executor = AgentExecutor(
         agent=agent, tools=tools, handle_parsing_errors=True, verbose=True
@@ -76,4 +74,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
