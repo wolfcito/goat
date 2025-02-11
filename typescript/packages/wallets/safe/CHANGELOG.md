@@ -4,4 +4,12 @@
 
 ### Patch Changes
 
-- 3d3dc2e: Release package
+- Readme update
+- Use `@safe-global/sdk-starter-kit` instead of `@safe-global/protocol-kit`
+- Simplify the code
+
+## 0.1.0
+
+### Creation
+
+- Support for Safe wallets
