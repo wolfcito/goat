@@ -1,5 +1,5 @@
 ---
-"@goat-sdk/wallet-crossmint": minor
+"@goat-sdk/crossmint": patch
 ---
 
 feat: Add Solana Smart Wallet support
