@@ -189,7 +189,7 @@ Do you want a protocol, chain, wallet or agent framework to be supported?
 See guides on how to do that here:
 | Guide |  |  |
 | --- | --- | --- |
-| How to set up the project locally | [Typescript](https://github.com/goat-sdk/goat/tree/main/typescript/docs/1-setup-the-project-locally.md) | [Python](https://github.com/goat-sdk/goat/tree/main/python/docs/1-setup-the-project-locally.md) |
+| How to set up the project locally | [Typescript](https://github.com/goat-sdk/goat/tree/main/typescript/docs/2-set-up-the-project-locally.md) | [Python](https://github.com/goat-sdk/goat/tree/main/python/docs/2-set-up-the-project-locally.md) |
 | How to create a plugin | [Typescript](https://github.com/goat-sdk/goat/tree/main/typescript/docs/3-create-a-plugin.md) | [Python](https://github.com/goat-sdk/goat/tree/main/python/docs/3-create-a-plugin.md) |
 | How to add a new chain | [Typescript](https://github.com/goat-sdk/goat/tree/main/typescript/docs/4-add-a-new-chain.md) | [Python](https://github.com/goat-sdk/goat/tree/main/python/docs/4-add-a-new-chain.md) |
 | How to add a new wallet provider | [Typescript](https://github.com/goat-sdk/goat/tree/main/typescript/docs/5-add-a-wallet-provider.md) | [Python](https://github.com/goat-sdk/goat/tree/main/python/docs/5-add-a-wallet-provider.md) |

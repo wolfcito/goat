@@ -82,7 +82,7 @@ See how to do it [here](#-contributing).
 Do you want a protocol, chain, wallet or agent framework to be supported?
 
 See guides on how to do that here:
-- [How to set up the project locally](https://github.com/goat-sdk/goat/tree/main/typescript/docs/1-setup-the-project-locally.md)
+- [How to set up the project locally](https://github.com/goat-sdk/goat/tree/main/typescript/docs/2-set-up-the-project-locally.md)
 - [How to create a plugin](https://github.com/goat-sdk/goat/tree/main/typescript/docs/3-create-a-plugin.md)
 - [How to add a new chain](https://github.com/goat-sdk/goat/tree/main/typescript/docs/4-add-a-new-chain.md)
 - [How to add a new wallet provider](https://github.com/goat-sdk/goat/tree/main/typescript/docs/5-add-a-wallet-provider.md)
