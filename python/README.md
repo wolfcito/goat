@@ -56,11 +56,17 @@ If you don't find what you need on our more than 200 integrations you can easily
 See how to do it [here](#-contributing).
 
 # 🚀 Quickstarts
-- [EVM](https://github.com/goat-sdk/goat-evm)
-- [Solana](https://github.com/goat-sdk/goat-solana)
+- **EVM**
+  - [Send and receive ERC-20 tokens](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/web3)
+  - [Swap tokens on Uniswap](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/uniswap)
+  - [GAME integration](https://github.com/game-by-virtuals/game-python/tree/main/plugins/onchain_actions#running-examples)
+- **Solana**
+  - [Send and receive SLP tokens and SOL](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/solana)
+  - [Swap tokens on Jupiter](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/solana)
+- **See all python quickstarts [here](https://github.com/goat-sdk/goat/tree/main/python/examples).**
 
 # 🛠️ Supported tools and frameworks
-- See [here](https://github.com/goat-sdk/goat/tree/main#️-supported-tools-and-frameworks)
+- See [here the full list of supported tools and frameworks](https://github.com/goat-sdk/goat/tree/main#️-supported-tools-and-frameworks)
 
 # 💻 Contributing
 Do you want a protocol, chain, wallet or agent framework to be supported?

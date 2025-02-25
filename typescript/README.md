@@ -56,13 +56,29 @@ If you don't find what you need on our more than 200 integrations you can easily
 See how to do it [here](#-contributing).
 
 # 🚀 Quickstarts
-- [EVM](https://github.com/goat-sdk/goat-evm)
-- [Solana](https://github.com/goat-sdk/goat-solana)
-- [Chromia](https://github.com/goat-sdk/goat-chromia)
-- [Fuel](https://github.com/goat-sdk/goat-fuel)
+- **EVM**
+  - [Send and receive ERC-20 tokens](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/viem)
+  - [Swap tokens on Uniswap](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/viem)
+  - [Make bets on Polymarket](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/polymarket)
+  - [DeFi agent on Mode](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/mode)
+  - Purchase physical assets on Amazon [coming soon]
+  - [Eliza agent](https://github.com/goat-sdk/eliza-mode-example)
+  - [GAME framework example](https://github.com/game-by-virtuals/game-node/tree/main/plugins/onChainActionsPlugin)
+  - [Model Context Protocol example](https://github.com/goat-sdk/goat/tree/main/typescript/examples/model-context-protocol/viem)
+  - [Voice agent with ElevenLabs](https://github.com/goat-sdk/goat/tree/main/typescript/examples/eleven-labs/conversational-agent)
+- **Solana**
+  - [Send and receive SLP tokens and SOL](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/solana)
+  - [Swap tokens on Jupiter](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/solana)
+  - [Create a position on Orca](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/solana)
+  - [Launch a token on Pump.fun](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/solana)
+  - Purchase physical assets on Amazon [coming soon]
+  - [Eliza agent](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/solana)
+  - [Voice agent with ElevenLabs](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/solana)
+
+- **See all +30 typescript quickstarts [here](https://github.com/goat-sdk/goat/tree/main/typescript/examples).**
 
 # 🛠️ Supported tools and frameworks
-- See [here](https://github.com/goat-sdk/goat/tree/main#️-supported-tools-and-frameworks)
+- See [here the full list of supported tools and frameworks](https://github.com/goat-sdk/goat/tree/main#️-supported-tools-and-frameworks)
 
 # 💻 Contributing
 Do you want a protocol, chain, wallet or agent framework to be supported?
