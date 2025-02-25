@@ -62,7 +62,7 @@ See how to do it [here](#-contributing).
   - Purchase physical assets on Amazon [coming soon]
   - [Eliza agent](https://github.com/goat-sdk/eliza-mode-example)
   - [GAME framework example](https://github.com/game-by-virtuals/game-node/tree/main/plugins/onChainActionsPlugin)
-  - [Model Context Protocol example](https://github.com/goat-sdk/goat/tree/main/typescript/examples/model-context-protocol/viem)
+  - [Model Context Protocol example](https://github.com/goat-sdk/goat/tree/main/typescript/examples/model-context-protocol/mode)
   - [Voice agent with ElevenLabs](https://github.com/goat-sdk/goat/tree/main/typescript/examples/eleven-labs/conversational-agent)
 - **Solana**
   - [Send and receive SLP tokens and SOL](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/solana)
@@ -70,9 +70,8 @@ See how to do it [here](#-contributing).
   - [Create a position on Orca](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/solana)
   - [Launch a token on Pump.fun](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/solana)
   - Purchase physical assets on Amazon [coming soon]
-  - [Eliza agent](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/solana)
-  - [Voice agent with ElevenLabs](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/solana)
-
+  - [Eliza agent](https://github.com/goat-sdk/eliza-solana-example)
+  - [Voice agent with ElevenLabs](https://github.com/goat-sdk/goat/tree/main/typescript/examples/eleven-labs/conversational-agent)
 - **See all +30 typescript quickstarts [here](https://github.com/goat-sdk/goat/tree/main/typescript/examples).**
 
 # 🛠️ Supported tools and frameworks
