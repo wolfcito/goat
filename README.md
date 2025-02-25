@@ -1,11 +1,7 @@
 
 
 <div>
-<picture>
-  <source media="(min-width: 800px)" srcset="https://github.com/user-attachments/assets/4821833e-52e5-4126-a2a1-59e9fa9bebd7">
-
-</picture>
-  <img src="https://github.com/user-attachments/assets/c1fc6356-db10-4a28-b9c9-a37cf9025a7f" alt="GOAT" width="100%" height="200" style="object-fit: contain; max-width: 800px;">
+  <img src="https://github.com/user-attachments/assets/4821833e-52e5-4126-a2a1-59e9fa9bebd7" alt="GOAT" width="100%" height="100" style="object-fit: contain; max-width: 800px;">
 
 <div>
 <img src="https://img.shields.io/npm/dm/%40goat-sdk%2Fcore" alt="NPM Downloads">
