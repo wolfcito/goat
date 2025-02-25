@@ -27,10 +27,10 @@ GOAT is free software, MIT licensed, sponsored by [Crossmint](https://www.crossm
 # 🐐 Overview
 GOAT (Great Onchain Agent Toolkit) is the **largest library of onchain tools** for your AI agent:
 
-1. Give your agent a **[wallet](https://github.com/goat-sdk/goat/tree/main#️chains-and-wallets)**
-2. Allow it to transact on **[any chain](https://github.com/goat-sdk/goat/tree/main#️chains-and-wallets)**
-3. Use more than **[+200 onchain tools](https://github.com/goat-sdk/goat/tree/main#️tools)**
-4. Use it with **[any agent framework](https://github.com/goat-sdk/goat/tree/main#️agent-frameworks)** of your choice
+1. Give your agent a **[wallet](https://github.com/goat-sdk/goat/tree/main#chains-and-wallets)**
+2. Allow it to transact on **[any chain](https://github.com/goat-sdk/goat/tree/main#chains-and-wallets)**
+3. Use more than **[+200 onchain tools](https://github.com/goat-sdk/goat/tree/main#tools)**
+4. Use it with **[any agent framework](https://github.com/goat-sdk/goat/tree/main#agent-frameworks)** of your choice
 
 See everything GOAT supports [here](https://github.com/goat-sdk/goat/tree/main#️-supported-tools-and-frameworks).
 
