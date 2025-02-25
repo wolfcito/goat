@@ -43,6 +43,7 @@ See everything GOAT supports [here](https://github.com/goat-sdk/goat/tree/main#ï
 - Get onchain insights
 
 **Lightweight and extendable**
+
 Different from other agent kits, GOAT is designed to be lightweight and extendable by keeping its core minimal and allowing you to **install only the tools you need**.
 
 If you don't find what you need on our more than 200 integrations you can easily:
