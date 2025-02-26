@@ -24,7 +24,7 @@
         "@goat-sdk/wallet-viem": "workspace:*",
         "@modelcontextprotocol/sdk": "1.0.4",
         "dotenv": "^16.4.5",
-        "viem": "2.21.49"
+        "viem": "catalog:"
     },
     "devDependencies": {
         "@types/node": "22.7.4"
