@@ -408,8 +408,8 @@ importers:
         specifier: ^16.4.5
         version: 16.4.7
       viem:
-        specifier: 2.21.49
-        version: 2.21.49(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
+        specifier: 2.23.4
+        version: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
 
   examples/vercel-ai/allora:
     dependencies:
@@ -438,8 +438,8 @@ importers:
         specifier: ^16.4.5
         version: 16.4.7
       viem:
-        specifier: 2.21.49
-        version: 2.21.49(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
+        specifier: 2.23.4
+        version: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
 
   examples/vercel-ai/chromia:
     dependencies:
@@ -501,8 +501,8 @@ importers:
         specifier: ^16.4.5
         version: 16.4.7
       viem:
-        specifier: 2.21.49
-        version: 2.21.49(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
+        specifier: 2.23.4
+        version: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
 
   examples/vercel-ai/crossmint-smart-wallets:
     dependencies:
@@ -531,8 +531,8 @@ importers:
         specifier: ^16.4.5
         version: 16.4.7
       viem:
-        specifier: 2.21.49
-        version: 2.21.49(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
+        specifier: 2.23.4
+        version: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
 
   examples/vercel-ai/crossmint-solana-custodial-wallets:
     dependencies:
@@ -564,8 +564,8 @@ importers:
         specifier: ^16.4.5
         version: 16.4.7
       viem:
-        specifier: 2.21.49
-        version: 2.21.49(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
+        specifier: 2.23.4
+        version: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
 
   examples/vercel-ai/debridge-bridging:
     dependencies:
@@ -591,8 +591,8 @@ importers:
         specifier: ^16.4.5
         version: 16.4.7
       viem:
-        specifier: 2.21.49
-        version: 2.21.49(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
+        specifier: 2.23.4
+        version: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
 
   examples/vercel-ai/enso:
     dependencies:
@@ -610,7 +610,7 @@ importers:
         version: link:../../../packages/plugins/enso
       '@goat-sdk/plugin-erc20':
         specifier: 0.2.10
-        version: 0.2.10(@goat-sdk/core@packages+core)(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.49(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8))
+        version: 0.2.10(@goat-sdk/core@packages+core)(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8))
       '@goat-sdk/wallet-viem':
         specifier: workspace:*
         version: link:../../../packages/wallets/viem
@@ -621,8 +621,8 @@ importers:
         specifier: ^16.4.5
         version: 16.4.7
       viem:
-        specifier: 2.21.49
-        version: 2.21.49(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
+        specifier: 2.23.4
+        version: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
 
   examples/vercel-ai/form-curves:
     dependencies:
@@ -657,8 +657,8 @@ importers:
         specifier: ^16.4.5
         version: 16.4.7
       viem:
-        specifier: 2.21.49
-        version: 2.21.49(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
+        specifier: 2.23.4
+        version: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
 
   examples/vercel-ai/fuel:
     dependencies:
@@ -750,8 +750,8 @@ importers:
         specifier: ^16.4.5
         version: 16.4.7
       viem:
-        specifier: 2.21.49
-        version: 2.21.49(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
+        specifier: 2.23.4
+        version: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
 
   examples/vercel-ai/modespray:
     dependencies:
@@ -789,8 +789,8 @@ importers:
         specifier: ^16.4.5
         version: 16.4.7
       viem:
-        specifier: 2.21.49
-        version: 2.21.49(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
+        specifier: 2.23.4
+        version: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
 
   examples/vercel-ai/opensea:
     dependencies:
@@ -816,8 +816,8 @@ importers:
         specifier: ^16.4.5
         version: 16.4.7
       viem:
-        specifier: 2.21.49
-        version: 2.21.49(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
+        specifier: 2.23.4
+        version: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
 
   examples/vercel-ai/polymarket:
     dependencies:
@@ -843,8 +843,8 @@ importers:
         specifier: ^16.4.5
         version: 16.4.7
       viem:
-        specifier: 2.21.49
-        version: 2.21.49(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
+        specifier: 2.23.4
+        version: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
 
   examples/vercel-ai/radix:
     dependencies:
@@ -897,8 +897,8 @@ importers:
         specifier: ^16.4.5
         version: 16.4.7
       viem:
-        specifier: 2.21.49
-        version: 2.21.49(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
+        specifier: 2.23.4
+        version: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
 
   examples/vercel-ai/sns:
     dependencies:
@@ -1002,8 +1002,8 @@ importers:
         specifier: ^16.4.5
         version: 16.4.7
       viem:
-        specifier: 2.21.49
-        version: 2.21.49(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
+        specifier: 2.23.4
+        version: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
 
   examples/vercel-ai/viem:
     dependencies:
@@ -1035,8 +1035,8 @@ importers:
         specifier: ^16.4.5
         version: 16.4.7
       viem:
-        specifier: 2.21.49
-        version: 2.21.49(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
+        specifier: 2.23.4
+        version: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
 
   examples/virtuals-game/viem:
     dependencies:
@@ -16872,7 +16872,7 @@ snapshots:
     dependencies:
       decimal.js-light: 2.5.1
       lodash.clonedeep: 4.5.0
-      viem: 2.22.19(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
+      viem: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -18851,11 +18851,11 @@ snapshots:
       - debug
       - utf-8-validate
 
-  '@goat-sdk/plugin-erc20@0.2.10(@goat-sdk/core@packages+core)(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.49(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8))':
+  '@goat-sdk/plugin-erc20@0.2.10(@goat-sdk/core@packages+core)(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8))':
     dependencies:
       '@goat-sdk/core': link:packages/core
       '@goat-sdk/wallet-evm': 0.2.8(@goat-sdk/core@packages+core)(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)
-      viem: 2.21.49(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
+      viem: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
       zod: 3.23.8
     transitivePeerDependencies:
       - bufferutil
@@ -19011,7 +19011,7 @@ snapshots:
       cross-fetch: 3.2.0(encoding@0.1.13)
       ethers: 5.7.2(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       pino: 8.21.0
-      viem: 2.22.19(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
+      viem: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
       zod: 3.24.1
     transitivePeerDependencies:
       - '@axelar-network/axelar-gmp-sdk-solidity'
@@ -21454,7 +21454,7 @@ snapshots:
       '@safe-global/protocol-kit': 5.2.2(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
       '@safe-global/types-kit': 1.0.2(typescript@5.6.3)(zod@3.24.1)
       node-fetch: 2.7.0(encoding@0.1.13)
-      viem: 2.22.19(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
+      viem: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -21488,7 +21488,7 @@ snapshots:
       '@safe-global/types-kit': 1.0.2(typescript@5.6.3)(zod@3.24.1)
       abitype: 1.0.8(typescript@5.6.3)(zod@3.24.1)
       semver: 7.6.3
-      viem: 2.22.19(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
+      viem: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
     optionalDependencies:
       '@noble/curves': 1.8.0
       '@peculiar/asn1-schema': 2.3.15
@@ -21505,7 +21505,7 @@ snapshots:
       '@safe-global/types-kit': 1.0.2(typescript@5.6.3)(zod@3.24.1)
       abitype: 1.0.8(typescript@5.6.3)(zod@3.24.1)
       semver: 7.6.3
-      viem: 2.22.19(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
+      viem: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
     optionalDependencies:
       '@noble/curves': 1.8.1
       '@peculiar/asn1-schema': 2.3.15
@@ -21521,7 +21521,7 @@ snapshots:
       '@safe-global/protocol-kit': 5.2.2(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
       '@safe-global/safe-modules-deployments': 2.2.5
       '@safe-global/types-kit': 1.0.2(typescript@5.6.3)(zod@3.24.1)
-      viem: 2.22.19(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
+      viem: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -21589,7 +21589,7 @@ snapshots:
       '@safe-global/protocol-kit': 5.2.2(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
       '@safe-global/relay-kit': 3.4.3(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
       '@safe-global/types-kit': 1.0.2(typescript@5.6.3)(zod@3.24.1)
-      viem: 2.22.19(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
+      viem: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.1)
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -31768,23 +31768,6 @@ snapshots:
       isows: 1.0.6(ws@8.18.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))
       ox: 0.1.2(typescript@5.6.3)(zod@3.24.1)
       webauthn-p256: 0.0.10
-      ws: 8.18.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
-    optionalDependencies:
-      typescript: 5.6.3
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-      - zod
-
-  viem@2.22.19(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8):
-    dependencies:
-      '@noble/curves': 1.8.1
-      '@noble/hashes': 1.7.1
-      '@scure/bip32': 1.6.2
-      '@scure/bip39': 1.5.4
-      abitype: 1.0.8(typescript@5.6.3)(zod@3.23.8)
-      isows: 1.0.6(ws@8.18.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))
-      ox: 0.6.7(typescript@5.6.3)(zod@3.23.8)
       ws: 8.18.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
     optionalDependencies:
       typescript: 5.6.3

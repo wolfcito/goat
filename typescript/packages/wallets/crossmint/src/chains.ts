@@ -95,6 +95,10 @@ export const mintingChains = [
 
 export type SupportedMintingChains = (typeof mintingChains)[number];
 
+export function isStoryChain(chain: string): boolean {
+    return chain === "story-mainnet" || chain === "story-testnet";
+}
+
 const chainMap: Record<SupportedFaucetChains | SupportedSmartWalletChains | SupportedMintingChains, Chain> = {
     arbitrum,
     "arbitrum-sepolia": arbitrumSepolia,
