@@ -63,35 +63,41 @@ See how to do it [here](#-contributing).
 
 # 🚀 Quickstarts
 
-## 📘 Typescript
-- **EVM**
-  - [Send and receive ERC-20 tokens](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/viem)
-  - [Swap tokens on Uniswap](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/viem)
-  - [Make bets on Polymarket](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/polymarket)
-  - [DeFi agent on Mode](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/mode)
-  - Purchase physical assets on Amazon [coming soon]
-  - [Eliza agent](https://github.com/goat-sdk/eliza-mode-example)
-  - [GAME framework example](https://github.com/game-by-virtuals/game-node/tree/main/plugins/onChainActionsPlugin)
-  - [Model Context Protocol example](https://github.com/goat-sdk/goat/tree/main/typescript/examples/model-context-protocol/mode)
-  - [Voice agent with ElevenLabs](https://github.com/goat-sdk/goat/tree/main/typescript/examples/eleven-labs/conversational-agent)
-- **Solana**
-  - [Send and receive SLP tokens and SOL](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/solana)
-  - [Swap tokens on Jupiter](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/solana)
-  - [Create a position on Orca](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/solana)
-  - [Launch a token on Pump.fun](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/solana)
-  - Purchase physical assets on Amazon [coming soon]
-  - [Eliza agent](https://github.com/goat-sdk/eliza-solana-example)
-  - [Voice agent with ElevenLabs](https://github.com/goat-sdk/goat/tree/main/typescript/examples/eleven-labs/conversational-agent)
-- **See all +30 typescript quickstarts [here](https://github.com/goat-sdk/goat/tree/main/typescript/examples).**
+***NOTE**: While a quickstart may be implemented for a specific chain, wallet and agent framework, GOAT's flexibility allows you to easily adapt it to any chain, wallet and agent framework without difficulty.*
 
+## 📘 Typescript
+
+- **By use case**
+  - Send and receive tokens [[EVM](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-use-case/evm-send-receive-tokens), [Solana](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-use-case/solana-send-receive-tokens), [Chromia](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-use-case/chromia-send-receive-tokens), [Cosmos](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-use-case/cosmos-send-receive-tokens), [Fuel](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-use-case/fuel-send-receive-tokens), [Radix](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-use-case/radix-send-receive-tokens)]
+  - Swap tokens [[EVM](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-use-case/evm-swap-tokens), [Solana](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-use-case/solana-swap-tokens)]
+  - Create and manage DeFi positions [[EVM](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-use-case/evm-defi-agent), [Solana](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-use-case/solana-defi-agent)]
+  - Mint NFTs [[EVM](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-use-case/evm-mint-nft), [Solana](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-use-case/solana-mint-nft)]
+  - Make bets on Polymarket [[EVM](https://github.com/goat-sdk/goat/tree/main/typescript/examples/vercel-ai/polymarket)]
+  - Launch a token on Pump.fun [[Solana](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-use-case/solana-launch-token)]
+  - Purchase physical assets [coming soon]
+- **By framework**
+  - [Vercel AI](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/vercel-ai)
+  - [Langchain](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/langchain)
+  - [Eliza Agent](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/eliza)
+  - [GAME Agent](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/virtuals-game)
+  - [MCP (Model Context Protocol)](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/model-context-protocol)
+  - [Voice agent with ElevenLabs](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/eleven-labs)
+- **By wallet**
+  - [Crossmint Smart Wallets](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-wallet/crossmint-smart-wallets)
+  - [Crossmint Custodial Wallets](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-wallet/crossmint-solana-custodial-wallets)
+  - [Lit](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-wallet/lit)
+  - [Safe](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-wallet/safe)
+
+- **See all typescript quickstarts [here](https://github.com/goat-sdk/goat/tree/main/typescript/examples).**
+  
 ## 🐍 Python
-- **EVM**
-  - [Send and receive ERC-20 tokens](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/web3)
-  - [Swap tokens on Uniswap](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/uniswap)
-  - [GAME integration](https://github.com/game-by-virtuals/game-python/tree/main/plugins/onchain_actions#running-examples)
-- **Solana**
-  - [Send and receive SLP tokens and SOL](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/solana)
-  - [Swap tokens on Jupiter](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/solana)
+- **By use case**
+  - Send and receive tokens [[EVM](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/web3), [Solana](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/solana)]
+  - Swap tokens [[EVM](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/uniswap), [Solana](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/solana)]
+- **By framework**
+  - Langchain [[EVM](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/web3), [Solana](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/solana)]
+  - GAME Agent [[EVM](https://github.com/game-by-virtuals/game-python/tree/main/plugins/onchain_actions)]
+  - ZerePy [[EVM](https://github.com/goat-sdk/goat/tree/main/python/examples/zerepy/web3)]
 - **See all python quickstarts [here](https://github.com/goat-sdk/goat/tree/main/python/examples).**
 
 # 🛠️ Supported tools and frameworks
