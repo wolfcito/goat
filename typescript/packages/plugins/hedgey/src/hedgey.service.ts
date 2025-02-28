@@ -109,4 +109,32 @@ export class HedgeyService {
             throw new Error(`Failed to claim tokens: ${error}`);
         }
     }
+
+    @Tool({
+        name: "claim_merkl_rewards",
+        description: "Claim protocol incentives or display Merkl rewards for a given address and chain",
+    })
+    async claimMerklRewards(walletClient: EVMWalletClient, parameters: CheckClaimParams): Promise<unknown> {
+        try {
+            const userAddress = parameters.address ?? walletClient.getAddress();
+            const network = walletClient.getChain();
+            if (!network?.id) {
+                throw new Error("Unable to determine chain ID from wallet client");
+            }
+            const chainId = network.id; // suponiendo que network.id es el chainId
+            const rewardsUrl = `${MERKL_REVIEW_URL}/${userAddress}/rewards?chainId=${chainId}`;
+
+            const rewardsResponse = await fetch(rewardsUrl);
+            if (!rewardsResponse.ok) {
+                const errorText = await rewardsResponse.text();
+                throw new Error(
+                    `Merkl rewards API error: ${rewardsResponse.status} ${rewardsResponse.statusText}: ${errorText}`,
+                );
+            }
+            const rewardsData = await rewardsResponse.json();
+            return rewardsData;
+        } catch (error) {
+            throw new Error(`Failed to display Merkl rewards: ${error}`);
+        }
+    }
 }
