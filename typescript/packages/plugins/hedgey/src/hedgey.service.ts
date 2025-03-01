@@ -1,15 +1,15 @@
 import { Tool } from "@goat-sdk/core";
 import { EVMWalletClient } from "@goat-sdk/wallet-evm";
-import { ethers } from "ethers";
 
 import { CAMPAIGN_ABI, CAMPAIGN_ADDRESS } from "./abi/hedgey.abi";
 import { MERKL_CAMPAIGN_ABI, MERKL_CAMPAIGN_ADDRESS } from "./abi/merkl.abi";
-import { CheckClaimParams, ClaimResultProps } from "./parameters";
+import { HEDGEY_CAMPAIGNS_URL, HEDGEY_CLAIM_URL, HEDGEY_PROOF_URL, MERKL_REVIEW_URL } from "./constants/endpoints";
+import { fetchJson, toBytes16 } from "./helpers/http.helper";
+import { CheckClaimParams } from "./parameters";
 
-const HEDGEY_PROOF_URL = "https://api.hedgey.finance/token-claims/proof";
-const HEDGEY_CLAIM_URL = "https://app.hedgey.finance/claim/";
-const HEDGEY_CAMPAIGNS_URL = "https://mode-contentful.vercel.app/news.json";
-const MERKL_REVIEW_URL = "https://api.merkl.xyz/v4/users";
+import { ClaimResultProps, HedgeyProofResponse, MerklRewardResponse, NewsEntryProps } from "./types/types";
+
+const NO_CLAIMABLE_MESSAGE = "No claimable tokens available";
 
 export class HedgeyService {
     @Tool({
@@ -18,59 +18,71 @@ export class HedgeyService {
     })
     async claimHedgeyTokens(walletClient: EVMWalletClient, parameters: CheckClaimParams): Promise<ClaimResultProps[]> {
         try {
-            const newsResponse = await fetch(HEDGEY_CAMPAIGNS_URL);
-            const newsArray = await newsResponse.json();
-
+            const newsArray: NewsEntryProps[] = await fetchJson(HEDGEY_CAMPAIGNS_URL);
             const campaignIds: string[] = newsArray
-                ?.map((entry: { fields: { link?: { "en-US": string } } }) => {
+                .map((entry) => {
                     const link = entry.fields.link?.["en-US"];
                     return link ? link.split(HEDGEY_CLAIM_URL)[1] : undefined;
                 })
-                .filter((campaignId: string | undefined): campaignId is string => campaignId !== undefined);
+                .filter((campaignId): campaignId is string => !!campaignId);
 
             const userAddress = walletClient.getAddress();
             const network = walletClient.getChain();
-
             if (!network?.id) {
                 throw new Error("Unable to determine chain ID from wallet client");
             }
 
-            const claimableCampaigns: { campaignId: string; claimAmount: string; proof: string[] }[] = [];
-
+            const claimableCampaigns: Array<{
+                campaignId: string;
+                claimAmount: string;
+                proof: string[];
+            }> = [];
             const results: ClaimResultProps[] = [];
 
-            for (const campaignId of campaignIds) {
-                const proofResponse = await fetch(`${HEDGEY_PROOF_URL}/${campaignId}/${userAddress}`);
-                if (!proofResponse.ok) {
-                    const errorText = await proofResponse.text();
-                    throw new Error(`API error: ${proofResponse.status} ${proofResponse.statusText}: ${errorText}`);
+            const proofPromises = campaignIds.map(async (campaignId) => {
+                const proofUrl = `${HEDGEY_PROOF_URL}/${campaignId}/${userAddress}`;
+                try {
+                    const data: HedgeyProofResponse = await fetchJson(proofUrl);
+                    return { campaignId, data, error: null };
+                } catch (error) {
+                    return { campaignId, data: null, error };
                 }
-                const data = await proofResponse.json();
-                if (!data.canClaim) {
+            });
+
+            const settledProofResults = await Promise.allSettled(proofPromises);
+
+            const proofResults = settledProofResults.map((result) => {
+                if (result.status === "fulfilled") {
+                    return result.value;
+                }
+
+                return { campaignId: result.reason.campaignId, data: null, error: result.reason.error };
+            });
+
+            for (const result of proofResults) {
+                if (result.error) {
                     results.push({
-                        campaignId,
-                        detail: "No claimable tokens available",
+                        campaignId: result.campaignId,
+                        detail: `Error: ${result.error instanceof Error ? result.error.message : JSON.stringify(result.error)}`,
+                    });
+                } else if (!result.data?.canClaim) {
+                    results.push({
+                        campaignId: result.campaignId,
+                        detail: NO_CLAIMABLE_MESSAGE,
                     });
                 } else {
                     claimableCampaigns.push({
-                        campaignId,
-                        claimAmount: data.amount,
-                        proof: data.proof,
+                        campaignId: result.campaignId,
+                        claimAmount: result.data.amount,
+                        proof: result.data.proof,
                     });
                 }
             }
 
             if (claimableCampaigns.length > 0) {
-                const campaignIdsBytes16: string[] = [];
-                const proofs: string[][] = [];
-                const claimAmounts: string[] = [];
-
-                for (const claim of claimableCampaigns) {
-                    const bytes16Campaign = ethers.utils.hexZeroPad(ethers.utils.toUtf8Bytes(claim.campaignId), 16);
-                    campaignIdsBytes16.push(bytes16Campaign);
-                    proofs.push(claim.proof);
-                    claimAmounts.push(claim.claimAmount);
-                }
+                const campaignIdsBytes16 = claimableCampaigns.map((claim) => toBytes16(claim.campaignId));
+                const proofs = claimableCampaigns.map((claim) => claim.proof);
+                const claimAmounts = claimableCampaigns.map((claim) => claim.claimAmount);
 
                 const txResponse = await walletClient.sendTransaction({
                     to: CAMPAIGN_ADDRESS as `0x${string}`,
@@ -93,14 +105,14 @@ export class HedgeyService {
                 return [
                     {
                         campaignId: "",
-                        detail: "No claimable tokens available",
+                        detail: NO_CLAIMABLE_MESSAGE,
                     },
                 ];
             }
 
             return results;
         } catch (error) {
-            throw new Error(`Failed to claim tokens: ${error}`);
+            throw new Error(`Failed to claim tokens: ${error instanceof Error ? error.message : error}`);
         }
     }
 
@@ -118,14 +130,7 @@ export class HedgeyService {
             const chainId = network.id;
             const rewardsUrl = `${MERKL_REVIEW_URL}/${userAddress}/rewards?chainId=${chainId}`;
 
-            const rewardsResponse = await fetch(rewardsUrl);
-            if (!rewardsResponse.ok) {
-                const errorText = await rewardsResponse.text();
-                throw new Error(
-                    `Merkl rewards API error: ${rewardsResponse.status} ${rewardsResponse.statusText}: ${errorText}`,
-                );
-            }
-            const rewardsData = await rewardsResponse.json();
+            const rewardsData: MerklRewardResponse[] = await fetchJson(rewardsUrl);
 
             const users: string[] = [];
             const tokens: string[] = [];
@@ -146,7 +151,7 @@ export class HedgeyService {
                 return [
                     {
                         campaignId: "",
-                        detail: "No claimable tokens available",
+                        detail: NO_CLAIMABLE_MESSAGE,
                     },
                 ];
             }
@@ -158,19 +163,16 @@ export class HedgeyService {
                 args: [users, tokens, amounts, proofs],
             });
 
-            const results: ClaimResultProps[] = [];
+            const results: ClaimResultProps[] = tokens.map((token, i) => ({
+                campaignId: token,
+                detail: "Claimed",
+                amount: amounts[i],
+                transactionHash: txResponse.hash,
+            }));
 
-            for (let i = 0; i < tokens.length; i++) {
-                results.push({
-                    campaignId: tokens[i],
-                    detail: "Claimed",
-                    amount: amounts[i],
-                    transactionHash: txResponse.hash,
-                });
-            }
             return results;
         } catch (error) {
-            throw new Error(`Failed to claim Merkl tokens: ${error}`);
+            throw new Error(`Failed to claim Merkl tokens: ${error instanceof Error ? error.message : error}`);
         }
     }
 }

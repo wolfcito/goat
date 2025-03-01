@@ -7,10 +7,3 @@ export class CheckClaimParams extends createToolParameters(
         campaignId: z.string().optional().describe("uuid of the campaign"),
     }),
 ) {}
-
-export interface ClaimResultProps {
-    campaignId: string;
-    detail: string;
-    amount?: string;
-    transactionHash?: string;
-}
