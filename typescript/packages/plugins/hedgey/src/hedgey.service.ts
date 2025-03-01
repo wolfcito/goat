@@ -5,18 +5,21 @@ import { CAMPAIGN_ABI, CAMPAIGN_ADDRESS } from "./abi/hedgey.abi";
 import { MERKL_CAMPAIGN_ABI, MERKL_CAMPAIGN_ADDRESS } from "./abi/merkl.abi";
 import { HEDGEY_CAMPAIGNS_URL, HEDGEY_CLAIM_URL, HEDGEY_PROOF_URL, MERKL_REVIEW_URL } from "./constants/endpoints";
 import { fetchJson, toBytes16 } from "./helpers/http.helper";
-import { CheckClaimParams } from "./parameters";
 
+import { ClaimProtocolIncentivesParams, ClaimStakingRewardsParams } from "./parameters";
 import { ClaimResultProps, HedgeyProofResponse, MerklRewardResponse, NewsEntryProps } from "./types/types";
 
 const NO_CLAIMABLE_MESSAGE = "No claimable tokens available";
 
 export class HedgeyService {
     @Tool({
-        name: "claim_hedgey_tokens",
-        description: "Claim staking rewards or Hedgey tokens on Optimism",
+        name: "claim_hedgey_rewards",
+        description: "Claim staking rewards and Hedgey tokens on Optimism",
     })
-    async claimHedgeyTokens(walletClient: EVMWalletClient, parameters: CheckClaimParams): Promise<ClaimResultProps[]> {
+    async claimHedgeyTokens(
+        walletClient: EVMWalletClient,
+        parameters: ClaimStakingRewardsParams,
+    ): Promise<ClaimResultProps[]> {
         try {
             const newsArray: NewsEntryProps[] = await fetchJson(HEDGEY_CAMPAIGNS_URL);
             const campaignIds: string[] = newsArray
@@ -117,12 +120,15 @@ export class HedgeyService {
     }
 
     @Tool({
-        name: "claim_merkl_tokens",
-        description: "Claim protocol incentives for Merkl rewards for a given address and chain",
+        name: "claim_merkl_incentives",
+        description: "Claim protocol incentives and Merkl rewards for a given address and chain",
     })
-    async claimMerklRewards(walletClient: EVMWalletClient, parameters: CheckClaimParams): Promise<ClaimResultProps[]> {
+    async claimMerklRewards(
+        walletClient: EVMWalletClient,
+        parameters: ClaimProtocolIncentivesParams,
+    ): Promise<ClaimResultProps[]> {
         try {
-            const userAddress = parameters.address ?? walletClient.getAddress();
+            const userAddress = walletClient.getAddress();
             const network = walletClient.getChain();
             if (!network?.id) {
                 throw new Error("Unable to determine chain ID from wallet client");
