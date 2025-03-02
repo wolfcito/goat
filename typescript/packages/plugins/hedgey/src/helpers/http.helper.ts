@@ -1,5 +1,3 @@
-import { ethers } from "ethers";
-
 export async function fetchJson<T>(url: string): Promise<T> {
     const response = await fetch(url);
     if (!response.ok) {
@@ -9,6 +7,6 @@ export async function fetchJson<T>(url: string): Promise<T> {
     return response.json();
 }
 
-export function toBytes16(campaignId: string): string {
-    return ethers.utils.hexZeroPad(ethers.utils.toUtf8Bytes(campaignId), 16);
+export function toBytes16(uuid: string): string {
+    return `0x${uuid.replace(/-/g, "")}`;
 }
