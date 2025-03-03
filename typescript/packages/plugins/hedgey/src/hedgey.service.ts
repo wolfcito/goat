@@ -2,14 +2,15 @@ import { Tool } from "@goat-sdk/core";
 import { EVMWalletClient } from "@goat-sdk/wallet-evm";
 
 import { CAMPAIGN_ABI, CAMPAIGN_ADDRESS } from "./abi/hedgey.abi";
-import { MERKL_CAMPAIGN_ABI, MERKL_CAMPAIGN_ADDRESS } from "./abi/merkl.abi";
-import { HEDGEY_CAMPAIGNS_URL, HEDGEY_CLAIM_URL, HEDGEY_PROOF_URL, MERKL_REVIEW_URL } from "./constants/endpoints";
 import { fetchJson, toBytes16 } from "./helpers/http.helper";
 
-import { ClaimProtocolIncentivesParams, ClaimStakingRewardsParams } from "./parameters";
-import { ClaimResultProps, HedgeyProofResponse, MerklRewardResponse, NewsEntryProps } from "./types/types";
+import { ClaimStakingRewardsParams } from "./parameters";
+import { ClaimResultProps, HedgeyProofResponse, NewsEntryProps } from "./types/types";
 
 const NO_CLAIMABLE_MESSAGE = "No claimable tokens available";
+const HEDGEY_PROOF_URL = "https://api.hedgey.finance/token-claims/proof";
+const HEDGEY_CLAIM_URL = "https://app.hedgey.finance/claim/";
+const HEDGEY_CAMPAIGNS_URL = "https://mode-contentful.vercel.app/news.json";
 
 export class HedgeyService {
     @Tool({
@@ -116,69 +117,6 @@ export class HedgeyService {
             return results;
         } catch (error) {
             throw new Error(`Failed to claim tokens: ${error instanceof Error ? error.message : error}`);
-        }
-    }
-
-    @Tool({
-        name: "claim_merkl_incentives",
-        description: "Claim protocol incentives and Merkl rewards for a given address and chain",
-    })
-    async claimMerklRewards(
-        walletClient: EVMWalletClient,
-        parameters: ClaimProtocolIncentivesParams,
-    ): Promise<ClaimResultProps[]> {
-        try {
-            const userAddress = walletClient.getAddress();
-            const network = walletClient.getChain();
-            if (!network?.id) {
-                throw new Error("Unable to determine chain ID from wallet client");
-            }
-            const chainId = network.id;
-            const rewardsUrl = `${MERKL_REVIEW_URL}/${userAddress}/rewards?chainId=${chainId}`;
-
-            const rewardsData: MerklRewardResponse[] = await fetchJson(rewardsUrl);
-
-            const users: string[] = [];
-            const tokens: string[] = [];
-            const amounts: string[] = [];
-            const proofs: string[][] = [];
-
-            for (const rewardsObj of rewardsData) {
-                if (rewardsObj.chain.id !== chainId) continue;
-                for (const reward of rewardsObj.rewards) {
-                    users.push(userAddress);
-                    tokens.push(reward.token.address);
-                    amounts.push(reward.amount);
-                    proofs.push(reward.proofs);
-                }
-            }
-
-            if (tokens.length === 0) {
-                return [
-                    {
-                        campaignId: "",
-                        detail: NO_CLAIMABLE_MESSAGE,
-                    },
-                ];
-            }
-
-            const txResponse = await walletClient.sendTransaction({
-                to: MERKL_CAMPAIGN_ADDRESS as `0x${string}`,
-                abi: MERKL_CAMPAIGN_ABI,
-                functionName: "claim",
-                args: [users, tokens, amounts, proofs],
-            });
-
-            const results: ClaimResultProps[] = tokens.map((token, i) => ({
-                campaignId: token,
-                detail: "Claimed",
-                amount: amounts[i],
-                transactionHash: txResponse.hash,
-            }));
-
-            return results;
-        } catch (error) {
-            throw new Error(`Failed to claim Merkl tokens: ${error instanceof Error ? error.message : error}`);
         }
     }
 }

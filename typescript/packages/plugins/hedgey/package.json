@@ -24,7 +24,6 @@
     "dependencies": {
         "@goat-sdk/core": "workspace:*",
         "@goat-sdk/wallet-evm": "workspace:*",
-        "@merkl/api": "0.15.27",
         "ethers": "5.7.2",
         "zod": "catalog:"
     },

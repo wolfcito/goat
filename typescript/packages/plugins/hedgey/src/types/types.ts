@@ -18,16 +18,3 @@ export interface HedgeyProofResponse {
     amount: string;
     proof: string[];
 }
-
-export interface MerklRewardResponse {
-    chain: {
-        id: number;
-    };
-    rewards: Array<{
-        token: {
-            address: string;
-        };
-        amount: string;
-        proofs: string[];
-    }>;
-}
