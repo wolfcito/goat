@@ -125,6 +125,7 @@ GOAT is free software, MIT licensed.
 | Balancer | Swap tokens and provide liquidity on Balancer | [@goat-sdk/plugin-balancer](https://www.npmjs.com/package/@goat-sdk/plugin-balancer) |
 | Balmy | Swap tokens on Balmy | [@goat-sdk/plugin-balmy](https://www.npmjs.com/package/@goat-sdk/plugin-balmy) |
 | BirdEye | Get token insights using BirdEye API | [@goat-sdk/plugin-birdeye](https://www.npmjs.com/package/@goat-sdk/plugin-birdeye) |
+| BMX | Get token insights using BMX API | [@goat-sdk/plugin-bmx](https://www.npmjs.com/package/@goat-sdk/plugin-bmx) |
 | CoinGecko | Get coin information using CoinGecko API | [@goat-sdk/plugin-coingecko](https://www.npmjs.com/package/@goat-sdk/plugin-coingecko) | [goat-sdk-plugin-coingecko](https://github.com/goat-sdk/goat/tree/main/python/src/plugins/coingecko) |
 | Coinmarketcap | Get coin information using Coinmarketcap API | [@goat-sdk/plugin-coinmarketcap](https://www.npmjs.com/package/@goat-sdk/plugin-coinmarketcap) |
 | Cosmosbank | Interact with Cosmos tokens | [@goat-sdk/plugin-cosmosbank](https://www.npmjs.com/package/@goat-sdk/plugin-cosmosbank) |
@@ -183,6 +184,7 @@ GOAT is free software, MIT licensed.
 | Chromia | [@goat-sdk/wallet-chromia](https://github.com/goat-sdk/goat/tree/main/typescript/packages/wallets/chromia) | 
 | Cosmos | [@goat-sdk/wallet-cosmos](https://github.com/goat-sdk/goat/tree/main/typescript/packages/wallets/cosmos) | 
 | Fuel | [@goat-sdk/wallet-fuel](https://github.com/goat-sdk/goat/tree/main/typescript/packages/wallets/fuel) |
+| Lit | [@goat-sdk/wallet-lit](https://github.com/goat-sdk/goat/tree/main/typescript/packages/wallets/lit) |
 | Radix | [@goat-sdk/wallet-radix](https://github.com/goat-sdk/goat/tree/main/typescript/packages/wallets/radix) |
 | Safe | [@goat-sdk/wallet-safe](https://github.com/goat-sdk/goat/tree/main/typescript/packages/wallets/safe) |
 | Sui | [@goat-sdk/wallet-sui](https://github.com/goat-sdk/goat/tree/main/typescript/packages/wallets/sui) |
