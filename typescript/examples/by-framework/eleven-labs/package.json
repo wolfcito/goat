@@ -1,6 +1,6 @@
 {
     "name": "goat-examples-eleven-labs",
-    "version": "0.2.19",
+    "version": "0.0.0",
     "private": true,
     "scripts": {
         "dev": "next dev",

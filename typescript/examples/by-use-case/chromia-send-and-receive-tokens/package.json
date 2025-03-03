@@ -1,6 +1,6 @@
 {
     "name": "goat-examples-chromia-send-and-receive-tokens",
-    "version": "0.1.1",
+    "version": "0.0.0",
     "description": "",
     "private": true,
     "scripts": {

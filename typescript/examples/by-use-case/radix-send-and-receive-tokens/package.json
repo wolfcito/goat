@@ -1,6 +1,6 @@
 {
     "name": "goat-examples-radix-send-and-receive-tokens",
-    "version": "0.2.18",
+    "version": "0.0.0",
     "description": "",
     "private": true,
     "scripts": {
