@@ -12,9 +12,14 @@
 <img src="https://img.shields.io/pypi/pyversions/goat-sdk" alt="PyPI - Python Version">
 </div>
 
-<div align="center" style="margin-top: 30px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 6px;">
-<span style="font-size: 14px; font-weight: 600;">Sponsored by</span>
-<a href="https://www.crossmint.com" target="_blank"> <img src="https://github.com/user-attachments/assets/f3bdfbe3-2a87-48ec-aacb-a5e72737018c" alt="Crossmint logo" width="150px" height="auto" style="object-fit: contain; max-width: 800px;"></a>
+<br>
+<div align="center">
+<div style="margin-bottom: 5px;">
+<b>Sponsored by</b>
+</div>
+<div>
+<a href="https://www.crossmint.com" target="_blank"> <img src="https://github.com/user-attachments/assets/f3bdfbe3-2a87-48ec-aacb-a5e72737018c" alt="Crossmint logo" width="180px" height="auto" style="object-fit: contain;"></a>
+</div>
 </div>
 
 ## Table of Contents
