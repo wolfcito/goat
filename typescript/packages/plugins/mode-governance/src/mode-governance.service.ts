@@ -1,8 +1,8 @@
 import { Tool } from "@goat-sdk/core";
 import { EVMWalletClient } from "@goat-sdk/wallet-evm";
-import { formatUnits, parseUnits } from "viem";
+import { erc20Abi, formatUnits, parseUnits } from "viem";
 import { VOTING_ESCROW_ABI } from "./abi";
-import { BPT_VOTING_ESCROW, MODE_VOTING_ESCROW } from "./constants";
+import { BPT_TOKEN_ADDRESS, BPT_VOTING_ESCROW, MODE_TOKEN_ADDRESS, MODE_VOTING_ESCROW } from "./constants";
 import { GetBalanceParameters, GetStakeInfoParameters, StakeParameters } from "./parameters";
 
 export class ModeGovernanceService {
@@ -12,12 +12,31 @@ export class ModeGovernanceService {
     })
     async stakeTokensForModeGovernance(walletClient: EVMWalletClient, parameters: StakeParameters) {
         const escrowAddress = parameters.tokenType === "MODE" ? MODE_VOTING_ESCROW : BPT_VOTING_ESCROW;
+        const tokenAddress = parameters.tokenType === "MODE" ? MODE_TOKEN_ADDRESS : BPT_TOKEN_ADDRESS;
+        const amount = parseUnits(parameters.amount, 18);
+
+        const userAddress = walletClient.getAddress();
+        const currentAllowance = (await walletClient.read({
+            address: tokenAddress,
+            abi: erc20Abi,
+            functionName: "allowance",
+            args: [userAddress, escrowAddress],
+        })) as unknown as bigint;
+
+        if (currentAllowance < amount) {
+            await walletClient.sendTransaction({
+                to: tokenAddress,
+                abi: erc20Abi,
+                functionName: "approve",
+                args: [escrowAddress, amount],
+            });
+        }
 
         const stakeHash = await walletClient.sendTransaction({
             to: escrowAddress,
             abi: VOTING_ESCROW_ABI,
             functionName: "createLock",
-            args: [parseUnits(parameters.amount, 18)],
+            args: [amount],
         });
 
         return stakeHash.hash;
