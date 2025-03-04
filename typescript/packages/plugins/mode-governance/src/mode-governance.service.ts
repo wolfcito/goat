@@ -1,6 +1,6 @@
 import { Tool } from "@goat-sdk/core";
 import { EVMWalletClient } from "@goat-sdk/wallet-evm";
-import { erc20Abi, formatUnits, parseUnits } from "viem";
+import { erc20Abi, formatUnits } from "viem";
 import { VOTING_ESCROW_ABI } from "./abi";
 import { BPT_TOKEN_ADDRESS, BPT_VOTING_ESCROW, MODE_TOKEN_ADDRESS, MODE_VOTING_ESCROW } from "./constants";
 import { GetBalanceParameters, GetStakeInfoParameters, StakeParameters } from "./parameters";
@@ -8,23 +8,24 @@ import { GetBalanceParameters, GetStakeInfoParameters, StakeParameters } from ".
 export class ModeGovernanceService {
     @Tool({
         description:
-            "Stake MODE or BPT tokens in the Mode governance system. Requires MODE or BPT tokens to be approved first.",
+            "Stake MODE/BPT tokens in governance by checking allowance, approving if needed, then calling createLock to lock the tokens.",
     })
     async stakeTokensForModeGovernance(walletClient: EVMWalletClient, parameters: StakeParameters) {
         const escrowAddress = parameters.tokenType === "MODE" ? MODE_VOTING_ESCROW : BPT_VOTING_ESCROW;
         const tokenAddress = parameters.tokenType === "MODE" ? MODE_TOKEN_ADDRESS : BPT_TOKEN_ADDRESS;
-        const amount = parseUnits(parameters.amount, 18);
+        const amount = BigInt(parameters.amount);
 
-        const userAddress = walletClient.getAddress();
-        const currentAllowance = (await walletClient.read({
+        const currentAllowance = await walletClient.read({
             address: tokenAddress,
             abi: erc20Abi,
             functionName: "allowance",
-            args: [userAddress, escrowAddress],
-        })) as unknown as bigint;
+            args: [walletClient.getAddress(), escrowAddress],
+        });
 
-        if (currentAllowance < amount) {
-            await walletClient.sendTransaction({
+        const allowance = BigInt(currentAllowance.value as string);
+
+        if (allowance < amount) {
+            const approveHash = await walletClient.sendTransaction({
                 to: tokenAddress,
                 abi: erc20Abi,
                 functionName: "approve",
@@ -39,7 +40,7 @@ export class ModeGovernanceService {
             args: [amount],
         });
 
-        return stakeHash.hash;
+        return { amount, allowance, stakeHash };
     }
 
     @Tool({
