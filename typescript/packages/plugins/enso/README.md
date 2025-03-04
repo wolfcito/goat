@@ -7,7 +7,7 @@
 
 # Enso GOAT Plugin
 
-Get access to 180+ protocols through [Enso](https://enso.fi/) for onchain actions, such as swap, deposit, lend, borrow etc.
+Get access to 180+ protocols through [Enso](https://enso.build/) for onchain actions, such as swap, deposit, lend, borrow etc.
 
 ## Installation
 
