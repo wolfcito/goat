@@ -1,5 +1,6 @@
 import { Tool } from "@goat-sdk/core";
 import { EVMWalletClient } from "@goat-sdk/wallet-evm";
+import { ethers } from "ethers";
 import { erc20Abi, formatUnits } from "viem";
 import { VOTING_ESCROW_ABI } from "./abi";
 import { BPT_TOKEN_ADDRESS, BPT_VOTING_ESCROW, MODE_TOKEN_ADDRESS, MODE_VOTING_ESCROW } from "./constants";
@@ -11,36 +12,48 @@ export class ModeGovernanceService {
             "Stake MODE/BPT tokens in governance by checking allowance, approving if needed, then calling createLock to lock the tokens.",
     })
     async stakeTokensForModeGovernance(walletClient: EVMWalletClient, parameters: StakeParameters) {
-        const escrowAddress = parameters.tokenType === "MODE" ? MODE_VOTING_ESCROW : BPT_VOTING_ESCROW;
-        const tokenAddress = parameters.tokenType === "MODE" ? MODE_TOKEN_ADDRESS : BPT_TOKEN_ADDRESS;
-        const amount = BigInt(parameters.amount);
+        try {
+            const escrowAddress = parameters.tokenType === "MODE" ? MODE_VOTING_ESCROW : BPT_VOTING_ESCROW;
+            const tokenAddress = parameters.tokenType === "MODE" ? MODE_TOKEN_ADDRESS : BPT_TOKEN_ADDRESS;
 
-        const currentAllowance = await walletClient.read({
-            address: tokenAddress,
-            abi: erc20Abi,
-            functionName: "allowance",
-            args: [walletClient.getAddress(), escrowAddress],
-        });
+            const amount = ethers.BigNumber.from(parameters.amount ?? "0");
 
-        const allowance = BigInt(currentAllowance.value as string);
-
-        if (allowance < amount) {
-            const approveHash = await walletClient.sendTransaction({
-                to: tokenAddress,
+            const currentAllowance = await walletClient.read({
+                address: tokenAddress,
                 abi: erc20Abi,
-                functionName: "approve",
-                args: [escrowAddress, amount],
+                functionName: "allowance",
+                args: [walletClient.getAddress(), escrowAddress],
             });
+
+            if (!currentAllowance || currentAllowance.value === undefined) {
+                throw new Error("Allowance value is undefined");
+            }
+            const allowance = ethers.BigNumber.from(currentAllowance.value as string);
+
+            if (allowance.lt(amount)) {
+                await walletClient.sendTransaction({
+                    to: tokenAddress,
+                    abi: erc20Abi,
+                    functionName: "approve",
+                    args: [escrowAddress, amount],
+                });
+            }
+
+            const stakeTx = await walletClient.sendTransaction({
+                to: escrowAddress,
+                abi: VOTING_ESCROW_ABI,
+                functionName: "createLock",
+                args: [amount],
+            });
+
+            return {
+                amount: amount.toString(),
+                allowance: allowance.toString(),
+                stakeHash: stakeTx,
+            };
+        } catch (error) {
+            return { error };
         }
-
-        const stakeHash = await walletClient.sendTransaction({
-            to: escrowAddress,
-            abi: VOTING_ESCROW_ABI,
-            functionName: "createLock",
-            args: [amount],
-        });
-
-        return { amount, allowance, stakeHash };
     }
 
     @Tool({
