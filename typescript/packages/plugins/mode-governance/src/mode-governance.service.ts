@@ -4,14 +4,13 @@ import { ethers } from "ethers";
 import { erc20Abi, formatUnits } from "viem";
 import { VOTING_ESCROW_ABI } from "./abi";
 import { BPT_TOKEN_ADDRESS, BPT_VOTING_ESCROW, MODE_TOKEN_ADDRESS, MODE_VOTING_ESCROW } from "./constants";
-import { GetBalanceParameters, GetStakeInfoParameters, StakeParameters } from "./parameters";
+import { ExecuteGovernanceStakeParameters, GetBalanceParameters, GetModeGovernanceInfoParameters } from "./parameters";
 
 export class ModeGovernanceService {
     @Tool({
-        description:
-            "Stake MODE/BPT tokens in governance by checking allowance, approving if needed, then calling createLock to lock the tokens.",
+        description: "Executes the staking transaction of MODE or BPT tokens for governance.",
     })
-    async stakeTokensForModeGovernance(walletClient: EVMWalletClient, parameters: StakeParameters) {
+    async executeGovernanceStake(walletClient: EVMWalletClient, parameters: ExecuteGovernanceStakeParameters) {
         try {
             const escrowAddress = parameters.tokenType === "MODE" ? MODE_VOTING_ESCROW : BPT_VOTING_ESCROW;
             const tokenAddress = parameters.tokenType === "MODE" ? MODE_TOKEN_ADDRESS : BPT_TOKEN_ADDRESS;
@@ -57,9 +56,10 @@ export class ModeGovernanceService {
     }
 
     @Tool({
-        description: "Get Mode governance staking information including lock period and voting power",
+        description:
+            "Retrieves detailed MODE governance information, staked tokens, and voting power. It obtains the locked amount, the lock start time, the voting power, and whether the token is actively voting",
     })
-    async getModeGovernanceStakeInfo(walletClient: EVMWalletClient, parameters: GetStakeInfoParameters) {
+    async getModeGovernanceInfo(walletClient: EVMWalletClient, parameters: GetModeGovernanceInfoParameters) {
         const escrowAddress = parameters.tokenType === "MODE" ? MODE_VOTING_ESCROW : BPT_VOTING_ESCROW;
         const userAddress = await walletClient.getAddress();
 
