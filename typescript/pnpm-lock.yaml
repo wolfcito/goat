@@ -281,9 +281,6 @@ importers:
       '@goat-sdk/plugin-erc20':
         specifier: 0.2.12
         version: 0.2.12(@goat-sdk/core@0.4.8(zod@3.23.8))(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8))
-      '@goat-sdk/plugin-mode-governance':
-        specifier: workspace:*
-        version: link:../../../packages/plugins/mode-governance
       '@goat-sdk/wallet-evm':
         specifier: 0.2.10
         version: 0.2.10(@goat-sdk/core@0.4.8(zod@3.23.8))(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)
