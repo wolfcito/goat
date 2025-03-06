@@ -278,9 +278,6 @@ importers:
       '@goat-sdk/core':
         specifier: 0.4.8
         version: 0.4.8(zod@3.23.8)
-      '@goat-sdk/plugin-betswirl':
-        specifier: workspace:*
-        version: link:../../../packages/plugins/betswirl
       '@goat-sdk/plugin-erc20':
         specifier: 0.2.12
         version: 0.2.12(@goat-sdk/core@0.4.8(zod@3.23.8))(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8))
@@ -302,10 +299,6 @@ importers:
       zod:
         specifier: 3.23.8
         version: 3.23.8
-    devDependencies:
-      tsx:
-        specifier: 4.19.2
-        version: 4.19.2
 
   examples/by-use-case/chromia-send-and-receive-tokens:
     dependencies:
@@ -3694,7 +3687,7 @@ packages:
     peerDependencies:
       '@apollo/client': '>=3.12.11'
       typescript: '>=5.0.4'
-      viem: 2.21.58
+      viem: 2.22.23
     peerDependenciesMeta:
       typescript:
         optional: true
@@ -26146,6 +26139,30 @@ snapshots:
       chai: 5.1.2
       tinyrainbow: 1.2.0
 
+  '@vitest/mocker@2.1.9(vite@5.4.11(@types/node@18.19.69)(terser@5.37.0))':
+    dependencies:
+      '@vitest/spy': 2.1.9
+      estree-walker: 3.0.3
+      magic-string: 0.30.17
+    optionalDependencies:
+      vite: 5.4.11(@types/node@18.19.69)(terser@5.37.0)
+
+  '@vitest/mocker@2.1.9(vite@5.4.11(@types/node@20.17.11)(terser@5.37.0))':
+    dependencies:
+      '@vitest/spy': 2.1.9
+      estree-walker: 3.0.3
+      magic-string: 0.30.17
+    optionalDependencies:
+      vite: 5.4.11(@types/node@20.17.11)(terser@5.37.0)
+
+  '@vitest/mocker@2.1.9(vite@5.4.11(@types/node@22.13.9)(terser@5.37.0))':
+    dependencies:
+      '@vitest/spy': 2.1.9
+      estree-walker: 3.0.3
+      magic-string: 0.30.17
+    optionalDependencies:
+      vite: 5.4.11(@types/node@22.13.9)(terser@5.37.0)
+
   '@vitest/mocker@2.1.9(vite@5.4.11(@types/node@22.7.4)(terser@5.37.0))':
     dependencies:
       '@vitest/spy': 2.1.9
@@ -35475,7 +35492,7 @@ snapshots:
   vitest@2.1.9(@types/node@18.19.69)(terser@5.37.0):
     dependencies:
       '@vitest/expect': 2.1.9
-      '@vitest/mocker': 2.1.9(vite@5.4.11(@types/node@22.7.4)(terser@5.37.0))
+      '@vitest/mocker': 2.1.9(vite@5.4.11(@types/node@18.19.69)(terser@5.37.0))
       '@vitest/pretty-format': 2.1.9
       '@vitest/runner': 2.1.9
       '@vitest/snapshot': 2.1.9
@@ -35510,7 +35527,7 @@ snapshots:
   vitest@2.1.9(@types/node@20.17.11)(terser@5.37.0):
     dependencies:
       '@vitest/expect': 2.1.9
-      '@vitest/mocker': 2.1.9(vite@5.4.11(@types/node@22.7.4)(terser@5.37.0))
+      '@vitest/mocker': 2.1.9(vite@5.4.11(@types/node@20.17.11)(terser@5.37.0))
       '@vitest/pretty-format': 2.1.9
       '@vitest/runner': 2.1.9
       '@vitest/snapshot': 2.1.9
@@ -35545,7 +35562,7 @@ snapshots:
   vitest@2.1.9(@types/node@22.13.9)(terser@5.37.0):
     dependencies:
       '@vitest/expect': 2.1.9
-      '@vitest/mocker': 2.1.9(vite@5.4.11(@types/node@22.7.4)(terser@5.37.0))
+      '@vitest/mocker': 2.1.9(vite@5.4.11(@types/node@22.13.9)(terser@5.37.0))
       '@vitest/pretty-format': 2.1.9
       '@vitest/runner': 2.1.9
       '@vitest/snapshot': 2.1.9
