@@ -1,6 +1,5 @@
 import { Tool } from "@goat-sdk/core";
 import { EVMWalletClient } from "@goat-sdk/wallet-evm";
-import { ethers } from "ethers";
 import { erc20Abi, formatUnits } from "viem";
 import { VOTING_ESCROW_ABI } from "./abi";
 import { BPT_TOKEN_ADDRESS, BPT_VOTING_ESCROW, MODE_TOKEN_ADDRESS, MODE_VOTING_ESCROW } from "./constants";
@@ -15,7 +14,7 @@ export class ModeGovernanceService {
             const escrowAddress = parameters.tokenType === "MODE" ? MODE_VOTING_ESCROW : BPT_VOTING_ESCROW;
             const tokenAddress = parameters.tokenType === "MODE" ? MODE_TOKEN_ADDRESS : BPT_TOKEN_ADDRESS;
 
-            const amount = ethers.BigNumber.from(parameters.amount ?? "0");
+            const amount = BigInt(parameters.amount ?? "0");
 
             const currentAllowance = await walletClient.read({
                 address: tokenAddress,
@@ -27,9 +26,9 @@ export class ModeGovernanceService {
             if (!currentAllowance || currentAllowance.value === undefined) {
                 throw new Error("Allowance value is undefined");
             }
-            const allowance = ethers.BigNumber.from(currentAllowance.value as string);
+            const allowance = BigInt(currentAllowance.value as string);
 
-            if (allowance.lt(amount)) {
+            if (allowance < amount) {
                 await walletClient.sendTransaction({
                     to: tokenAddress,
                     abi: erc20Abi,
@@ -56,8 +55,7 @@ export class ModeGovernanceService {
     }
 
     @Tool({
-        description:
-            "Retrieves detailed MODE governance information, staked tokens, and voting power. It obtains the locked amount, the lock start time, the voting power, and whether the token is actively voting",
+        description: "Retrieves detailed MODE governance information, staked tokens, and voting power.",
     })
     async getModeGovernanceInfo(walletClient: EVMWalletClient, parameters: GetModeGovernanceInfoParameters) {
         const escrowAddress = parameters.tokenType === "MODE" ? MODE_VOTING_ESCROW : BPT_VOTING_ESCROW;
