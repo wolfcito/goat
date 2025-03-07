@@ -1,20 +1,35 @@
+import { splToken } from "@goat-sdk/plugin-spl-token";
+import { sendSOL, solana } from "@goat-sdk/wallet-solana";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
 
-import { http, createWalletClient } from "viem";
-import { privateKeyToAccount } from "viem/accounts";
-import { baseSepolia } from "viem/chains";
+import { Connection, Keypair } from "@solana/web3.js";
 
-import { USDC, erc20 } from "@goat-sdk/plugin-erc20";
+import base58 from "bs58";
 
 import { getOnChainTools } from "@goat-sdk/adapter-model-context-protocol";
-import { sendETH } from "@goat-sdk/wallet-evm";
-import { viem } from "@goat-sdk/wallet-viem";
 
+// 1. Create the wallet client
+const connection = new Connection(process.env.RPC_PROVIDER_URL as string);
+const keypair = Keypair.fromSecretKey(base58.decode(process.env.WALLET_PRIVATE_KEY as string));
+
+// 2. Get the onchain tools for the wallet
+const toolsPromise = getOnChainTools({
+    wallet: solana({
+        keypair,
+        connection,
+    }),
+    plugins: [
+        sendSOL(), // Enable SOL transfers
+        splToken(), // Enable SPL token operations
+    ],
+});
+
+// 3. Create and configure the server
 const server = new Server(
     {
-        name: "goat",
+        name: "goat-solana",
         version: "1.0.0",
     },
     {
@@ -23,20 +38,6 @@ const server = new Server(
         },
     },
 );
-
-const account = privateKeyToAccount(process.env.WALLET_PRIVATE_KEY as `0x${string}`);
-
-const walletClient = createWalletClient({
-    account: account,
-    transport: http(process.env.RPC_PROVIDER_URL),
-    chain: baseSepolia,
-});
-
-// Initialize tools once
-const toolsPromise = getOnChainTools({
-    wallet: viem(walletClient),
-    plugins: [sendETH(), erc20({ tokens: [USDC] })],
-});
 
 server.setRequestHandler(ListToolsRequestSchema, async () => {
     const { listOfTools } = await toolsPromise;
@@ -50,10 +51,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     try {
         return toolHandler(request.params.name, request.params.arguments);
     } catch (error) {
-        throw new Error(`Tool ${name} failed: ${error}`);
+        throw new Error(`Tool ${request.params.name} failed: ${error}`);
     }
 });
 
+// 4. Start the server
 async function main() {
     const transport = new StdioServerTransport();
     await server.connect(transport);
