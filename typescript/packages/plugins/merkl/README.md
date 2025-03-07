@@ -5,36 +5,32 @@
 </a>
 </div>
 
-# Enso GOAT Plugin
-
-Get access to 180+ protocols through [Enso](https://enso.build/) for onchain actions, such as swap, deposit, lend, borrow etc.
+# Merkl GOAT Plugin
+Claim rewards from [Merkl](https://merkl.xyz/)
 
 ## Installation
 
 ```bash
-npm install @goat-sdk/plugin-enso
-yarn add @goat-sdk/plugin-enso
-pnpm add @goat-sdk/plugin-enso
+npm install @goat-sdk/plugin-merkl
+yarn add @goat-sdk/plugin-merkl
+pnpm add @goat-sdk/plugin-merkl
 ```
 
 ## Usage
 
 ```typescript
-import { enso } from '@goat-sdk/plugin-enso';
+import { merkl } from "@goat-sdk/plugin-merkl";
 
 const tools = await getOnChainTools({
-    wallet: // ...
+    wallet: viem(wallet),
     plugins: [
-       enso({
-            apiKey: process.env.ENSO_API_KEY
-       })
-    ]
+        merkl(),
+    ],
 });
 ```
 
 ## Tools
-
-- Find the most optimal route between 2 tokens and execute it
+- Claim rewards from Merkl
 
 <footer>
 <br/>
