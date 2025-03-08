@@ -1,10 +1,17 @@
-export async function fetchJson<T>(url: string): Promise<T> {
-    const response = await fetch(url);
+export async function fetchJSON(url: string, options?: RequestInit): Promise<unknown> {
+    const response = await fetch(url, options);
     if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`API error: ${response.status} ${response.statusText}: ${errorText}`);
+        throw new Error(`Error fetching ${url}: ${response.statusText}`);
     }
-    return response.json();
+    return await response.json();
+}
+
+export async function postJSON(
+    url: string,
+    body: unknown,
+    headers = { "Content-Type": "application/json" },
+): Promise<unknown> {
+    return fetchJSON(url, { method: "POST", headers, body: JSON.stringify(body) });
 }
 
 export function toBytes16(uuid: string): string {

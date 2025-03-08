@@ -1,4 +1,4 @@
-export interface ClaimResultProps {
+export interface ClaimHedgeyRewardsResponse {
     campaignId: string;
     detail: string;
     amount?: string;
