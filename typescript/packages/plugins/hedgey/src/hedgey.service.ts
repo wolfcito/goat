@@ -53,7 +53,7 @@ export class HedgeyService {
 
             // If there are claimable campaigns, execute the transaction
             if (claimableCampaigns.length > 0) {
-                const { transactionHash } = await this.executeClaimTransactions(walletClient, claimableCampaigns);
+                const { transactionHash } = await this.executeClaimTransaction(walletClient, claimableCampaigns);
                 for (const claim of claimableCampaigns) {
                     results.push({
                         campaignId: claim.campaignId,
