@@ -42,14 +42,14 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
+            - name: Setup Node.js, PNPM, and install dependencies
+              uses: ./.github/actions/pnpm-install
+
             - name: Add npm auth token to pnpm
               run: pnpm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
               env:
                   NPM_TOKEN: ${{secrets.NPM_TOKEN}}
-
-            - name: Setup Node.js, PNPM, and install dependencies
-              uses: ./.github/actions/pnpm-install
-
+                  
             - name: Version Packages
               working-directory: ./typescript
               run: pnpm change:version
