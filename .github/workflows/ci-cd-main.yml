@@ -49,7 +49,7 @@ jobs:
               run: pnpm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
               env:
                   NPM_TOKEN: ${{secrets.NPM_TOKEN}}
-                  
+
             - name: Version Packages
               working-directory: ./typescript
               run: pnpm change:version
@@ -65,7 +65,7 @@ jobs:
               working-directory: ./typescript
               run: pnpm build:libs:prod
 
-            - name: Publish Snapshot Release
+            - name: Publish Release
               working-directory: ./typescript
               run: pnpm change:publish
               env:
