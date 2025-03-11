@@ -3,6 +3,22 @@ import { z } from "zod";
 
 export class IrysDeployParams extends createToolParameters(
     z.object({
-        token: z.string().optional().describe("Nombre del token a usar (e.g. 'ethereum', 'matic', 'bnb', etc.)"),
+        token: z
+            .enum([
+                "ethereum",
+                "matic",
+                "bnb",
+                "avalanche",
+                "baseeth",
+                "usdceth",
+                "arbitrum",
+                "chainlink",
+                "usdcpolygon",
+                "bera",
+                "scrolleth",
+                "lineaeth",
+                "iotex",
+            ])
+            .describe("Token name to integrate irys xyz"),
     }),
 ) {}
