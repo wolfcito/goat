@@ -75,7 +75,7 @@ export class UniswapService {
         description:
             "Swap tokens on Uniswap. Make sure to check the approval with the uniswap_check_approval tool before calling this tool. No need to call uniswap_get_quote before calling this tool.",
     })
-    async getSwapTransaction(walletClient: EVMWalletClient, parameters: GetQuoteParameters) {
+    async swapTokens(walletClient: EVMWalletClient, parameters: GetQuoteParameters) {
         const { quote, permitData } = await this.getQuote(walletClient, parameters);
 
         let signature: string | undefined;
