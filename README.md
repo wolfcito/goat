@@ -193,6 +193,7 @@ GOAT is free software, MIT licensed.
 | Starknet | [@goat-sdk/wallet-starknet](https://github.com/goat-sdk/goat/tree/main/typescript/packages/wallets/starknet) |
 | Zetrix | [@goat-sdk/wallet-zetrix](https://github.com/goat-sdk/goat/tree/main/typescript/packages/wallets/zetrix) |
 | Zilliqa | [@goat-sdk/wallet-zilliqa](https://github.com/goat-sdk/goat/tree/main/typescript/packages/wallets/zilliqa) |
+| MultiversX |   | [goat-sdk-wallet-multiversx](https://github.com/goat-sdk/goat/tree/main/python/src/wallets/multiversx) |
 
 ## Agent Frameworks
 | Adapter | Typescript | Python |
