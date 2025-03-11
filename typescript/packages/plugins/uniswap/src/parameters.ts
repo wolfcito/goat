@@ -75,8 +75,6 @@ export class GetQuoteParameters extends createToolParameters(
         routingPreference: z
             .nativeEnum(Routing)
             .default(Routing.CLASSIC)
-            .describe(
-                "The routing preference determines which protocol to use for the swap.",
-            ),
+            .describe("The routing preference determines which protocol to use for the swap."),
     }),
 ) {}
