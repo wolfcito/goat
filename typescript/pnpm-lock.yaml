@@ -1115,8 +1115,8 @@ importers:
   packages/plugins/balancer:
     dependencies:
       '@balancer/sdk':
-        specifier: ^1.1.0
-        version: 1.1.0(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
+        specifier: 2.4.0
+        version: 2.4.0(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
       '@goat-sdk/core':
         specifier: workspace:*
         version: link:../../core
@@ -3759,8 +3759,12 @@ packages:
     resolution: {integrity: sha512-Y3IR1cRnOxOCDvMmNiym7XpXQ93iGDDPHx+Zj+NM+rg0fBaShfQLkg+hKPaZCEvg5N/LeCo4+Rj/i3FuJsIQaw==}
     engines: {node: '>=6.9.0'}
 
-  '@balancer/sdk@1.1.0':
-    resolution: {integrity: sha512-1AVrzP1X66G/qO59c710NywdUUahnr9ykkXXIo1Vz8GzuIFI1o5mG0DIzHZwFwLCY1rRvWRixkNAXqS3PSVOrg==}
+  '@balancer-labs/balancer-maths@0.0.24':
+    resolution: {integrity: sha512-M6iqcmLfR9CP1mw3R5w0FdtZkUk7M0vCJhloAfhE/xufbAZrCSoapFYlt/NMBKLDQoGNJ2FN5E4zpdLVsxhoow==}
+    engines: {node: '>=18.x'}
+
+  '@balancer/sdk@2.4.0':
+    resolution: {integrity: sha512-o7IX19Te0wTgIVYAz6efoaMV3gm5hCJ8JvNPZiIQsutFntodEBNsx0LSMK/0AmqoXNWzGtBBbXagieKyy3L2IQ==}
     engines: {node: '>=18.x'}
 
   '@balmy/sdk@0.6.1':
@@ -18470,8 +18474,11 @@ snapshots:
       '@babel/helper-string-parser': 7.25.9
       '@babel/helper-validator-identifier': 7.25.9
 
-  '@balancer/sdk@1.1.0(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)':
+  '@balancer-labs/balancer-maths@0.0.24': {}
+
+  '@balancer/sdk@2.4.0(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)':
     dependencies:
+      '@balancer-labs/balancer-maths': 0.0.24
       decimal.js-light: 2.5.1
       lodash.clonedeep: 4.5.0
       viem: 2.23.4(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)

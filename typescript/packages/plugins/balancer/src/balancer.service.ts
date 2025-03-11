@@ -4,16 +4,19 @@ import {
     AddLiquidityKind,
     BalancerApi,
     ChainId,
+    ExactInQueryOutput,
     InputAmount,
     RemoveLiquidity,
     RemoveLiquidityInput,
     RemoveLiquidityKind,
     Slippage,
     Swap,
+    SwapBuildCallInput,
     SwapBuildOutputExactIn,
     SwapKind,
     Token,
     TokenAmount,
+    erc20Abi,
 } from "@balancer/sdk";
 import { Tool } from "@goat-sdk/core";
 import { EVMWalletClient } from "@goat-sdk/wallet-evm";
@@ -44,6 +47,9 @@ export class BalancerService {
         const tokenIn = new Token(chainId, parameters.tokenIn as `0x${string}`, parameters.tokenInDecimals);
         const tokenOut = new Token(chainId, parameters.tokenOut as `0x${string}`, parameters.tokenOutDecimals);
         const swapAmount = TokenAmount.fromRawAmount(tokenIn, parameters.amountIn);
+        const deadline = parameters.deadline
+            ? BigInt(Math.floor(Date.now() / 1000) + (parameters.deadline || 3600))
+            : 999999999999999999n; // Infinite deadline if not provided
 
         const sorPaths = await balancerApi.sorSwapPaths.fetchSorSwapPaths({
             chainId,
@@ -59,16 +65,50 @@ export class BalancerService {
             swapKind: SwapKind.GivenIn,
         });
 
-        const updated = await swap.query(this.rpcUrl);
+        const updated = (await swap.query(this.rpcUrl)) as ExactInQueryOutput;
 
-        const callData = swap.buildCall({
-            slippage: Slippage.fromPercentage(`${Number(parameters.slippage)}`),
-            deadline: BigInt(Math.floor(Date.now() / 1000) + (parameters.deadline || 3600)),
-            queryOutput: updated,
-            wethIsEth: parameters.wethIsEth ?? false,
-            sender: walletClient.getAddress() as `0x${string}`,
-            recipient: walletClient.getAddress() as `0x${string}`,
-        }) as SwapBuildOutputExactIn;
+        let buildInput: SwapBuildCallInput;
+
+        const slippage = Slippage.fromPercentage(`${Number(parameters.slippage)}`);
+        const wethIsEth = parameters.wethIsEth ?? false;
+
+        if (swap.protocolVersion === 2) {
+            buildInput = {
+                slippage,
+                deadline,
+                queryOutput: updated,
+                wethIsEth,
+                sender: walletClient.getAddress() as `0x${string}`,
+                recipient: walletClient.getAddress() as `0x${string}`,
+            };
+        } else {
+            buildInput = {
+                slippage,
+                deadline,
+                queryOutput: updated,
+                wethIsEth,
+            };
+        }
+
+        const callData = swap.buildCall(buildInput) as SwapBuildOutputExactIn;
+
+        // Check allowance
+        const allowance = await walletClient.read({
+            address: tokenIn.address,
+            abi: erc20Abi,
+            functionName: "allowance",
+            args: [walletClient.getAddress() as `0x${string}`, callData.to as `0x${string}`],
+        });
+
+        // If allowance is not enough, approve the contract
+        if (BigInt(allowance.value as string) < BigInt(parameters.amountIn)) {
+            await walletClient.sendTransaction({
+                to: tokenIn.address,
+                abi: erc20Abi,
+                functionName: "approve",
+                args: [callData.to as `0x${string}`, parameters.amountIn],
+            });
+        }
 
         const tx = await walletClient.sendTransaction({
             to: callData.to as `0x${string}`,
