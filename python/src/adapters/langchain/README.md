@@ -17,7 +17,7 @@ poetry add goat-sdk-adapter-langchain
 
 ## Usage
 
-See a full working example [here](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/web3).
+See a full working example [here](https://github.com/goat-sdk/goat/tree/main/python/examples/by-framework/langchain).
 
 ```python
 from goat_adapters.langchain.adapter import get_on_chain_tools

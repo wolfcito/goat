@@ -17,7 +17,7 @@ poetry add goat-sdk-adapter-openai-agents-sdk
 
 ## Usage
 
-See a full working example [here](https://github.com/goat-sdk/goat/tree/main/python/examples/openai-agents-sdk/web3).
+See a full working example [here](https://github.com/goat-sdk/goat/tree/main/python/examples/by-framework/openai-agents-sdk).
 
 ```python
 from goat_adapters.openai_agents_sdk.adapter import get_on_chain_tools
