@@ -19,7 +19,7 @@ def get_on_chain_tools(wallet: WalletClientBase, plugins: List[Any]) -> List[Fun
     openai_agents_sdk_tools = []
 
     for t in tools:
-        async def _execute_tool(ctx: RunContextWrapper[Any], args: str, tool=t) -> str:
+        async def _execute_tool(ctx: RunContextWrapper[Any], args: str) -> str:
             parsed = json.loads(args) if args else {}
             return str(tool.execute(parsed))
     
