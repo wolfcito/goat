@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "goat-sdk-example-langchain-web3"
+name = "goat-sdk-example-openai-agents-sdk-web3"
 version = "0.1.0"
-description = "Goat example for Langchain with web3.py"
+description = "Goat example for OpenAI Agents SDK with web3.py"
 authors = ["Andrea Villa <andreakarimodm@gmail.com>"]
 readme = "README.md"
 keywords = ["goat", "sdk", "web3", "agents", "ai"]
@@ -13,16 +13,14 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.12"
-langchain = ">=0.3.2"
-langchain-openai = ">=0.2.14"
+openai-agents = "^0.0.3"
 python-dotenv = "^1.0.1" 
 web3 = ">=6.20.3"
 goat-sdk = "^0.1.0"
 goat-sdk-wallet-evm = "^0.1.0"
 goat-sdk-wallet-web3 = "^0.1.0"
 goat-sdk-plugin-erc20 = "^0.1.0"
-goat-sdk-adapter-langchain = "^0.1.0"
-goat-sdk-plugin-coingecko = "^0.1.0"
+goat-sdk-adapter-openai-agents-sdk = "^0.1.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^8.3.4"
@@ -48,8 +46,7 @@ goat-sdk = { path = "../../../src/goat-sdk", develop = true }
 goat-sdk-wallet-evm = { path = "../../../src/wallets/evm", develop = true }
 goat-sdk-wallet-web3 = { path = "../../../src/wallets/web3", develop = true }
 goat-sdk-plugin-erc20 = { path = "../../../src/plugins/erc20", develop = true }
-goat-sdk-plugin-coingecko = { path = "../../../src/plugins/coingecko", develop = true }
-goat-sdk-adapter-langchain = { path = "../../../src/adapters/langchain", develop = true }
+goat-sdk-adapter-openai-agents-sdk = { path = "../../../src/adapters/openai_agents_sdk", develop = true }
 
 [tool.ruff]
 line-length = 120

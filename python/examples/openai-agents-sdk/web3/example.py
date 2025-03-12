@@ -1,23 +1,23 @@
 import os
+import asyncio
 from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
 
-from langchain_openai import ChatOpenAI
-from langchain.agents import AgentExecutor, create_tool_calling_agent
-from langchain_core.prompts import ChatPromptTemplate
+from agents.agent import Agent
+from agents.run import Runner
+
 from web3 import Web3
 from web3.middleware import SignAndSendRawMiddlewareBuilder
 from eth_account.signers.local import LocalAccount
 from eth_account import Account
 
-from goat_adapters.langchain import get_on_chain_tools
+from goat_adapters.openai_agents_sdk.adapter import get_on_chain_tools
 from goat_plugins.erc20.token import PEPE, USDC
 from goat_plugins.erc20 import erc20, ERC20PluginOptions
 from goat_wallets.evm import send_eth
 from goat_wallets.web3 import Web3EVMWalletClient
-from goat_plugins.coingecko import coingecko, CoinGeckoPluginOptions
 
 # Initialize Web3 and account
 w3 = Web3(Web3.HTTPProvider(os.getenv("RPC_PROVIDER_URL")))
@@ -31,33 +31,24 @@ w3.middleware_onion.add(
     SignAndSendRawMiddlewareBuilder.build(account)
 )  # Add middleware
 
-# Initialize LLM
-llm = ChatOpenAI(model="gpt-4o-mini")
 
-
-def main():
-    # Get the prompt template
-    prompt = ChatPromptTemplate.from_messages(
-    [
-        ("system", "You are a helpful assistant"),
-        ("placeholder", "{chat_history}"),
-        ("human", "{input}"),
-        ("placeholder", "{agent_scratchpad}"),
-    ]
-)
-
+async def main():
     # Initialize tools with web3 wallet
     tools = get_on_chain_tools(
         wallet=Web3EVMWalletClient(w3),
         plugins=[
             send_eth(),
             erc20(options=ERC20PluginOptions(tokens=[USDC, PEPE])),
-            coingecko(options=CoinGeckoPluginOptions(api_key=os.getenv("COINGECKO_API_KEY")))
         ],
     )
     
-    agent = create_tool_calling_agent(llm, tools, prompt)
-    agent_executor = AgentExecutor(agent=agent, tools=tools, handle_parsing_errors=True, verbose=True)
+    agent = Agent(
+        name="GOAT Agent",
+        instructions=(
+            "You are a helpful agent that can interact onchain using the GOAT SDK. "
+        ),
+        tools=tools
+    )
     
     while True:
         user_input = input("\nYou: ").strip()
@@ -67,14 +58,12 @@ def main():
             break
             
         try:
-            response = agent_executor.invoke({
-                "input": user_input,
-            })
+            response = await Runner.run(agent, user_input)
 
-            print("\nAssistant:", response["output"])
+            print("\nAssistant:", response.final_output)
         except Exception as e:
             print("\nError:", str(e))
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

@@ -1,4 +1,4 @@
-# Langchain web3 Example
+# OpenAI Agents SDK web3 Example
 
 ## Setup
 

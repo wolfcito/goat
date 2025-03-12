@@ -65,13 +65,15 @@ See how to do it [here](#-contributing).
 GOAT is free software, MIT licensed.
 
 # 🚀 Quickstarts
-- **EVM**
-  - [Send and receive ERC-20 tokens](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/web3)
-  - [Swap tokens on Uniswap](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/uniswap)
-  - [GAME integration](https://github.com/game-by-virtuals/game-python/tree/main/plugins/onchain_actions#running-examples)
-- **Solana**
-  - [Send and receive SLP tokens and SOL](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/solana)
-  - [Swap tokens on Jupiter](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/solana)
+## 🐍 Python
+- **By use case**
+  - Send and receive tokens [[EVM](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/web3), [Solana](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/solana)]
+  - Swap tokens [[EVM](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/uniswap), [Solana](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/solana)]
+- **By framework**
+  - Langchain [[EVM](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/web3), [Solana](https://github.com/goat-sdk/goat/tree/main/python/examples/langchain/solana)]
+  - OpenAI Agents SDK [[EVM](https://github.com/goat-sdk/goat/tree/main/python/examples/openai-agents-sdk/web3)]
+  - GAME Agent [[EVM](https://github.com/game-by-virtuals/game-python/tree/main/plugins/onchain_actions)]
+  - ZerePy [[EVM](https://github.com/goat-sdk/goat/tree/main/python/examples/zerepy/web3)]
 - **See all python quickstarts [here](https://github.com/goat-sdk/goat/tree/main/python/examples).**
 
 # 🛠️ Supported tools and frameworks
