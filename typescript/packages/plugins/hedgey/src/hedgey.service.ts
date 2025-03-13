@@ -28,15 +28,14 @@ export class HedgeyService {
     ): Promise<ClaimHedgeyRewardsResponse[]> {
         try {
             const campaignIds = await this.fetchCampaignIds();
-            const campaignId = parameters.campaignId;
 
             const userAddress = walletClient.getAddress();
             const network = walletClient.getChain();
             if (!network?.id) {
                 throw new Error("Unable to determine chain ID from wallet client");
             }
-            if (campaignId) {
-                campaignIds.push(campaignId);
+            if (parameters.campaignIds && parameters.campaignIds.length > 0) {
+                campaignIds.push(...parameters.campaignIds);
             }
 
             const activeCampaigns = await this.filterActiveCampaigns(campaignIds, userAddress);
@@ -93,8 +92,9 @@ export class HedgeyService {
             try {
                 const url = `${API_CONFIG.HEDGEY_TOKEN_CLAIMS_INFO_URL}/${campaignId}`;
                 const rawData = await fetchJSON(url);
-                const info = rawData as { campaignStatus: string; campaign: { token: { name: string } } };
-                const tokenName = info?.campaign?.token?.name ?? "";
+                const info = rawData as { campaignStatus: string; campaign: { token: { ticker: string } } };
+                const tokenName = info?.campaign?.token?.ticker ?? "";
+
                 return { campaignId, tokenName, info };
             } catch (e) {
                 return { campaignId, info: null, error: e };
