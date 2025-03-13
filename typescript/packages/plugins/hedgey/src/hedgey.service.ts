@@ -5,7 +5,16 @@ import { API_CONFIG } from "./config/config";
 import { getErrorMessage } from "./helpers/error.helper";
 import { fetchJSON, postJSON, toBytes16 } from "./helpers/http.helper";
 import { ClaimStakingRewardsParams } from "./parameters";
-import { ClaimHedgeyRewardsResponse, HedgeyProofResponse, NewsEntryProps } from "./types/types";
+import {
+    ActiveCampaign,
+    CampaignInfo,
+    ClaimHedgeyRewardsResponse,
+    ClaimableCampaign,
+    HedgeyClaimsResponse,
+    HedgeyProofResponse,
+    NewsEntryProps,
+    ProofResult,
+} from "./types/types";
 
 const GET_CLAIMS_FOR_ADDRESS_QUERY = `
   query GetClaimsForAddress($input: TokenCampaignEventsResolverInput) {
@@ -84,15 +93,12 @@ export class HedgeyService {
         }
     }
 
-    private async filterActiveCampaigns(
-        campaignIds: string[],
-        userAddress: string,
-    ): Promise<{ campaignId: string; tokenName: string }[]> {
+    private async filterActiveCampaigns(campaignIds: string[], userAddress: string): Promise<ActiveCampaign[]> {
         const campaignInfoPromises = campaignIds.map(async (campaignId) => {
             try {
                 const url = `${API_CONFIG.HEDGEY_TOKEN_CLAIMS_INFO_URL}/${campaignId}`;
                 const rawData = await fetchJSON(url);
-                const info = rawData as { campaignStatus: string; campaign: { token: { ticker: string } } };
+                const info = rawData as CampaignInfo;
                 const tokenName = info?.campaign?.token?.ticker ?? "";
 
                 return { campaignId, tokenName, info };
@@ -118,7 +124,7 @@ export class HedgeyService {
                 }
             }
         }
-        const activeCampaigns: { campaignId: string; tokenName: string }[] = [];
+        const activeCampaigns: ActiveCampaign[] = [];
         for (const result of campaignInfoResults) {
             if (
                 result.info &&
@@ -142,10 +148,7 @@ export class HedgeyService {
             .filter((campaignId): campaignId is string => !!campaignId);
     }
 
-    private async fetchProofForCampaign(
-        campaignId: string,
-        userAddress: string,
-    ): Promise<{ campaignId: string; data: HedgeyProofResponse | null; error: unknown }> {
+    private async fetchProofForCampaign(campaignId: string, userAddress: string): Promise<ProofResult> {
         const proofUrl = `${API_CONFIG.HEDGEY_PROOF_URL}/${campaignId}/${userAddress}`;
         try {
             const data = await fetchJSON(proofUrl);
@@ -156,18 +159,13 @@ export class HedgeyService {
     }
 
     private processProofResults(
-        proofResults: Array<{ campaignId: string; data: HedgeyProofResponse | null; error: unknown }>,
-        activeCampaigns: { campaignId: string; tokenName: string }[],
+        proofResults: ProofResult[],
+        activeCampaigns: ActiveCampaign[],
     ): {
-        claimableCampaigns: Array<{ campaignId: string; claimAmount: string; proof: string[]; tokenName: string }>;
+        claimableCampaigns: ClaimableCampaign[];
         results: ClaimHedgeyRewardsResponse[];
     } {
-        const claimableCampaigns: Array<{
-            campaignId: string;
-            claimAmount: string;
-            proof: string[];
-            tokenName: string;
-        }> = [];
+        const claimableCampaigns: ClaimableCampaign[] = [];
         const results: ClaimHedgeyRewardsResponse[] = [];
         for (const result of proofResults) {
             if (result.error) {
@@ -186,7 +184,7 @@ export class HedgeyService {
                     campaignId: result.campaignId,
                     claimAmount: result.data.amount,
                     proof: result.data.proof,
-                    tokenName: campaignInfo ? campaignInfo.tokenName : "",
+                    tokenName: campaignInfo ? campaignInfo.tokenName : "$$",
                 });
             }
         }
@@ -195,7 +193,7 @@ export class HedgeyService {
 
     private async executeClaimTransaction(
         walletClient: EVMWalletClient,
-        claimableCampaigns: Array<{ campaignId: string; claimAmount: string; proof: string[]; tokenName?: string }>,
+        claimableCampaigns: ClaimableCampaign[],
     ): Promise<{ transactionHash: string }> {
         const campaignIdsBytes16 = claimableCampaigns.map((claim) => toBytes16(claim.campaignId));
         const proofs = claimableCampaigns.map((claim) => claim.proof);
@@ -212,12 +210,4 @@ export class HedgeyService {
             throw new Error(`Transaction failed: ${getErrorMessage(txError)}`);
         }
     }
-}
-
-interface HedgeyClaimsResponse {
-    data?: {
-        TokenCampaignEvents?: {
-            events?: Array<{ campaignId?: string }>;
-        };
-    };
 }
