@@ -3,6 +3,8 @@ export interface ClaimHedgeyRewardsResponse {
     detail: string;
     amount?: string;
     transactionHash?: string;
+    chain?: number;
+    tokenName?: string;
 }
 
 export interface NewsEntryProps {
