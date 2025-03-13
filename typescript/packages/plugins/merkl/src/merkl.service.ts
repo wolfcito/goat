@@ -4,7 +4,7 @@ import { EVMWalletClient } from "@goat-sdk/wallet-evm";
 import { MERKL_CAMPAIGN_ABI, MERKL_CAMPAIGN_ADDRESS } from "./abi/merkl.abi";
 import { fetchJson } from "./helpers/http.helper";
 import { ClaimProtocolIncentivesParams } from "./parameters";
-import { ClaimResultProps, MerklRewardResponse, TokenInfo } from "./types/types";
+import { ClaimResultProps, MerklRewardResponse, RewardMetadata, TokenInfo } from "./types/types";
 
 const MERKL_REVIEW_URL = "https://api.merkl.xyz/v4/users";
 
@@ -81,10 +81,7 @@ export class MerklService {
         for (const rewardsObj of rewardsData) {
             if (rewardsObj.chain.id !== chainId) continue;
             for (const reward of rewardsObj.rewards) {
-                if (!reward.token?.address || !reward.token?.symbol || reward.token?.decimals == null) continue;
-                if (!reward.amount) continue;
-                if (!reward.proofs || !Array.isArray(reward.proofs)) continue;
-                if (BigInt(reward.claimed) > 0n) continue;
+                if (!this.isRewardValid(reward)) continue;
 
                 users.push(userAddress);
                 tokens.push({
@@ -102,5 +99,17 @@ export class MerklService {
         }
 
         return { users, tokens, amounts, proofs };
+    }
+
+    private isRewardValid(reward: RewardMetadata): boolean {
+        return Boolean(
+            reward.token?.address &&
+                reward.token?.symbol &&
+                reward.token?.decimals != null &&
+                reward.amount &&
+                reward.proofs &&
+                Array.isArray(reward.proofs) &&
+                BigInt(reward.claimed) === 0n,
+        );
     }
 }
