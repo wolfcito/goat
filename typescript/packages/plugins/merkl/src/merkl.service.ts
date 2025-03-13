@@ -84,6 +84,7 @@ export class MerklService {
                 if (!reward.token?.address || !reward.token?.symbol || reward.token?.decimals == null) continue;
                 if (!reward.amount) continue;
                 if (!reward.proofs || !Array.isArray(reward.proofs)) continue;
+                if (BigInt(reward.claimed) > 0n) continue;
 
                 users.push(userAddress);
                 tokens.push({

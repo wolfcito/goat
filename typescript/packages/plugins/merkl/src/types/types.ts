@@ -20,6 +20,7 @@ export interface MerklRewardResponse {
         };
         amount: string;
         proofs: string[];
+        claimed: string;
     }>;
 }
 
