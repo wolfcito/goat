@@ -3,6 +3,9 @@ export interface ClaimResultProps {
     detail: string;
     amount?: string;
     transactionHash?: string;
+    chainId?: number;
+    nameToken?: string;
+    decimals?: number;
 }
 
 export interface MerklRewardResponse {
@@ -12,8 +15,16 @@ export interface MerklRewardResponse {
     rewards: Array<{
         token: {
             address: string;
+            symbol: string;
+            decimals: number;
         };
         amount: string;
         proofs: string[];
     }>;
+}
+
+export interface TokenInfo {
+    address: string;
+    nameToken: string;
+    decimals: number;
 }
