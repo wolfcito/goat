@@ -7,7 +7,7 @@
 
 # IrysXyz GOAT Plugin
 
-Brief description of the IrysXyz plugin and what it does
+Deploy [Irys](https://irys.xyz/) plugins.
 
 ## Installation
 ```bash
@@ -29,9 +29,7 @@ const tools = await getOnChainTools({
 ```
 
 ## Tools
-* Tool 1
-* Tool 2
-* Tool 3
+* Deploy an Irys plugin.
 
 <footer>
 <br/>
