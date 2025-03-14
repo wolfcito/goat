@@ -7,7 +7,7 @@
   - [GAME Agent](https://github.com/game-by-virtuals/game-python/tree/main/plugins/onchain_actions)
 
 ## Using in production
-In production, developers require advanced wallet setups that utilize [smart wallets](https://docs.goat-sdk.com/concepts/smart-wallets), which allow them to:
+In production, developers require advanced wallet setups that utilize [smart wallets](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-wallet/crossmint-smart-wallets), which allow them to:
 1. **Increase security** by setting programmable permissions (e.g. limiting fund amounts, restricting contract interactions, and defining required signatures)
 2. **Maintain regulatory compliance** by ensuring agent wallets are non-custodial. This means that:
      - Launchpads, wallet providers, or agent platforms never have access to agents' wallets.
