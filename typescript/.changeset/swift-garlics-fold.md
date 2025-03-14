@@ -1,5 +1,5 @@
 ---
-"@goat-sdk/plugin-merkl": minor
+"@goat-sdk/plugin-merkl": patch
 ---
 
 Improved output
