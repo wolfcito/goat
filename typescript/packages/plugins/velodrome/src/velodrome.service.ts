@@ -3,7 +3,7 @@ import { EVMWalletClient } from "@goat-sdk/wallet-evm";
 import { erc20Abi } from "viem";
 import { quoterabi } from "./abi/quoterabi";
 import { routerabi } from "./abi/routerabi";
-import { AddLiquidityParams, SwapExactTokensParams } from "./parameters";
+import { AddLiquidityParams, GetInfoVelodromeTokensParams, SwapExactTokensParams } from "./parameters";
 
 const ROUTER_ADDRESS: Record<number, string> = {
     34443: "0x3a63171DD9BebF4D07BC782FECC7eb0b890C2A45",
@@ -27,12 +27,12 @@ export class VelodromeService {
     })
     async swapExactTokens(walletClient: EVMWalletClient, parameters: SwapExactTokensParams) {
         try {
-            const userAddress = await walletClient.getAddress();
+            const userAddress = walletClient.getAddress();
             if (!userAddress) {
                 throw new Error("Could not get user address");
             }
 
-            const chain = await walletClient.getChain();
+            const chain = walletClient.getChain();
             if (!chain) {
                 throw new Error("Chain not configured in wallet client");
             }
@@ -59,23 +59,43 @@ export class VelodromeService {
                 console.log("Forcing a stable pool for the USDC-USDT pair");
             }
 
-            const wethAddress = WETH_ADDRESS[chain.id];
+            let isETHIn = false;
+            let isETHOut = false;
+            if (parameters.tokenIn.toLowerCase() === "0x0") {
+                parameters.tokenIn = WETH_ADDRESS[chain.id];
+                isETHIn = true;
+            }
+            if (parameters.tokenOut.toLowerCase() === "0x0") {
+                parameters.tokenOut = WETH_ADDRESS[chain.id];
+                isETHOut = true;
+            }
 
-            const isETHIn =
-                parameters.tokenIn.toLowerCase() === wethAddress.toLowerCase() ||
-                parameters.tokenIn.toLowerCase() === "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" ||
-                parameters.tokenIn.toLowerCase() === "weth";
+            if (!isETHIn) {
+                // Leer el allowance actual
+                const allowanceRaw = await walletClient.read({
+                    address: parameters.tokenIn,
+                    abi: erc20Abi,
+                    functionName: "allowance",
+                    args: [userAddress, routerAddress],
+                });
+                const allowance = BigInt(allowanceRaw.value as string);
+                const amountInBigInt = BigInt(parameters.amountIn);
 
-            const isETHOut =
-                parameters.tokenOut.toLowerCase() === wethAddress.toLowerCase() ||
-                parameters.tokenOut.toLowerCase() === "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" ||
-                parameters.tokenOut.toLowerCase() === "weth";
+                if (allowance < amountInBigInt) {
+                    await walletClient.sendTransaction({
+                        to: parameters.tokenIn,
+                        abi: erc20Abi,
+                        functionName: "approve",
+                        args: [routerAddress, amountInBigInt],
+                    });
+                }
+            }
 
             // Get quote first
             const amountOutMin = await this.getQuote(
                 walletClient,
-                isETHIn ? wethAddress : parameters.tokenIn,
-                isETHOut ? wethAddress : parameters.tokenOut,
+                parameters.tokenIn,
+                parameters.tokenOut,
                 parameters.amountIn,
                 parameters.stable,
             );
@@ -88,56 +108,116 @@ export class VelodromeService {
             // Create route array
             const routes = [
                 {
-                    from: isETHIn ? wethAddress : parameters.tokenIn,
-                    to: isETHOut ? wethAddress : parameters.tokenOut,
+                    from: parameters.tokenIn,
+                    to: parameters.tokenOut,
                     stable: parameters.stable,
                 },
             ];
-
-            // If the input is not ETH, we need to approve first
-            if (!isETHIn) {
-                const approvalHash = await walletClient.sendTransaction({
-                    to: parameters.tokenIn as `0x${string}`,
-                    abi: erc20Abi,
-                    functionName: "approve",
-                    args: [routerAddress, parameters.amountIn],
-                });
-            }
 
             let txHash: { hash: string };
 
             if (isETHIn) {
                 // ETH -> Token
+                console.log("swapExactETHForTokens");
                 txHash = await walletClient.sendTransaction({
                     to: routerAddress,
                     abi: routerabi,
                     functionName: "swapExactETHForTokens",
-                    args: [minAmountOut, routes, parameters.to || userAddress, timestamp],
+                    args: [minAmountOut, routes, parameters.to ?? userAddress, timestamp],
                     value: BigInt(parameters.amountIn),
                 });
             } else if (isETHOut) {
                 // Token -> ETH
+                console.log("swapExactTokensForETH");
                 txHash = await walletClient.sendTransaction({
                     to: routerAddress,
                     abi: routerabi,
                     functionName: "swapExactTokensForETH",
-                    args: [parameters.amountIn, minAmountOut, routes, parameters.to || userAddress, timestamp],
+                    args: [parameters.amountIn, minAmountOut, routes, parameters.to ?? userAddress, timestamp],
                 });
             } else {
                 // Token -> Token
+                console.log("swapExactTokensForTokens");
                 txHash = await walletClient.sendTransaction({
                     to: routerAddress,
                     abi: routerabi,
                     functionName: "swapExactTokensForTokens",
-                    args: [parameters.amountIn, minAmountOut, routes, parameters.to || userAddress, timestamp],
+                    args: [parameters.amountIn, minAmountOut, routes, parameters.to ?? userAddress, timestamp],
                 });
             }
 
-            return txHash.hash;
+            return { hash: txHash.hash, amountOutMin, amountOut: minAmountOut.toString(), chainId: chain.id };
         } catch (error) {
             console.error("Error in swapExactTokens:", error);
             throw error;
         }
+    }
+
+    @Tool({
+        name: "get_velodrome_token_address",
+        description: "Get the address of the Velodrome contract.",
+    })
+    async getVelodromeTokenAddresses(parameters: GetInfoVelodromeTokensParams): Promise<Token> {
+        const tokens: Record<string, Token> = {
+            usdt: {
+                decimals: 18,
+                symbol: "USDT",
+                name: "USDT",
+                chains: {
+                    34443: {
+                        contractAddress: "0xf0f161fda2712db8b566946122a5af183995e2ed",
+                    },
+                },
+            },
+            usdc: {
+                decimals: 6,
+                symbol: "USDC",
+                name: "USDC",
+                chains: {
+                    34443: {
+                        contractAddress: "0xd988097fb8612cc24eeC14542bC03424c656005f",
+                    },
+                },
+            },
+
+            mode: {
+                decimals: 18,
+                symbol: "MODE",
+                name: "Mode",
+                chains: {
+                    34443: {
+                        contractAddress: "0xDfc7C877a950e49D2610114102175A06C2e3167a",
+                    },
+                },
+            },
+
+            weth: {
+                decimals: 18,
+                symbol: "WETH",
+                name: "Wrapped Ether",
+                chains: {
+                    34443: {
+                        contractAddress: "0x4200000000000000000000000000000000000006",
+                    },
+                },
+            },
+            eth: {
+                decimals: 18,
+                symbol: "ETH",
+                name: "Ether",
+                chains: {
+                    34443: {
+                        contractAddress: "0x4200000000000000000000000000000000000006",
+                    },
+                },
+            },
+        };
+
+        const token = tokens[parameters.tokenName.toLowerCase()];
+        if (!token) {
+            throw new Error(`Token ${parameters.tokenName} not found`);
+        }
+        return token;
     }
 
     private async getQuote(
@@ -319,3 +399,10 @@ export class VelodromeService {
         return [amount0Optimal, amount1Desired];
     }
 }
+
+type Token = {
+    decimals: number;
+    symbol: string;
+    name: string;
+    chains: Record<number, { contractAddress: `0x${string}` }>;
+};
