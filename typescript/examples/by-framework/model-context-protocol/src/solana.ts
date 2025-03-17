@@ -49,7 +49,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const { toolHandler } = await toolsPromise;
     try {
-        return toolHandler(request.params.name, request.params.arguments ?? {});
+        return toolHandler(request.params.name, request.params.arguments);
     } catch (error) {
         throw new Error(`Tool ${request.params.name} failed: ${error}`);
     }
