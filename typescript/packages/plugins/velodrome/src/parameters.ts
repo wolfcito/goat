@@ -12,7 +12,7 @@ export class SwapExactTokensParams extends createToolParameters(
         deadline: z
             .number()
             .optional()
-            .default(60 * 60 * 24)
+            .default(() => Math.floor(Date.now() / 1000) + 3600)
             .describe("The deadline for the swap in seconds from now"),
     }),
 ) {}

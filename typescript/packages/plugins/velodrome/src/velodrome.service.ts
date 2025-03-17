@@ -1,8 +1,8 @@
 import { Tool } from "@goat-sdk/core";
 import { EVMWalletClient } from "@goat-sdk/wallet-evm";
 import { erc20Abi } from "viem";
-import { quoterabi } from "./abi/quoterabi";
-import { routerabi } from "./abi/routerabi";
+import { QUOTER_ABI } from "./abi/quoter.abi";
+import { ROUTER_ABI } from "./abi/router.abi";
 import { AddLiquidityParams, GetInfoVelodromeTokensParams, SwapExactTokensParams } from "./parameters";
 
 const ROUTER_ADDRESS: Record<number, string> = {
@@ -42,36 +42,11 @@ export class VelodromeService {
                 throw new Error(`Router not found for chain ${chain.id}`);
             }
 
-            const tokenInLower = parameters.tokenIn.toLowerCase();
-            const tokenOutLower = parameters.tokenOut.toLowerCase();
+            parameters.tokenIn = this.getAddressForETH(parameters.tokenIn, chain.id);
+            parameters.tokenOut = this.getAddressForETH(parameters.tokenOut, chain.id);
+            parameters.stable = await this.isStablePairDynamic(parameters.tokenIn, parameters.tokenOut, chain.id);
 
-            // Specify exact stablecoin addresses
-            const usdtAddress = "0xf0f161fda2712db8b566946122a5af183995e2ed".toLowerCase();
-            const usdcAddress = "0xd988097fb8612cc24eec14542bc03424c656005f".toLowerCase();
-
-            // Verify if it is a stablecoin pair
-            if (
-                (tokenInLower === usdtAddress && tokenOutLower === usdcAddress) ||
-                (tokenInLower === usdcAddress && tokenOutLower === usdtAddress)
-            ) {
-                // Force stable: true for USDC-USDT regardless of the incoming parameters
-                parameters.stable = true;
-                console.log("Forcing a stable pool for the USDC-USDT pair");
-            }
-
-            let isETHIn = false;
-            let isETHOut = false;
-            if (parameters.tokenIn.toLowerCase() === "0x0") {
-                parameters.tokenIn = WETH_ADDRESS[chain.id];
-                isETHIn = true;
-            }
-            if (parameters.tokenOut.toLowerCase() === "0x0") {
-                parameters.tokenOut = WETH_ADDRESS[chain.id];
-                isETHOut = true;
-            }
-
-            if (!isETHIn) {
-                // Leer el allowance actual
+            if (!this.isETHAddress(parameters.tokenIn, chain.id)) {
                 const allowanceRaw = await walletClient.read({
                     address: parameters.tokenIn,
                     abi: erc20Abi,
@@ -80,7 +55,6 @@ export class VelodromeService {
                 });
                 const allowance = BigInt(allowanceRaw.value as string);
                 const amountInBigInt = BigInt(parameters.amountIn);
-
                 if (allowance < amountInBigInt) {
                     await walletClient.sendTransaction({
                         to: parameters.tokenIn,
@@ -103,7 +77,7 @@ export class VelodromeService {
             // Apply slippage to quote (e.g. 0.5% slippage)
             const minAmountOut = (BigInt(amountOutMin) * BigInt(995)) / BigInt(1000);
 
-            const timestamp = Math.floor(Date.now() / 1000) + parameters.deadline;
+            const timestamp = parameters.deadline;
 
             // Create route array
             const routes = [
@@ -116,41 +90,87 @@ export class VelodromeService {
 
             let txHash: { hash: string };
 
-            if (isETHIn) {
-                // ETH -> Token
-                console.log("swapExactETHForTokens");
-                txHash = await walletClient.sendTransaction({
-                    to: routerAddress,
-                    abi: routerabi,
-                    functionName: "swapExactETHForTokens",
-                    args: [minAmountOut, routes, parameters.to ?? userAddress, timestamp],
-                    value: BigInt(parameters.amountIn),
-                });
-            } else if (isETHOut) {
-                // Token -> ETH
-                console.log("swapExactTokensForETH");
-                txHash = await walletClient.sendTransaction({
-                    to: routerAddress,
-                    abi: routerabi,
-                    functionName: "swapExactTokensForETH",
-                    args: [parameters.amountIn, minAmountOut, routes, parameters.to ?? userAddress, timestamp],
-                });
-            } else {
-                // Token -> Token
-                console.log("swapExactTokensForTokens");
-                txHash = await walletClient.sendTransaction({
-                    to: routerAddress,
-                    abi: routerabi,
-                    functionName: "swapExactTokensForTokens",
-                    args: [parameters.amountIn, minAmountOut, routes, parameters.to ?? userAddress, timestamp],
-                });
+            const swapType = this.isETHAddress(parameters.tokenIn, chain.id)
+                ? "eth-to-token"
+                : this.isETHAddress(parameters.tokenOut, chain.id)
+                  ? "token-to-eth"
+                  : "token-to-token";
+
+            switch (swapType) {
+                case "eth-to-token":
+                    txHash = await walletClient.sendTransaction({
+                        to: routerAddress,
+                        abi: ROUTER_ABI,
+                        functionName: "swapExactETHForTokens",
+                        args: [minAmountOut, routes, parameters.to ?? userAddress, timestamp],
+                        value: BigInt(parameters.amountIn),
+                    });
+                    break;
+                case "token-to-eth":
+                    txHash = await walletClient.sendTransaction({
+                        to: routerAddress,
+                        abi: ROUTER_ABI,
+                        functionName: "swapExactTokensForETH",
+                        args: [parameters.amountIn, minAmountOut, routes, parameters.to ?? userAddress, timestamp],
+                    });
+                    break;
+                case "token-to-token":
+                    txHash = await walletClient.sendTransaction({
+                        to: routerAddress,
+                        abi: ROUTER_ABI,
+                        functionName: "swapExactTokensForTokens",
+                        args: [parameters.amountIn, minAmountOut, routes, parameters.to ?? userAddress, timestamp],
+                    });
+                    break;
+                default:
+                    throw new Error("Swap type not recognized");
             }
 
-            return { hash: txHash.hash, amountOutMin, amountOut: minAmountOut.toString(), chainId: chain.id };
+            return {
+                amountOutMin,
+                tokenIn: parameters.tokenIn,
+                tokenOut: parameters.tokenOut,
+                chainId: chain.id,
+                hash: txHash.hash,
+            };
         } catch (error) {
-            console.error("Error in swapExactTokens:", error);
-            throw error;
+            throw error instanceof Error ? error.message : JSON.stringify(error);
         }
+    }
+
+    private async isStablePairDynamic(tokenIn: string, tokenOut: string, chainId: number): Promise<boolean> {
+        const stableTokenNames: [string, string][] = [["usdt", "usdc"]];
+        const stablePairs: [string, string][] = [];
+
+        for (const [tokenA, tokenB] of stableTokenNames) {
+            const tokenAInfo = await this.getVelodromeTokenAddresses({ tokenName: tokenA });
+            const tokenBInfo = await this.getVelodromeTokenAddresses({ tokenName: tokenB });
+
+            const addressA = tokenAInfo.chains[chainId]?.contractAddress;
+            const addressB = tokenBInfo.chains[chainId]?.contractAddress;
+
+            if (addressA && addressB) {
+                stablePairs.push([addressA.toLowerCase(), addressB.toLowerCase()]);
+            }
+        }
+
+        const tokenInLower = tokenIn.toLowerCase();
+        const tokenOutLower = tokenOut.toLowerCase();
+
+        return stablePairs.some(
+            ([a, b]) => (tokenInLower === a && tokenOutLower === b) || (tokenInLower === b && tokenOutLower === a),
+        );
+    }
+
+    private getAddressForETH(token: string, chainId: number): string {
+        if (token.toLowerCase() === "0x0") {
+            return WETH_ADDRESS[chainId];
+        }
+        return token;
+    }
+
+    private isETHAddress(token: string, chainId: number): boolean {
+        return token.toLowerCase() === WETH_ADDRESS[chainId].toLowerCase();
     }
 
     @Tool({
@@ -160,7 +180,7 @@ export class VelodromeService {
     async getVelodromeTokenAddresses(parameters: GetInfoVelodromeTokensParams): Promise<Token> {
         const tokens: Record<string, Token> = {
             usdt: {
-                decimals: 18,
+                decimals: 6,
                 symbol: "USDT",
                 name: "USDT",
                 chains: {
@@ -232,7 +252,7 @@ export class VelodromeService {
         // Call quoter contract to get expected output amount
         const quote = await walletClient.read({
             address: quoterAddress,
-            abi: quoterabi,
+            abi: QUOTER_ABI,
             functionName: "quoteExactInputSingleV2",
             args: [
                 {
@@ -299,7 +319,7 @@ export class VelodromeService {
             // Add liquidity using Router
             const hash = await walletClient.sendTransaction({
                 to: routerAddress,
-                abi: routerabi,
+                abi: ROUTER_ABI,
                 functionName: "addLiquidity",
                 args: [
                     token0,
@@ -325,7 +345,7 @@ export class VelodromeService {
         const routerAddress = ROUTER_ADDRESS[walletClient.getChain()?.id || 34443];
         const result = (await walletClient.read({
             address: routerAddress,
-            abi: routerabi,
+            abi: ROUTER_ABI,
             functionName: "sortTokens",
             args: [tokenA, tokenB],
         })) as unknown as [string, string];
