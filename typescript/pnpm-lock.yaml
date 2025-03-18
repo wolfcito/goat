@@ -288,8 +288,8 @@ importers:
   examples/by-framework/model-context-protocol:
     dependencies:
       '@goat-sdk/adapter-model-context-protocol':
-        specifier: 0.2.10
-        version: 0.2.10(@goat-sdk/core@0.4.9(zod@3.23.8))(@modelcontextprotocol/sdk@1.0.4)(zod@3.23.8)
+        specifier: 0.2.11
+        version: 0.2.11(@goat-sdk/core@0.4.9(zod@3.23.8))(@modelcontextprotocol/sdk@1.0.4)(zod@3.23.8)
       '@goat-sdk/core':
         specifier: 0.4.9
         version: 0.4.9(zod@3.23.8)
@@ -814,8 +814,8 @@ importers:
   examples/by-use-case/solana-purchase-on-amazon:
     dependencies:
       '@goat-sdk/adapter-model-context-protocol':
-        specifier: 0.2.10
-        version: 0.2.10(@goat-sdk/core@0.4.9(zod@3.23.8))(@modelcontextprotocol/sdk@1.6.0)(zod@3.23.8)
+        specifier: 0.2.11
+        version: 0.2.11(@goat-sdk/core@0.4.9(zod@3.23.8))(@modelcontextprotocol/sdk@1.6.0)(zod@3.23.8)
       '@goat-sdk/core':
         specifier: 0.4.9
         version: 0.4.9(zod@3.23.8)
@@ -5224,8 +5224,8 @@ packages:
       '@langchain/core': 0.3.6
       zod: ^3.0.0
 
-  '@goat-sdk/adapter-model-context-protocol@0.2.10':
-    resolution: {integrity: sha512-k7gkHwCl32rWheL/cAQ575BI/IBuk1FvqdX9j8RxTyjfniwilOhPoh6GzcRoQI1JHjbpcnMMpuTXvgmh//2srQ==}
+  '@goat-sdk/adapter-model-context-protocol@0.2.11':
+    resolution: {integrity: sha512-Lue868Mu05Ag99JKpruaAF0MQmrO0Ur72N0N6YGxXQxQdA0qzy51s/y4FqeAwpNq+EYmV8o1f6zA5wLrnowovw==}
     peerDependencies:
       '@goat-sdk/core': 0.4.9
       '@modelcontextprotocol/sdk': 1.0.4
@@ -21012,7 +21012,7 @@ snapshots:
       '@langchain/core': 0.3.6(openai@4.77.3(encoding@0.1.13)(zod@3.23.8))
       zod: 3.23.8
 
-  '@goat-sdk/adapter-model-context-protocol@0.2.10(@goat-sdk/core@0.4.9(zod@3.23.8))(@modelcontextprotocol/sdk@1.0.4)(zod@3.23.8)':
+  '@goat-sdk/adapter-model-context-protocol@0.2.11(@goat-sdk/core@0.4.9(zod@3.23.8))(@modelcontextprotocol/sdk@1.0.4)(zod@3.23.8)':
     dependencies:
       '@goat-sdk/core': 0.4.9(zod@3.23.8)
       '@modelcontextprotocol/sdk': 1.0.4
@@ -21020,7 +21020,7 @@ snapshots:
     transitivePeerDependencies:
       - zod
 
-  '@goat-sdk/adapter-model-context-protocol@0.2.10(@goat-sdk/core@0.4.9(zod@3.23.8))(@modelcontextprotocol/sdk@1.6.0)(zod@3.23.8)':
+  '@goat-sdk/adapter-model-context-protocol@0.2.11(@goat-sdk/core@0.4.9(zod@3.23.8))(@modelcontextprotocol/sdk@1.6.0)(zod@3.23.8)':
     dependencies:
       '@goat-sdk/core': 0.4.9(zod@3.23.8)
       '@modelcontextprotocol/sdk': 1.6.0
