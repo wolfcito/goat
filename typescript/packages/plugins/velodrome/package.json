@@ -7,27 +7,10 @@
         "clean": "rm -rf dist",
         "test": "vitest run --passWithNoTests"
     },
-    "sideEffects": false,
     "main": "./dist/index.js",
     "module": "./dist/index.mjs",
     "types": "./dist/index.d.ts",
-    "exports": {
-        ".": {
-            "require": "./dist/index.js",
-            "import": "./dist/index.mjs",
-            "types": "./dist/index.d.ts"
-        }
-    },
-    "dependencies": {
-        "@goat-sdk/core": "workspace:*",
-        "@goat-sdk/wallet-evm": "workspace:*",
-        "viem": "catalog:",
-        "zod": "catalog:"
-    },
-    "peerDependencies": {
-        "@goat-sdk/core": "workspace:*",
-        "viem": "catalog:"
-    },
+    "sideEffects": false,
     "homepage": "https://ohmygoat.dev",
     "repository": {
         "type": "git",
@@ -37,5 +20,14 @@
     "bugs": {
         "url": "https://github.com/goat-sdk/goat/issues"
     },
-    "keywords": ["ai", "agents", "web3"]
+    "keywords": ["ai", "agents", "web3"],
+    "dependencies": {
+        "@goat-sdk/core": "workspace:*",
+        "@goat-sdk/wallet-evm": "workspace:*",
+        "viem": "catalog:",
+        "zod": "catalog:"
+    },
+    "peerDependencies": {
+        "@goat-sdk/core": "workspace:*"
+    }
 }
