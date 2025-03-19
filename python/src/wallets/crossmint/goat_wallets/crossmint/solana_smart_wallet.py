@@ -6,8 +6,10 @@ from goat_wallets.crossmint.base import UnsupportedOperationException
 from solders.instruction import Instruction
 from solders.keypair import Keypair
 from solders.pubkey import Pubkey
+from solders.null_signer import NullSigner
 from solders.message import Message
 from solana.rpc.api import Client as SolanaClient
+from solders.transaction import VersionedTransaction
 from goat.classes.wallet_client_base import Balance, Signature
 from goat_wallets.solana import SolanaWalletClient, SolanaTransaction
 from .api_client import CrossmintWalletsAPI
@@ -23,7 +25,6 @@ class SolanaSmartWalletConfig(TypedDict):
 
 class SolanaSmartWalletOptions(TypedDict):
     """Options specific to Solana smart wallets."""
-    connection: SolanaClient
     config: SolanaSmartWalletConfig
     linkedUser: Optional[LinkedUser]
 
@@ -46,9 +47,10 @@ class SolanaSmartWalletClient(SolanaWalletClient, BaseWalletClient):
         self,
         address: str,
         api_client: CrossmintWalletsAPI,
-        options: SolanaSmartWalletOptions
+        options: SolanaSmartWalletOptions,
+        connection: SolanaClient = SolanaClient("https://api.devnet.solana.com")
     ):
-        SolanaWalletClient.__init__(self, options.get("connection"))
+        SolanaWalletClient.__init__(self, connection)
         BaseWalletClient.__init__(self, address, api_client, "solana")
         self._locator = get_locator(address, options.get("linkedUser", None), "solana-smart-wallet")
         self._admin_signer = options["config"]["adminSigner"]
@@ -80,12 +82,16 @@ class SolanaSmartWalletClient(SolanaWalletClient, BaseWalletClient):
         
         message = Message(
             instructions=instructions,
-            payer=Pubkey.from_string(self._address),
+            payer=Pubkey.from_string(self._address)
+        )
+        versioned_transaction = VersionedTransaction(
+            message,
+            [NullSigner(Pubkey.from_string(self._address))]+[NullSigner(signer.pubkey()) for signer in additional_signers]
         )
         
-        serialized = base58.b58encode(bytes(message)).decode()
+        serialized = base58.b58encode(bytes(versioned_transaction)).decode()
 
-        return self.send_raw_transaction(serialized, additional_signers, transaction["signer"])
+        return self.send_raw_transaction(serialized, additional_signers, transaction.get("signer", None))
 
     def balance_of(self, address: str) -> Balance:
         pubkey = Pubkey.from_string(address)
@@ -119,14 +125,13 @@ class SolanaSmartWalletClient(SolanaWalletClient, BaseWalletClient):
             approvals = []
             for pending_approval in pending_approvals:
                 signer = next(
-                    (s for s in signers if pending_approval["signer"] in base58.b58encode(bytes(s.pubkey())).decode()),
+                    (s for s in signers if str(s.pubkey()) in pending_approval["signer"]),
                     None
                 )
                 if not signer:
-                    raise ValueError(f"Signer not found for approval: {pending_approval['signer']}")
+                    raise ValueError(f"Signer not found for approval: {pending_approval['signer']}. Available signers: {[str(s.pubkey()) for s in signers]}")
                 signature = signer.sign_message(base58.b58decode(pending_approval["message"]))
                 encoded_signature = base58.b58encode(signature.to_bytes()).decode()
-
                 approvals.append({
                     "signer": "solana-keypair:" + base58.b58encode(bytes(signer.pubkey())).decode(),
                     "signature": encoded_signature
@@ -215,9 +220,11 @@ class SolanaSmartWalletClient(SolanaWalletClient, BaseWalletClient):
             )
             
             # Prepare signers array
-            signers = []
+            signers = additional_signers
             if self._admin_signer["type"] == "solana-keypair":
                 signers.append(self._admin_signer["keyPair"])
+            if signer:
+                signers.append(signer)
             signers.extend(additional_signers)
             
             # Handle transaction flow
@@ -264,10 +271,10 @@ class SolanaSmartWalletClient(SolanaWalletClient, BaseWalletClient):
                 # Handle transaction flow
                 self.handle_transaction_flow(
                     transaction_id,
-                    signers,
+                    [self._admin_signer["keyPair"]],
                     "Delegated signer registration"
                 )
-            
+                return self.get_delegated_signer(response["locator"])
             return response
         except Exception as e:
             raise ValueError(f"Failed to register delegated signer: {str(e)}")
