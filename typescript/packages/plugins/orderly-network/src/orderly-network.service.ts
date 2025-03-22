@@ -3,8 +3,16 @@ import { EVMWalletClient } from "@goat-sdk/wallet-evm";
 import { solidityPackedKeccak256 } from "ethers";
 import { Address, erc20Abi } from "viem";
 import { ORDERLY_VAULT_ABI, getEvmUSDCAddress, getEvmVaultAddress } from "./abi/vaults.abi";
-import { getAccountId, getBrokerId } from "./helper/helper";
-import { DepositOrderlyParams } from "./parameters";
+import {
+    getAccountId,
+    getBrokerId,
+    getNetwork,
+    getOrderlyKey,
+    getPositions,
+    settlePnlFromOrderly,
+    withdrawUSDCFromOrderly,
+} from "./helper/helper";
+import { DepositOrderlyParams, WithdrawOrderlyParams } from "./parameters";
 
 export class OrderlyNetworkService {
     @Tool({
@@ -14,7 +22,7 @@ export class OrderlyNetworkService {
     async depositOrderly(
         walletClient: EVMWalletClient,
         parameters: DepositOrderlyParams,
-    ): Promise<{ hash: string; chain: number }> {
+    ): Promise<DepositOrderlyResponse> {
         const userAddress = walletClient.getAddress();
         const chain = walletClient.getChain();
         if (!chain.id) {
@@ -31,7 +39,7 @@ export class OrderlyNetworkService {
             brokerHash: solidityPackedKeccak256(["string"], [brokerId]) as Address,
             tokenAmount: usdcAmount,
             tokenHash: solidityPackedKeccak256(["string"], ["USDC"]) as Address,
-            accountId: (await getAccountId(walletClient.getAddress())) as Address,
+            accountId: getAccountId(userAddress) as Address,
         };
 
         try {
@@ -76,4 +84,62 @@ export class OrderlyNetworkService {
             throw new Error("Deposit failed with unknown error");
         }
     }
+
+    @Tool({
+        name: "withdraw_orderly_evm",
+        description: "Withdraw USDC from Orderly Network",
+    })
+    async withdrawOrderly(
+        walletClient: EVMWalletClient,
+        parameters: WithdrawOrderlyParams,
+    ): Promise<WithdrawOrderlyResponse> {
+        const userAddress = walletClient.getAddress();
+        const chain = walletClient.getChain();
+        if (!chain.id) {
+            throw new Error("Chain not configured in wallet client");
+        }
+
+        const usdcAmount = BigInt(parameters.amount);
+        const brokerId = getBrokerId();
+        const accountId = getAccountId(userAddress);
+        const orderlyKey = await getOrderlyKey();
+        const network = getNetwork();
+
+        try {
+            const positions = await getPositions(network, accountId, orderlyKey);
+
+            const unsettledPnl = positions.rows.reduce((acc, position) => {
+                return acc + position.unsettled_pnl;
+            }, 0);
+
+            if (unsettledPnl !== 0) {
+                await settlePnlFromOrderly(chain.id, brokerId, accountId, orderlyKey, walletClient);
+            }
+
+            const { code, message, success } = await withdrawUSDCFromOrderly(
+                chain.id,
+                brokerId,
+                accountId,
+                orderlyKey,
+                usdcAmount,
+                walletClient,
+            );
+            return { amount: usdcAmount.toString(), chain: chain.id, code, message, success };
+        } catch (error) {
+            throw new Error(`Withdrawal failed: ${error instanceof Error ? error.message : "Unknown error"}`);
+        }
+    }
+}
+
+interface WithdrawOrderlyResponse {
+    amount: string;
+    chain: number;
+    code: number;
+    message: string;
+    success: boolean;
+}
+
+interface DepositOrderlyResponse {
+    hash: string;
+    chain: number;
 }
