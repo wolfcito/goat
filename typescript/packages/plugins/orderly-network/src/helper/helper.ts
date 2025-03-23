@@ -1,6 +1,6 @@
 import { Signature } from "@goat-sdk/core";
 import { EVMWalletClient } from "@goat-sdk/wallet-evm";
-import { API } from "@orderly.network/types";
+import { API, OrderEntity } from "@orderly.network/types";
 import bs58 from "bs58";
 import { match } from "ts-pattern";
 import { Address, encodeAbiParameters, encodePacked, keccak256 } from "viem";
@@ -281,6 +281,29 @@ export function getVerifyingAddress(network: "mainnet" | "testnet"): string {
         .with("mainnet", () => "0x6F7a338F2aA472838dEFD3283eB360d4Dff5D203")
         .with("testnet", () => "0x1826B75e2ef249173FC735149AE4B8e9ea10abff")
         .exhaustive();
+}
+
+export async function createOrderAtOrderly(
+    network: "mainnet" | "testnet",
+    accountId: string,
+    orderlyKey: Uint8Array,
+    order: OrderEntity,
+): Promise<string> {
+    const res = await signAndSendRequest(accountId, orderlyKey, `${getBaseUrlFromNetwork(network)}/v1/order`, {
+        method: "POST",
+        body: JSON.stringify(order),
+    });
+
+    const json = (await res.json()) as {
+        success: boolean;
+        message?: string;
+        data: { order_id: string };
+    };
+    console.log("json", { json });
+    if (!json.success) {
+        throw new Error(json.message);
+    }
+    return json.data.order_id;
 }
 
 export interface EIP712Domain {
