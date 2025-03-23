@@ -62,17 +62,17 @@ Orders with the same client_order_id are accepted only when the previous one is 
     }),
 ) {}
 
-export class GetAllowedSymbolByNetworkParams extends createToolParameters(
-    z.object({
-        network: z.enum(["mainnet", "testnet"]).describe("The network"),
-        token: z.string().describe("The token symbol"),
-    }),
-) {}
-
 export class ClosePositionOrderlyParams extends createToolParameters(
     z.object({
         symbol: z.string().describe("The symbol is required"),
         position_qty: z.number().refine((qty) => qty !== 0, "The quantity must be different from zero"),
+    }),
+) {}
+
+export class GetAllowedSymbolByNetworkParams extends createToolParameters(
+    z.object({
+        network: z.enum(["mainnet", "testnet"]).describe("The network"),
+        token: z.string().describe("The token symbol"),
     }),
 ) {}
 

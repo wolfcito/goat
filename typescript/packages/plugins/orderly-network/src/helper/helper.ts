@@ -83,6 +83,32 @@ export async function getPositions(
     return json.data;
 }
 
+export async function getPosition(
+    network: "mainnet" | "testnet",
+    accountId: string,
+    orderlyKey: Uint8Array,
+    symbol: string,
+): Promise<API.Position> {
+    const res = await signAndSendRequest(
+        accountId,
+        orderlyKey,
+        `${getBaseUrlFromNetwork(network)}/v1/position/${symbol}`,
+    );
+
+    if (!res.ok) {
+        throw new Error(`Could not fetch position: ${await res.text()}`);
+    }
+    const json = (await res.json()) as {
+        success: boolean;
+        message?: string;
+        data: API.Position;
+    };
+    if (!json.success) {
+        throw new Error(json.message);
+    }
+    return json.data;
+}
+
 function base64EncodeURL(byteArray: Uint8Array) {
     return btoa(
         Array.from(new Uint8Array(byteArray))

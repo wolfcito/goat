@@ -1,6 +1,6 @@
 import { Tool } from "@goat-sdk/core";
 import { EVMWalletClient } from "@goat-sdk/wallet-evm";
-import { OrderEntity, OrderType } from "@orderly.network/types";
+import { OrderEntity, OrderSide, OrderType } from "@orderly.network/types";
 import { solidityPackedKeccak256 } from "ethers";
 import { Address, erc20Abi } from "viem";
 import { ORDERLY_VAULT_ABI, getEvmUSDCAddress, getEvmVaultAddress } from "./abi/vaults.abi";
@@ -11,11 +11,13 @@ import {
     getBrokerId,
     getNetwork,
     getOrderlyKey,
+    getPosition,
     getPositions,
     settlePnlFromOrderly,
     withdrawUSDCFromOrderly,
 } from "./helper/helper";
 import {
+    ClosePositionOrderlyParams,
     CreateOrderOrderlyParams,
     DepositOrderlyParams,
     GetAllowedSymbolByNetworkParams,
@@ -173,6 +175,46 @@ export class OrderlyNetworkService {
         try {
             const orderId = await createOrderAtOrderly(network, accountId, orderlyKey, order as OrderEntity);
             return { order_id: orderId, success: true, message: "Order created successfully" };
+        } catch (error) {
+            return {
+                order_id: "",
+                success: false,
+                message: error instanceof Error ? error.message : "Unknown error",
+            };
+        }
+    }
+
+    @Tool({
+        name: "close_position_orderly",
+        description: "Close a position at Orderly Network",
+    })
+    async closePositionOrderly(
+        walletClient: EVMWalletClient,
+        parameters: ClosePositionOrderlyParams,
+    ): Promise<{ order_id: string; success: boolean; message: string }> {
+        try {
+            getBrokerId();
+            const network = getNetwork();
+            const accountId = getAccountId(walletClient.getAddress());
+            const orderlyKey = await getOrderlyKey();
+
+            const position = await getPosition(network, accountId, orderlyKey, parameters.symbol);
+            console.log("position", { position });
+
+            const order: OrderEntity = {
+                order_type: OrderType.MARKET,
+                side: parameters.position_qty > 0 ? OrderSide.SELL : OrderSide.BUY,
+                symbol: parameters.symbol,
+                reduce_only: true,
+                order_quantity: String(Math.abs(parameters.position_qty)),
+            };
+
+            const orderId = await createOrderAtOrderly(network, accountId, orderlyKey, order);
+            return {
+                order_id: orderId,
+                success: true,
+                message: "Order created successfully",
+            };
         } catch (error) {
             return {
                 order_id: "",
