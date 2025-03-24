@@ -1,6 +1,10 @@
 from typing import NotRequired, TypedDict, Optional, Dict, Union, Literal
 from solders.keypair import Keypair
 
+class UnsupportedOperationException(Exception):
+    """Exception raised when an operation is not supported by the wallet or service."""
+    pass
+
 SupportedToken = Literal[
     'ape', 'eth', 'matic', 'pol', 'sei', 'chz', 'avax', 'xai', 'fuel', 'vic',
     'ip', 'zcx', 'usdc', 'usdce', 'busd', 'usdxm', 'weth', 'degen', 'brett',

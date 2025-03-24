@@ -1,6 +1,6 @@
-from typing import Any, Dict, List, Optional, Union, cast
-
+from typing import Any, Dict, Optional, List, Union, cast
 from goat_wallets.crossmint.types import SupportedToken
+from goat_wallets.crossmint.chains import is_story_chain
 from .parameters import (
     SignTypedDataRequest, AdminSigner, Call, WalletType,
     SolanaSmartWalletTransactionParams, DelegatedSignerPermission
@@ -443,45 +443,79 @@ class CrossmintWalletsAPI:
         endpoint = f"/wallets/{quote(locator)}/transactions/{quote(transaction_id)}"
         return self._request(endpoint)
 
+    def get_endpoint_root(self, chain: str) -> str:
+        """Get the appropriate endpoint root based on chain type.
+        
+        Args:
+            chain: Chain identifier
+            
+        Returns:
+            str: API endpoint root path
+        """
+        return "/api/v1/ip" if is_story_chain(chain) else "/api/2022-06-09"
+
     def create_collection(self, parameters: Dict[str, Any], chain: str) -> Dict[str, Any]:
         """Create a new NFT collection.
 
         Args:
-            parameters: Collection creation parameters
+            parameters: Collection parameters
             chain: Chain identifier
 
         Returns:
             Collection creation response
         """
-        endpoint = "/collections/"
-        payload = {**parameters, "chain": chain}
+        endpoint_root = self.get_endpoint_root(chain)
+        endpoint = f"{endpoint_root}/collections"
+        
+        payload = {
+            **parameters,
+            "chain": chain
+        }
+        
         return self._request(endpoint, method="POST", json=payload)
 
-    def get_all_collections(self) -> Dict[str, Any]:
+    def get_all_collections(self, chain: Optional[str] = None) -> Dict[str, Any]:
         """Get all collections created by the user.
+        
+        Args:
+            chain: Optional chain identifier to filter collections
+        
 
         Returns:
-            List of collections
+            Collections response
         """
-        endpoint = "/collections/"
+        endpoint_root = self.get_endpoint_root(chain) if chain else "/api/2022-06-09"
+        endpoint = f"{endpoint_root}/collections/"
+        
         return self._request(endpoint)
 
-    def mint_nft(self, collection_id: str, recipient: str, metadata: Dict[str, Any]) -> Dict[str, Any]:
-        """Mint a new NFT in a collection.
-
+    def mint_nft(
+        self, 
+        collection_id: str, 
+        recipient: str, 
+        metadata: Dict[str, Any],
+        chain: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """Mint an NFT to a recipient.
+        
         Args:
-            collection_id: ID of the collection
-            recipient: Recipient identifier (email:address:chain or chain:address)
+            collection_id: ID of the collection to mint in
+            recipient: Recipient identifier (formatted as email:address:chain or chain:address)
             metadata: NFT metadata
-
+            chain: Optional chain identifier
+        
         Returns:
-            Minted NFT details
+            Minting response
         """
-        endpoint = f"/collections/{quote(collection_id)}/nfts"
+        endpoint_root = self.get_endpoint_root(chain) if chain else "/api/2022-06-09"
+        endpoint_ending = "/ipass" if chain in ["story-mainnet", "story-testnet"] else "/nfts"
+        endpoint = f"{endpoint_root}/collections/{collection_id}{endpoint_ending}"
+        
         payload = {
             "recipient": recipient,
             "metadata": metadata
         }
+        
         return self._request(endpoint, method="POST", json=payload)
 
     def create_wallet_for_twitter(self, username: str, chain: str) -> Dict[str, Any]:
@@ -546,7 +580,7 @@ class CrossmintWalletsAPI:
         endpoint = f"/wallets/{quote(locator)}"
         return self._request(endpoint, timeout=timeout)
 
-    def fund_wallet(self, wallet_locator: str, token: SupportedToken, amount: int, chain: Optional[str] = None) -> Dict[str, any]:
+    def fund_wallet(self, wallet_locator: str, token: SupportedToken, amount: int, chain: Optional[str] = None) -> Dict[str, Any]:
         """Fund a wallet with a specified amount of this token.
 
                 Args:
@@ -622,7 +656,7 @@ class CrossmintWalletsAPI:
 
         return self._request(endpoint, method="POST", json=payload)
 
-    def get_balance(self, wallet_locator: str, tokens: List[SupportedToken], chains: List[str] = None) -> Dict[str, Any]:
+    def get_balance(self, wallet_locator: str, tokens: List[SupportedToken], chains: List[str] | None = None) -> Dict[str, Any]:
         """Get the balance of a wallet for a specific token.
 
         Args:
@@ -761,7 +795,7 @@ class CrossmintWalletsAPI:
         Returns:
             Created wallet details
         """
-        payload = {
+        payload: Dict[str, Any] = {
             "type": wallet_type,
         }
         headers = {}
