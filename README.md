@@ -99,6 +99,7 @@ GOAT is free software, MIT licensed.
   - [LlamaIndex](https://github.com/goat-sdk/goat/tree/main/typescript/packages/adapters/llamaindex)
   - [MCP (Model Context Protocol)](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/model-context-protocol)
   - [Voice agent with ElevenLabs](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/eleven-labs)
+  - [Mastra](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/mastra)
   - [OpenAI GPT via REST API](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/chatgpt)
   - [Eliza Agent](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/eliza)
   - [GAME Agent](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/virtuals-game)
@@ -217,6 +218,7 @@ GOAT is free software, MIT licensed.
 | Langchain | [@goat-sdk/adapter-langchain](https://github.com/goat-sdk/goat/tree/main/typescript/packages/adapters/langchain) | [goat-sdk-adapter-langchain](https://github.com/goat-sdk/goat/tree/main/python/src/adapters/langchain)
 | ElevenLabs | [@goat-sdk/adapter-eleven-labs](https://github.com/goat-sdk/goat/tree/main/typescript/packages/adapters/eleven-labs)
 | LlamaIndex | [@goat-sdk/adapter-llamaindex](https://github.com/goat-sdk/goat/tree/main/typescript/packages/adapters/llamaindex) |
+| Mastra | [@goat-sdk/adapter-mastra](https://github.com/goat-sdk/goat/tree/main/typescript/packages/adapters/mastra) |
 | OpenAI Agents SDK |  | [goat-sdk-adapter-openai-agents-sdk](https://github.com/goat-sdk/goat/tree/main/python/src/adapters/openai_agents_sdk) |
 | Model Context Protocol | [@goat-sdk/adapter-model-context-protocol](https://github.com/goat-sdk/goat/tree/main/typescript/packages/adapters/model-context-protocol) |
 | Eliza | [@elizaos/plugin-goat](https://github.com/elizaos-plugins/plugin-goat) |
