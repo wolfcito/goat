@@ -1,6 +1,6 @@
 import { Tool } from "@goat-sdk/core";
 import { EVMWalletClient } from "@goat-sdk/wallet-evm";
-import { OrderEntity, OrderSide, OrderType } from "@orderly.network/types";
+import { API, OrderEntity, OrderSide, OrderType } from "@orderly.network/types";
 import { solidityPackedKeccak256 } from "ethers";
 import { Address, erc20Abi } from "viem";
 import { ORDERLY_VAULT_ABI, getEvmUSDCAddress, getEvmVaultAddress } from "./abi/vaults.abi";
@@ -9,6 +9,7 @@ import {
     getAccountId,
     getBaseUrlFromNetwork,
     getBrokerId,
+    getHoldings,
     getNetwork,
     getOrderlyKey,
     getPosition,
@@ -21,6 +22,7 @@ import {
     CreateOrderOrderlyParams,
     DepositOrderlyParams,
     GetAllowedSymbolByNetworkParams,
+    GetUSDCBalanceHoldingsOrderlyParams,
     GetUSDCInfoOrderlyParams,
     WithdrawOrderlyParams,
 } from "./parameters";
@@ -171,7 +173,7 @@ export class OrderlyNetworkService {
             ...parameters,
             order_type: convertedOrderType,
         };
-        console.log("order", { order });
+
         try {
             const orderId = await createOrderAtOrderly(network, accountId, orderlyKey, order as OrderEntity);
             return { order_id: orderId, success: true, message: "Order created successfully" };
@@ -315,7 +317,6 @@ export class OrderlyNetworkService {
                 },
             },
         };
-        console.log("tokens", { parameters });
 
         const token = tokens[parameters.symbol.toUpperCase()];
         if (!token) {
@@ -336,6 +337,28 @@ export class OrderlyNetworkService {
                 },
             },
         };
+    }
+
+    @Tool({
+        name: "get_balance_holdings_orderly",
+        description: "Get balance of user token holdings in Orderly.",
+    })
+    async getBalanceHoldingsOrderly(
+        walletClient: EVMWalletClient,
+        parameters: GetUSDCBalanceHoldingsOrderlyParams,
+    ): Promise<API.Holding[]> {
+        const userAddress = walletClient.getAddress();
+        const chain = walletClient.getChain();
+        if (!chain.id) {
+            throw new Error("Chain not configured in wallet client");
+        }
+        const network = getNetwork();
+        const accountId = getAccountId(userAddress);
+        const orderlyKey = await getOrderlyKey();
+
+        const holdings = await getHoldings(network, accountId, orderlyKey);
+
+        return holdings;
     }
 }
 

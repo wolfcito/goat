@@ -1,4 +1,3 @@
-import { Signature } from "@goat-sdk/core";
 import { EVMWalletClient } from "@goat-sdk/wallet-evm";
 import { API, OrderEntity } from "@orderly.network/types";
 import bs58 from "bs58";
@@ -35,16 +34,15 @@ export function getAccountId(evmAddress?: string): string {
 
     const chainMode = getChainMode();
 
-    let address: string;
-
-    if (chainMode === "evm") {
-        if (!evmAddress) {
-            throw new Error("Se requiere una dirección EVM para calcular el accountId");
-        }
-        address = evmAddress;
-    } else {
-        throw new Error("Unsupported chain mode");
-    }
+    const address = match(chainMode)
+        .with("evm", () => {
+            if (!evmAddress) throw new Error("EVM address is required");
+            return evmAddress;
+        })
+        .with("solana", () => {
+            throw new Error("Unsupported chain mode for getAccountId");
+        })
+        .exhaustive();
 
     return keccak256(
         encodeAbiParameters(
@@ -181,30 +179,32 @@ export async function settlePnlFromOrderly(
 
     const chainMode = getChainMode();
 
-    let message: SettlePnlMessage;
-    let signature: Signature;
-    let address: string;
+    const { message, signature, address } = await match(chainMode)
+        .with("evm", async () => {
+            const settlePnlMessage = {
+                brokerId,
+                chainId,
+                settleNonce,
+                timestamp: String(Date.now()),
+            };
 
-    if (chainMode === "evm") {
-        const settlePnlMessage = {
-            brokerId,
-            chainId,
-            settleNonce,
-            timestamp: String(Date.now()),
-        };
+            const signature = await walletClient.signTypedData({
+                message: settlePnlMessage,
+                primaryType: "SettlePnl",
+                types: MESSAGE_TYPES,
+                domain: getOnChainDomain(network, chainId),
+            });
 
-        message = settlePnlMessage;
-
-        signature = await walletClient.signTypedData({
-            message: settlePnlMessage,
-            primaryType: "SettlePnl",
-            types: MESSAGE_TYPES,
-            domain: getOnChainDomain(network, chainId),
-        });
-        address = walletClient.getAddress();
-    } else {
-        throw new Error("Chain mode not supported in this snippet");
-    }
+            return {
+                message: settlePnlMessage,
+                signature,
+                address: walletClient.getAddress(),
+            };
+        })
+        .with("solana", async () => {
+            throw new Error("Chain mode not supported in this snippet");
+        })
+        .exhaustive();
 
     const res = await signAndSendRequest(accountId, orderlyKey, `${getBaseUrlFromNetwork(network)}/v1/settle_pnl`, {
         method: "POST",
@@ -244,32 +244,35 @@ export async function withdrawUSDCFromOrderly(
 
     const chainMode = getChainMode();
 
-    let message: WithdrawMessage;
-    let signature: Signature;
-    let address: string;
+    const { message, signature, address } = await match(chainMode)
+        .with("evm", async () => {
+            const withdrawMessage = {
+                brokerId,
+                chainId,
+                receiver: walletClient.getAddress(),
+                token: "USDC",
+                amount: Number(amount),
+                timestamp: String(Date.now()),
+                withdrawNonce: String(withdrawNonce),
+            };
 
-    if (chainMode === "evm") {
-        const withdrawMessage = {
-            brokerId,
-            chainId,
-            receiver: walletClient.getAddress(),
-            token: "USDC",
-            amount: Number(amount),
-            timestamp: String(Date.now()),
-            withdrawNonce: String(withdrawNonce),
-        };
-        message = withdrawMessage;
+            const signature = await walletClient.signTypedData({
+                message: withdrawMessage,
+                primaryType: "Withdraw",
+                types: MESSAGE_TYPES,
+                domain: getOnChainDomain(network, chainId),
+            });
 
-        signature = await walletClient.signTypedData({
-            message: withdrawMessage,
-            primaryType: "Withdraw",
-            types: MESSAGE_TYPES,
-            domain: getOnChainDomain(network, chainId),
-        });
-        address = walletClient.getAddress();
-    } else {
-        throw new Error("Unsupported chain mode");
-    }
+            return {
+                message: withdrawMessage,
+                signature,
+                address: walletClient.getAddress(),
+            };
+        })
+        .with("solana", async () => {
+            throw new Error("Chain mode not supported in this snippet");
+        })
+        .exhaustive();
 
     const res = await signAndSendRequest(
         accountId,
@@ -332,28 +335,32 @@ export async function createOrderAtOrderly(
     return json.data.order_id;
 }
 
+export async function getHoldings(
+    network: "mainnet" | "testnet",
+    accountId: string,
+    orderlyKey: Uint8Array,
+): Promise<API.Holding[]> {
+    const res = await signAndSendRequest(accountId, orderlyKey, `${getBaseUrlFromNetwork(network)}/v1/positions`);
+
+    if (!res.ok) {
+        throw new Error(`Could not fetch positions: ${await res.text()}`);
+    }
+    const json = (await res.json()) as {
+        success: boolean;
+        message?: string;
+        data: API.Holding[];
+    };
+    if (!json.success) {
+        throw new Error(json.message);
+    }
+    return json.data;
+}
+
 export interface EIP712Domain {
     name: string;
     version: string;
     chainId: number;
     verifyingContract: `0x${string}`;
-}
-
-interface SettlePnlMessage {
-    brokerId: string;
-    chainId: number;
-    settleNonce: string;
-    timestamp: string;
-}
-
-interface WithdrawMessage {
-    brokerId: string;
-    chainId: number;
-    receiver: string;
-    token: string;
-    amount: number;
-    timestamp: string;
-    withdrawNonce: string;
 }
 
 export const MESSAGE_TYPES = {

@@ -81,3 +81,9 @@ export class GetUSDCInfoOrderlyParams extends createToolParameters(
         symbol: z.string().describe("Get info for USDC tokens supported by Orderly Network."),
     }),
 ) {}
+
+export class GetUSDCBalanceHoldingsOrderlyParams extends createToolParameters(
+    z.object({
+        symbol: z.string().describe("Get balance info for tokens supported by Orderly Network."),
+    }),
+) {}
