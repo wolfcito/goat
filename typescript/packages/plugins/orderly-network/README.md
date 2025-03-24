@@ -34,13 +34,13 @@ For improved integration to work seamlessly with the ERC20 plugin, you can confi
 
 ```typescript
 import { USDC, erc20 } from "@goat-sdk/plugin-erc20";
-import { modeGovernance } from "@goat-sdk/plugin-mode-governance";
+import { orderlynetwork } from "@goat-sdk/plugin-orderly-network";
 
 const tools = await getOnChainTools({
     wallet: // ...
     plugins: [
         erc20({ tokens: [USDC] }),
-        modeGovernance()
+        orderlynetwork()
     ]
 });
 ```
