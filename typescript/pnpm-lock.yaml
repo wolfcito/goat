@@ -464,8 +464,8 @@ importers:
         specifier: 0.4.9
         version: 0.4.9(zod@3.23.8)
       '@goat-sdk/plugin-cosmosbank':
-        specifier: 0.0.6
-        version: 0.0.6(@cosmjs/stargate@0.33.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@goat-sdk/core@0.4.9(zod@3.23.8))(bufferutil@4.0.9)(cosmjs-types@0.9.0)(utf-8-validate@5.0.10)
+        specifier: 0.0.7
+        version: 0.0.7(@cosmjs/stargate@0.33.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@goat-sdk/core@0.4.9(zod@3.23.8))(bufferutil@4.0.9)(cosmjs-types@0.9.0)(utf-8-validate@5.0.10)
       '@goat-sdk/wallet-cosmos':
         specifier: 0.0.6
         version: 0.0.6(@goat-sdk/core@0.4.9(zod@3.23.8))(bufferutil@4.0.9)(utf-8-validate@5.0.10)
@@ -5564,9 +5564,9 @@ packages:
     peerDependencies:
       '@goat-sdk/core': 0.4.9
 
-  '@goat-sdk/plugin-cosmosbank@0.0.6':
-    resolution: {integrity: sha512-Kz1W+J57HZy2ZzENQTFgSrSa5oFduKphJltLt8SaknKTZi1AOIX4v6Jr20v3hSSu9bEg2NKFs+h7eTrrAYbSYA==}
-    engines: {node: '>=20.12.2 <21', npm: please-use-pnpm, pnpm: '>=9', yarn: please-use-pnpm}
+  '@goat-sdk/plugin-cosmosbank@0.0.7':
+    resolution: {integrity: sha512-ZywWB/SKZvZTygRCGwH65I0zxN0YQNHk4fjJ0c3/h5hX8wtJcHM5d2vLr8240XQ79onn9bHpHLwrZrKIeQ/e3A==}
+    engines: {node: '>=20.12.2', npm: please-use-pnpm, pnpm: '>=9', yarn: please-use-pnpm}
     peerDependencies:
       '@cosmjs/stargate': ^0.32.4
       '@goat-sdk/core': 0.4.9
@@ -22261,7 +22261,7 @@ snapshots:
       '@goat-sdk/core': 0.4.9(zod@3.23.8)
       zod: 3.23.8
 
-  '@goat-sdk/plugin-cosmosbank@0.0.6(@cosmjs/stargate@0.33.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@goat-sdk/core@0.4.9(zod@3.23.8))(bufferutil@4.0.9)(cosmjs-types@0.9.0)(utf-8-validate@5.0.10)':
+  '@goat-sdk/plugin-cosmosbank@0.0.7(@cosmjs/stargate@0.33.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(@goat-sdk/core@0.4.9(zod@3.23.8))(bufferutil@4.0.9)(cosmjs-types@0.9.0)(utf-8-validate@5.0.10)':
     dependencies:
       '@cosmjs/stargate': 0.33.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@goat-sdk/core': 0.4.9(zod@3.23.8)
