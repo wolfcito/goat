@@ -169,6 +169,13 @@ export class OrderlyNetworkService {
             parameters.order_price = undefined;
         }
 
+        if (convertedOrderType === OrderType.MARKET && parameters.side === "BUY") {
+            if (parameters.order_amount !== undefined) {
+                throw new Error(
+                    "In Futures mode, BUY orders do not support order_amount. Please use order_quantity instead.",
+                );
+            }
+        }
         const order = {
             ...parameters,
             order_type: convertedOrderType,

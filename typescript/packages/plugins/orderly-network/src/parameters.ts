@@ -34,14 +34,14 @@ export class CreateOrderOrderlyParams extends createToolParameters(
             .optional()
             .describe(
                 `Order quantity in base units.
-For MARKET/BID/ASK orders, use order_quantity only when placing SELL orders; for BUY orders, order_amount should be used.`,
+            For MARKET/BID/ASK orders in Futures mode, use order_quantity for both BUY and SELL orders.`,
             ),
         order_amount: z
             .string()
             .optional()
             .describe(
                 `Order size in terms of the quote currency.
-Valid only for MARKET/BID/ASK BUY orders. Both order_amount and order_quantity must not be provided simultaneously. Precision should be up to 8 digits.`,
+            (Not supported for BUY orders in Futures mode).`,
             ),
         visible_quantity: z
             .string()
