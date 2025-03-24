@@ -17,7 +17,8 @@ export function getEvmUSDCAddress(chain: number): Address {
         .with(5003, () => "0xAcab8129E2cE587fD203FD770ec9ECAFA2C88080")
         .with(713715, () => "0xd5164A5a83c64E59F842bC091E06614b84D95fF5")
         .with(43113, () => "0x5425890298aed601595a70ab815c96711a31bc65")
-        .otherwise(() => "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48") as Address;
+        .with(34443, () => "0xd988097fb8612cc24eeC14542bC03424c656005f")
+        .otherwise(() => "0xd988097fb8612cc24eeC14542bC03424c656005f") as Address;
 }
 
 export function getEvmVaultAddress(chain: number): Address {
@@ -36,7 +37,8 @@ export function getEvmVaultAddress(chain: number): Address {
         .with(5003, () => "0xfb0E5f3D16758984E668A3d76f0963710E775503")
         .with(713715, () => "0xA603f6e124259d37e43dd5008cB7613164D6a6e3")
         .with(43113, () => "0xAB6c8F6245B67421302AAe30AcEB10E00c30F463")
-        .otherwise(() => "0x816f722424b49cf1275cc86da9840fbd5a6167e9") as Address;
+        .with(34443, () => "0x816f722424B49Cf1275cc86DA9840Fbd5a6167e9")
+        .otherwise(() => "0x816f722424B49Cf1275cc86DA9840Fbd5a6167e9") as Address;
 }
 
 export const ORDERLY_VAULT_ABI = [
