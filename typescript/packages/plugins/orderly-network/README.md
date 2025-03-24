@@ -28,10 +28,92 @@ const tools = await getOnChainTools({
 });
 ```
 
+## Advanced Usage with ERC20 Plugin
+
+For improved integration to work seamlessly with the ERC20 plugin, you can configure your tools as follows:
+
+```typescript
+import { USDC, erc20 } from "@goat-sdk/plugin-erc20";
+import { modeGovernance } from "@goat-sdk/plugin-mode-governance";
+
+const tools = await getOnChainTools({
+    wallet: // ...
+    plugins: [
+        erc20({ tokens: [USDC] }),
+        modeGovernance()
+    ]
+});
+```
 ## Tools
-* Tool 1
-* Tool 2
-* Tool 3
+- Deposit USDC into Orderly Network
+- Withdraw USDC from Orderly Network
+- Create an order at Orderly Network
+- Close a position at Orderly Network
+- Get allowed symbol by network and token
+- Get the info of the USDC token
+- Get balance of user token holdings in Orderly
+
+## Configuration
+
+### Environment Variables
+
+The plugin requires some common environment variables and additional chain-specific variables depending on your chosen chain mode.
+
+---
+
+## Common Configuration
+
+### Core Orderly Configuration
+```bash
+ORDERLY_PRIVATE_KEY=           # Your private key for signing transactions (ed25519 format)
+ORDERLY_BROKER_ID=demo         # Your broker ID (default: demo)
+ORDERLY_NETWORK=testnet        # Network to connect to (testnet or mainnet)
+ORDERLY_CHAIN_MODE=            # Chain mode to use (evm or solana)
+```
+
+You can generate your Orderly private key using the Orderly Broker Registration Tool. This tool will provide you with the necessary credentials to interact with the Orderly Network.
+
+---
+
+## EVM Chain Configuration
+
+If using `ORDERLY_CHAIN_MODE=evm`, set these variables:
+
+```bash
+# EVM Configuration
+EVM_PRIVATE_KEY=               # Your EVM wallet private key
+EVM_PROVIDER_URL=              # Default RPC URL for mainnet (optional)
+
+# RPC URLs for each chain you want to use
+# Replace <chainname> with the uppercase chain name (e.g., ARBITRUMSEPOLIA, OPTIMISM, etc.)
+ETHEREUM_PROVIDER_<chainname>=  # RPC URL for the specific chain
+
+# Examples:
+ETHEREUM_PROVIDER_ARBITRUMSEPOLIA=https://sepolia-rollup.arbitrum.io/rpc
+ETHEREUM_PROVIDER_OPTIMISM=https://mainnet.optimism.io
+ETHEREUM_PROVIDER_BASE=https://mainnet.base.org
+```
+
+For each EVM chain you specify in your character configuration, you must provide a corresponding RPC URL in the environment variables. The environment variable name should be `ETHEREUM_PROVIDER_` followed by the chain name in uppercase.
+
+---
+
+## Solana Chain Configuration
+
+If using `ORDERLY_CHAIN_MODE=solana`, set these variables:
+
+```bash
+# Solana Configuration
+SOLANA_PRIVATE_KEY=            # Your Solana wallet private key (base58 encoded)
+```
+
+The plugin will automatically:
+
+- Derive your public key from the private key.
+- Use the appropriate Solana RPC endpoints based on your `ORDERLY_NETWORK` setting:
+  - For `ORDERLY_NETWORK=mainnet`: [https://api.mainnet-beta.solana.com](https://api.mainnet-beta.solana.com)
+  - For `ORDERLY_NETWORK=testnet`: [https://api.devnet.solana.com](https://api.devnet.solana.com)
+```
 
 <footer>
 <br/>

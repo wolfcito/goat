@@ -216,7 +216,7 @@ export async function settlePnlFromOrderly(
         }),
     });
     const settlePnlJson = await res.json();
-    console.log("settlePnlJson", { settlePnlJson });
+
     if (!settlePnlJson.success) {
         throw new Error(settlePnlJson.message);
     }
@@ -289,7 +289,7 @@ export async function withdrawUSDCFromOrderly(
         },
     );
     const withdrawJson = await res.json();
-    console.log("withdrawJson", { withdrawJson });
+
     if (!withdrawJson.success) {
         throw new Error(withdrawJson.message);
     }
@@ -328,7 +328,7 @@ export async function createOrderAtOrderly(
         message?: string;
         data: { order_id: string };
     };
-    console.log("json", { json });
+
     if (!json.success) {
         throw new Error(json.message);
     }
