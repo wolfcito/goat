@@ -31,26 +31,31 @@
 - [🤝 Community](#-community)
 
 # 🐐 Overview
-GOAT (Great Onchain Agent Toolkit) is the **largest library of onchain tools** for your AI agent:
+GOAT is the **largest agentic finance toolkit** for AI agents. 
 
+**Create agents that can:**
+- Send and receive payments
+- Purchase physical and digital goods and services
+- Engage in various investment strategies:
+  - Earn yield
+  - Bet on prediction markets
+  - Purchase crypto assets
+- Tokenize any asset
+- Get financial insights
+
+**How it works**
+
+GOAT leverages blockchains, stablecoins, and smart wallets as the infrastructure to enable agents to transact anywhere:
 1. Give your agent a **[wallet](https://github.com/goat-sdk/goat/tree/main#chains-and-wallets)**
-2. Allow it to transact on **[any chain](https://github.com/goat-sdk/goat/tree/main#chains-and-wallets)**
-3. Use more than **[+200 onchain tools](https://github.com/goat-sdk/goat/tree/main#tools)**
+2. Allow it to transact **[anywhere](https://github.com/goat-sdk/goat/tree/main#chains-and-wallets)**
+3. Use more than **[+200 tools](https://github.com/goat-sdk/goat/tree/main#tools)**
 4. Use it with **[any agent framework](https://github.com/goat-sdk/goat/tree/main#agent-frameworks)** of your choice
 
-See everything GOAT supports [here](https://github.com/goat-sdk/goat/tree/main#️-supported-tools-and-frameworks).
-
-**Create agents that can**
-- Transfer funds between wallets
-- Swap tokens
-- Create and manage DeFi positions
-- Create, buy and sell NFTs
-- Purchase physical assets onchain with crypto
-- Get onchain insights
+See everything GOAT supports [here](#️-supported-tools-and-frameworks).
 
 **Lightweight and extendable**
 
-Different from other agent kits, GOAT is designed to be lightweight and extendable by keeping its core minimal and allowing you to **install only the tools you need**.
+Different from other toolkits, GOAT is designed to be lightweight and extendable by keeping its core minimal and allowing you to **install only the tools you need**.
 
 If you don't find what you need on our more than 200 integrations you can easily:
 1. Create your own plugin
@@ -66,8 +71,11 @@ GOAT is free software, MIT licensed.
 
 # 🚀 Quickstarts
 - **By use case**
-  - Send and receive tokens [[EVM](https://github.com/goat-sdk/goat/tree/main/python/examples/by-use-case/evm-send-and-receive-tokens), [Solana](https://github.com/goat-sdk/goat/tree/main/python/examples/by-use-case/solana-send-and-receive-tokens)]
-  - Swap tokens [[EVM](https://github.com/goat-sdk/goat/tree/main/python/examples/by-use-case/evm-swap-tokens), [Solana](https://github.com/goat-sdk/goat/tree/main/python/examples/by-use-case/solana-swap-tokens)]
+  - **Money transmission**
+    - Send and receive payments [[EVM](https://github.com/goat-sdk/goat/tree/main/python/examples/by-use-case/evm-send-and-receive-tokens), [Solana](https://github.com/goat-sdk/goat/tree/main/python/examples/by-use-case/solana-send-and-receive-tokens)]
+  - **Investing**
+    - Generate yield [[Solana](https://github.com/goat-sdk/goat/tree/main/python/examples/by-use-case/solana-usdc-yield-deposit)]
+    - Purchase crypto assets [[EVM](https://github.com/goat-sdk/goat/tree/main/python/examples/by-use-case/evm-swap-tokens), [Solana](https://github.com/goat-sdk/goat/tree/main/python/examples/by-use-case/solana-swap-tokens)]
 - **By framework**
   - [Langchain](https://github.com/goat-sdk/goat/tree/main/python/examples/by-framework/langchain)
   - [OpenAI Agents SDK](https://github.com/goat-sdk/goat/tree/main/python/examples/by-framework/openai-agents-sdk)
