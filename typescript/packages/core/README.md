@@ -44,7 +44,7 @@ GOAT is the **largest agentic finance toolkit** for AI agents.
 
 **How it works**
 
-GOAT leverages blockchains, stablecoins, and smart wallets as the infrastructure to enable agents to transact anywhere:
+GOAT leverages blockchains, cryptocurrencies (such as stablecoins), and wallets as the infrastructure to enable agents to become economic actors:
 1. Give your agent a **[wallet](https://github.com/goat-sdk/goat/tree/main#chains-and-wallets)**
 2. Allow it to transact **[anywhere](https://github.com/goat-sdk/goat/tree/main#chains-and-wallets)**
 3. Use more than **[+200 tools](https://github.com/goat-sdk/goat/tree/main#tools)**
@@ -90,6 +90,7 @@ GOAT is free software, MIT licensed.
   - [LlamaIndex](https://github.com/goat-sdk/goat/tree/main/typescript/packages/adapters/llamaindex)
   - [MCP (Model Context Protocol)](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/model-context-protocol)
   - [Voice agent with ElevenLabs](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/eleven-labs)
+  - [Mastra](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/mastra)
   - [OpenAI GPT via REST API](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/chatgpt)
   - [Eliza Agent](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/eliza)
   - [GAME Agent](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/virtuals-game)

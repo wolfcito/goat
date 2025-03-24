@@ -45,7 +45,7 @@ GOAT is the **largest agentic finance toolkit** for AI agents.
 
 **How it works**
 
-GOAT leverages blockchains, stablecoins, and smart wallets as the infrastructure to enable agents to transact anywhere:
+GOAT leverages blockchains, cryptocurrencies (such as stablecoins), and wallets as the infrastructure to enable agents to become economic actors:
 1. Give your agent a **[wallet](https://github.com/goat-sdk/goat/tree/main#chains-and-wallets)**
 2. Allow it to transact **[anywhere](https://github.com/goat-sdk/goat/tree/main#chains-and-wallets)**
 3. Use more than **[+200 tools](https://github.com/goat-sdk/goat/tree/main#tools)**
@@ -76,6 +76,8 @@ GOAT is free software, MIT licensed.
   - **Investing**
     - Generate yield [[Solana](https://github.com/goat-sdk/goat/tree/main/python/examples/by-use-case/solana-usdc-yield-deposit)]
     - Purchase crypto assets [[EVM](https://github.com/goat-sdk/goat/tree/main/python/examples/by-use-case/evm-swap-tokens), [Solana](https://github.com/goat-sdk/goat/tree/main/python/examples/by-use-case/solana-swap-tokens)]
+  - **Tokenization**
+    - Tokenize non-fungible assets [[EVM](https://github.com/goat-sdk/goat/tree/main/python/examples/by-use-case/evm-mint-nft), [Solana](https://github.com/goat-sdk/goat/tree/main/python/examples/by-use-case/solana-mint-nft)]
 - **By framework**
   - [Langchain](https://github.com/goat-sdk/goat/tree/main/python/examples/by-framework/langchain)
   - [OpenAI Agents SDK](https://github.com/goat-sdk/goat/tree/main/python/examples/by-framework/openai-agents-sdk)
