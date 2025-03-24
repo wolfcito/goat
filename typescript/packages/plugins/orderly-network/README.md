@@ -71,7 +71,7 @@ ORDERLY_NETWORK=testnet        # Network to connect to (testnet or mainnet)
 ORDERLY_CHAIN_MODE=            # Chain mode to use (evm or solana)
 ```
 
-You can generate your Orderly private key using the Orderly Broker Registration Tool. This tool will provide you with the necessary credentials to interact with the Orderly Network.
+You can generate your Orderly private key using the [Orderly Broker Registration Tool](https://orderlynetwork.github.io/broker-registration/). This tool will provide you with the necessary credentials to interact with the Orderly Network.
 
 ---
 
