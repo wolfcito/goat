@@ -201,14 +201,19 @@ export class OrderlyNetworkService {
             const orderlyKey = await getOrderlyKey();
 
             const position = await getPosition(network, accountId, orderlyKey, parameters.symbol);
-            console.log("position", { position });
+            if (!position) {
+                throw new Error(`No position found for symbol ${parameters.symbol}`);
+            }
+            if (position.position_qty === 0) {
+                throw new Error("Position quantity is zero, there is no position to close");
+            }
 
             const order: OrderEntity = {
                 order_type: OrderType.MARKET,
-                side: parameters.position_qty > 0 ? OrderSide.SELL : OrderSide.BUY,
-                symbol: parameters.symbol,
+                side: position.position_qty > 0 ? OrderSide.SELL : OrderSide.BUY,
+                symbol: position.symbol,
                 reduce_only: true,
-                order_quantity: String(Math.abs(parameters.position_qty)),
+                order_quantity: String(Math.abs(position.position_qty)),
             };
 
             const orderId = await createOrderAtOrderly(network, accountId, orderlyKey, order);
