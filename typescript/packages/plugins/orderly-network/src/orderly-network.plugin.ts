@@ -9,6 +9,8 @@ import {
     mainnet,
     mantle,
     mantleSepoliaTestnet,
+    mode,
+    modeTestnet,
     optimism,
     optimismSepolia,
     sei,
@@ -18,6 +20,8 @@ import {
 import { OrderlyNetworkService } from "./orderly-network.service";
 
 const SUPPORTED_CHAINS = [
+    mode,
+    modeTestnet,
     mainnet,
     sepolia,
     arbitrum,
