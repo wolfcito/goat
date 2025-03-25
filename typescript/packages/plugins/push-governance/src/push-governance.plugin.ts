@@ -1,7 +1,7 @@
 import { Chain, PluginBase } from "@goat-sdk/core";
-import { mainnet } from "viem/chains";
+import { mainnet, sepolia } from "viem/chains";
 import { PushGovernanceService } from "./push-governance.service";
-const SUPPORTED_CHAINS = [mainnet];
+const SUPPORTED_CHAINS = [mainnet, sepolia];
 
 export class PushGovernancePlugin extends PluginBase {
     constructor() {

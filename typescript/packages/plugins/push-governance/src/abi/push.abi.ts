@@ -1,5 +1,6 @@
 export const DELEGATE_ADDRESS: Record<number, string> = {
     1: "0xf418588522d5dd018b425e472991e52ebbeeeeee",
+    11155111: "0x37c779a1564DCc0e3914aB130e0e787d93e21804",
 };
 
 export const PUSH_ABI = [

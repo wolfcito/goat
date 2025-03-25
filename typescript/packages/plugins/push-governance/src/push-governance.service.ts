@@ -36,7 +36,7 @@ export class PushGovernanceService {
         name: "get_push_token_address",
         description: "Get the address of the PUSH token.",
     })
-    async getPushTokenAddress(parameters: GetPushTokenAddressParams): Promise<Token> {
+    async getPushTokenAddress(walletClient: EVMWalletClient, parameters: GetPushTokenAddressParams): Promise<Token> {
         const tokens: Record<string, Token> = {
             PUSH: {
                 decimals: 18,
@@ -46,15 +46,101 @@ export class PushGovernanceService {
                     1: {
                         contractAddress: "0xf418588522d5dd018b425E472991E52EBBeEEEEE",
                     },
+                    11155111: {
+                        contractAddress: "0x37c779a1564DCc0e3914aB130e0e787d93e21804",
+                    },
                 },
             },
         };
+
+        const network = walletClient.getChain();
+        if (!network?.id) {
+            throw new Error("Unable to determine chain ID from wallet client");
+        }
 
         const token = tokens[parameters.symbol.toUpperCase()];
         if (!token) {
             throw new Error(`Token ${parameters.symbol} not found`);
         }
-        return token;
+        const chain = token.chains[network.id];
+        if (!chain) {
+            throw new Error(`No contract address found for chainId ${network.id}`);
+        }
+        return {
+            decimals: token.decimals,
+            symbol: token.symbol,
+            name: token.name,
+            chains: { [network.id]: { contractAddress: chain.contractAddress } },
+        };
+    }
+
+    @Tool({
+        name: "get_push_balance",
+        description: "Get the $PUSH balance of an address",
+    })
+    async getPushBalance(walletClient: EVMWalletClient, parameters: GetPushTokenAddressParams): Promise<string> {
+        try {
+            const address = walletClient.getAddress();
+            const network = walletClient.getChain();
+            const contractAddress = this.getContractAddress(network.id);
+
+            const balance = await walletClient.read({
+                address: contractAddress,
+                abi: PUSH_ABI,
+                functionName: "balanceOf",
+                args: [address],
+            });
+
+            return String(balance.value);
+        } catch (error) {
+            throw new Error(`Failed to retrieve $PUSH balance: ${error}`);
+        }
+    }
+
+    @Tool({
+        name: "get_voting_power",
+        description: "Get the current voting power of an address",
+    })
+    async getVotingPower(walletClient: EVMWalletClient, parameters: GetPushTokenAddressParams): Promise<string> {
+        try {
+            const address = walletClient.getAddress();
+            const network = walletClient.getChain();
+            const contractAddress = this.getContractAddress(network.id);
+
+            const votingPower = await walletClient.read({
+                address: contractAddress,
+                abi: PUSH_ABI,
+                functionName: "getCurrentVotes",
+                args: [address],
+            });
+
+            return String(votingPower.value);
+        } catch (error) {
+            throw new Error(`Failed to retrieve voting power: ${error}`);
+        }
+    }
+
+    @Tool({
+        name: "get_delegated_to",
+        description: "Get the address to which the voting power is delegated",
+    })
+    async getDelegatedTo(walletClient: EVMWalletClient, parameters: GetPushTokenAddressParams): Promise<string> {
+        try {
+            const address = walletClient.getAddress();
+            const network = walletClient.getChain();
+            const contractAddress = this.getContractAddress(network.id);
+
+            const delegatedTo = await walletClient.read({
+                address: contractAddress,
+                abi: PUSH_ABI,
+                functionName: "delegates",
+                args: [address],
+            });
+
+            return delegatedTo.value as `0x${string}`;
+        } catch (error) {
+            return `Failed to retrieve delegated address: ${error}`;
+        }
     }
 
     private getContractAddress(chainId: number): string {
