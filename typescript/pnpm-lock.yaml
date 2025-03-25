@@ -1130,7 +1130,7 @@ importers:
         version: 0.2.11(@goat-sdk/core@0.4.9(zod@3.23.8))(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)
       '@goat-sdk/wallet-lit':
         specifier: 0.2.19
-        version: 0.2.19(@goat-sdk/core@0.4.9(zod@3.23.8))(@simplewebauthn/browser@9.0.1)(@simplewebauthn/typescript-types@7.4.0)(@walletconnect/modal@2.7.0)(bufferutil@4.0.9)(date-and-time@2.4.3)(encoding@0.1.13)(multiformats@11.0.2)(tslib@2.8.1)(typescript@5.8.2)(utf-8-validate@5.0.10)(viem@2.23.4(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.23.8))(web-vitals@3.5.2)
+        version: 0.2.19(@goat-sdk/core@0.4.9(zod@3.23.8))(@simplewebauthn/browser@9.0.1)(@simplewebauthn/typescript-types@7.4.0)(bufferutil@4.0.9)(date-and-time@2.4.3)(encoding@0.1.13)(multiformats@11.0.2)(tslib@2.8.1)(typescript@5.8.2)(utf-8-validate@5.0.10)(viem@2.23.4(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.23.8))
       '@goat-sdk/wallet-solana':
         specifier: 0.2.16
         version: 0.2.16(@goat-sdk/core@0.4.9(zod@3.23.8))(@solana/web3.js@1.98.0(bufferutil@4.0.9)(encoding@0.1.13)(utf-8-validate@5.0.10))(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)
@@ -1798,24 +1798,6 @@ importers:
       '@goat-sdk/core':
         specifier: workspace:*
         version: link:../../core
-      '@irys/upload':
-        specifier: 0.0.15
-        version: 0.0.15(arweave@1.15.5)(bufferutil@4.0.9)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@irys/upload-ethereum':
-        specifier: 0.0.16
-        version: 0.0.16(arweave@1.15.5)(bufferutil@4.0.9)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      zod:
-        specifier: 'catalog:'
-        version: 3.23.8
-
-  packages/plugins/irys-xyz:
-    dependencies:
-      '@goat-sdk/core':
-        specifier: workspace:*
-        version: link:../../core
-      '@goat-sdk/wallet-evm':
-        specifier: workspace:*
-        version: link:../../wallets/evm
       '@irys/upload':
         specifier: 0.0.15
         version: 0.0.15(arweave@1.15.5)(bufferutil@4.0.9)(encoding@0.1.13)(utf-8-validate@5.0.10)
@@ -13383,7 +13365,6 @@ packages:
 
   libsql@0.4.7:
     resolution: {integrity: sha512-T9eIRCs6b0J1SHKYIvD8+KCJMcWZ900iZyxdnSCdqxN12Z1ijzT+jY5nrk72Jw4B0HGzms2NgpryArlJqvc3Lw==}
-    cpu: [x64, arm64, wasm32]
     os: [darwin, linux, win32]
 
   lie@3.3.0:
@@ -22511,7 +22492,7 @@ snapshots:
       fuels: 0.97.2(encoding@0.1.13)(vitest@2.1.9(@types/node@22.13.13)(terser@5.37.0))
       zod: 3.23.8
 
-  '@goat-sdk/wallet-lit@0.2.19(@goat-sdk/core@0.4.9(zod@3.23.8))(@simplewebauthn/browser@9.0.1)(@simplewebauthn/typescript-types@7.4.0)(@walletconnect/modal@2.7.0)(bufferutil@4.0.9)(date-and-time@2.4.3)(encoding@0.1.13)(multiformats@11.0.2)(tslib@2.8.1)(typescript@5.8.2)(utf-8-validate@5.0.10)(viem@2.23.4(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.23.8))(web-vitals@3.5.2)':
+  '@goat-sdk/wallet-lit@0.2.19(@goat-sdk/core@0.4.9(zod@3.23.8))(@simplewebauthn/browser@9.0.1)(@simplewebauthn/typescript-types@7.4.0)(bufferutil@4.0.9)(date-and-time@2.4.3)(encoding@0.1.13)(multiformats@11.0.2)(tslib@2.8.1)(typescript@5.8.2)(utf-8-validate@5.0.10)(viem@2.23.4(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.23.8))':
     dependencies:
       '@goat-sdk/core': 0.4.9(zod@3.23.8)
       '@goat-sdk/wallet-evm': 0.2.11(@goat-sdk/core@0.4.9(zod@3.23.8))(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)
