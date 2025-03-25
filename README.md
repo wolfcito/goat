@@ -51,7 +51,7 @@ GOAT is the **largest agentic finance toolkit** for AI agents.
 
 **How it works**
 
-GOAT leverages blockchains, stablecoins, and smart wallets as the infrastructure to enable agents to transact anywhere:
+GOAT leverages blockchains, cryptocurrencies (such as stablecoins), and wallets as the infrastructure to enable agents to become economic actors:
 1. Give your agent a **[wallet](https://github.com/goat-sdk/goat/tree/main#chains-and-wallets)**
 2. Allow it to transact **[anywhere](https://github.com/goat-sdk/goat/tree/main#chains-and-wallets)**
 3. Use more than **[+200 tools](https://github.com/goat-sdk/goat/tree/main#tools)**
@@ -99,6 +99,7 @@ GOAT is free software, MIT licensed.
   - [LlamaIndex](https://github.com/goat-sdk/goat/tree/main/typescript/packages/adapters/llamaindex)
   - [MCP (Model Context Protocol)](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/model-context-protocol)
   - [Voice agent with ElevenLabs](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/eleven-labs)
+  - [Mastra](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/mastra)
   - [OpenAI GPT via REST API](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/chatgpt)
   - [Eliza Agent](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/eliza)
   - [GAME Agent](https://github.com/goat-sdk/goat/tree/main/typescript/examples/by-framework/virtuals-game)
@@ -157,7 +158,7 @@ GOAT is free software, MIT licensed.
 | Hedgey | Claim rewards on Hedgey | [@goat-sdk/plugin-hedgey](https://www.npmjs.com/package/@goat-sdk/plugin-hedgey) |
 | Ionic | Borrow and lend on Ionic | [@goat-sdk/plugin-ionic](https://www.npmjs.com/package/@goat-sdk/plugin-ionic) |
 | Ironclad | Create positions on Ironclad | [@goat-sdk/plugin-ironclad](https://www.npmjs.com/package/@goat-sdk/plugin-ironclad) |
-| Irys | Deploy Irys plugins | [@goat-sdk/plugin-irys-xyz](https://www.npmjs.com/package/@goat-sdk/plugin-irys-xyz) |
+| Irys | Interact with Irys datachain | [@goat-sdk/plugin-irys](https://www.npmjs.com/package/@goat-sdk/plugin-irys) |
 | JSON RPC | Call any JSON RPC endpoint |[@goat-sdk/plugin-jsonrpc](https://www.npmjs.com/package/@goat-sdk/plugin-jsonrpc) | [goat-sdk-plugin-jsonrpc](https://github.com/goat-sdk/goat/tree/main/python/src/plugins/jsonrpc) |
 | Jupiter | Swap tokens on Jupiter | [@goat-sdk/plugin-jupiter](https://www.npmjs.com/package/@goat-sdk/plugin-jupiter) | [goat-sdk-plugin-jupiter](https://github.com/goat-sdk/goat/tree/main/python/src/plugins/jupiter) |
 | KIM | Swap tokens on KIM | [@goat-sdk/plugin-kim](https://www.npmjs.com/package/@goat-sdk/plugin-kim) |
@@ -217,6 +218,7 @@ GOAT is free software, MIT licensed.
 | Langchain | [@goat-sdk/adapter-langchain](https://github.com/goat-sdk/goat/tree/main/typescript/packages/adapters/langchain) | [goat-sdk-adapter-langchain](https://github.com/goat-sdk/goat/tree/main/python/src/adapters/langchain)
 | ElevenLabs | [@goat-sdk/adapter-eleven-labs](https://github.com/goat-sdk/goat/tree/main/typescript/packages/adapters/eleven-labs)
 | LlamaIndex | [@goat-sdk/adapter-llamaindex](https://github.com/goat-sdk/goat/tree/main/typescript/packages/adapters/llamaindex) |
+| Mastra | [@goat-sdk/adapter-mastra](https://github.com/goat-sdk/goat/tree/main/typescript/packages/adapters/mastra) |
 | OpenAI Agents SDK |  | [goat-sdk-adapter-openai-agents-sdk](https://github.com/goat-sdk/goat/tree/main/python/src/adapters/openai_agents_sdk) |
 | Model Context Protocol | [@goat-sdk/adapter-model-context-protocol](https://github.com/goat-sdk/goat/tree/main/typescript/packages/adapters/model-context-protocol) |
 | Eliza | [@elizaos/plugin-goat](https://github.com/elizaos-plugins/plugin-goat) |

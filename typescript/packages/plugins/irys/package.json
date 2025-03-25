@@ -1,5 +1,5 @@
 {
-    "name": "@goat-sdk/plugin-irys-xyz",
+    "name": "@goat-sdk/plugin-irys",
     "version": "0.1.1",
     "files": ["dist/**/*", "README.md", "package.json"],
     "scripts": {
@@ -23,7 +23,6 @@
     "keywords": ["ai", "agents", "web3"],
     "dependencies": {
         "@goat-sdk/core": "workspace:*",
-        "@goat-sdk/wallet-evm": "workspace:*",
         "@irys/upload": "0.0.15",
         "@irys/upload-ethereum": "0.0.16",
         "zod": "catalog:"
