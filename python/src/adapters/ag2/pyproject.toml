@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "goat-sdk-plugin-erc20"
-version = "0.1.2"
-description = "Goat plugin for ERC20"
+name = "goat-sdk-adapter-ag2"
+version = "0.1.0"
+description = "Goat adapter for AG2"
 authors = [
     "Andrea Villa <andreakarimodm@gmail.com>",
 ]
@@ -16,13 +16,13 @@ keywords = [
 homepage = "https://ohmygoat.dev/"
 repository = "https://github.com/goat-sdk/goat"
 packages = [
-    { include = "goat_plugins/erc20" },
+    { include = "goat_adapters/ag2" },
 ]
 
 [tool.poetry.dependencies]
-python = "^3.10"
-goat-sdk = "^0.1.0"
-goat-sdk-wallet-evm = "^0.1.0"
+python = "^3.10,<3.14"
+goat-sdk = ">=0.1.6"
+ag2 = ">=0.8.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^8.3.4"
@@ -33,10 +33,6 @@ ruff = "^0.8.6"
 
 [tool.poetry.group.dev.dependencies.goat-sdk]
 path = "../../goat-sdk"
-develop = true
-
-[tool.poetry.group.dev.dependencies.goat-sdk-wallet-evm]
-path = "../../wallets/evm"
 develop = true
 
 [tool.poetry.urls]
