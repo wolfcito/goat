@@ -241,4 +241,3 @@ See guides on how to do that here:
 # 🤝 Community
 - Follow us on [X](https://x.com/goat_sdk)
 - Join our [Discord](https://discord.gg/goat-sdk)
-
