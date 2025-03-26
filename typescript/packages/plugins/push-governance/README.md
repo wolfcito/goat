@@ -7,7 +7,15 @@
 
 # PushGovernance GOAT Plugin
 
-Brief description of the PushGovernance plugin and what it does
+The **PushGovernance** plugin enhances the experience for new adopters of PushChain by simplifying governance interactions. It allows users to interact with the PUSH token and manage voting power efficiently. The plugin includes the following functionalities:
+
+- **delegateVotingPower**: Enables users to delegate their voting power to a specified address.
+- **getPushTokenAddress**: Retrieves the address of the PUSH token on various chains.
+- **getPushBalance**: Fetches the $PUSH token balance of an address.
+- **getVotingPower**: Retrieves the current voting power of an address.
+- **getDelegatedTo**: Shows the address to which the user's voting power is delegated.
+
+These features streamline governance participation and enhance the overall user experience in the PushChain ecosystem.
 
 ## Installation
 ```bash
@@ -29,9 +37,11 @@ const tools = await getOnChainTools({
 ```
 
 ## Tools
-* Tool 1
-* Tool 2
-* Tool 3
+* delegateVotingPower
+* getPushTokenAddress
+* getPushBalance
+* getVotingPower
+* getDelegatedTo
 
 <footer>
 <br/>

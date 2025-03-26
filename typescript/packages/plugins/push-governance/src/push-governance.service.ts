@@ -8,7 +8,10 @@ export class PushGovernanceService {
         name: "delegate_voting_power",
         description: "Delegate your voting power to a specified address",
     })
-    async delegateVotingPower(walletClient: EVMWalletClient, parameters: DelegateParams): Promise<string> {
+    async delegateVotingPower(
+        walletClient: EVMWalletClient,
+        parameters: DelegateParams,
+    ): Promise<DelegateVotingPowerResponse> {
         try {
             const { delegateAddress } = parameters;
 
@@ -26,7 +29,11 @@ export class PushGovernanceService {
                 args: [delegateAddress ?? walletClient.getAddress()],
             });
 
-            return hash;
+            return {
+                hash: hash as `0x${string}`,
+                chainId: network.id,
+                newDelegateAddress: (delegateAddress ?? walletClient.getAddress()) as `0x${string}`,
+            };
         } catch (error) {
             throw new Error(`Failed to delegate voting power: ${error}`);
         }
@@ -157,4 +164,10 @@ interface Token {
     symbol: string;
     name: string;
     chains: Record<number, { contractAddress: `0x${string}` }>;
+}
+
+interface DelegateVotingPowerResponse {
+    hash: `0x${string}`;
+    chainId: number;
+    newDelegateAddress: `0x${string}`;
 }
