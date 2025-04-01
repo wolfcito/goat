@@ -4,11 +4,12 @@ import { EnsService } from "./ens.service";
 
 type EnsPluginOptions = {
     provider?: string;
+    chainId?: number;
 };
 
 export class EnsPlugin extends PluginBase<EVMWalletClient> {
     constructor(options: EnsPluginOptions) {
-        super("ens", [new EnsService(options.provider)]);
+        super("ens", [new EnsService(options.provider, options.chainId)]);
     }
 
     supportsChain = (chain: Chain) => {
@@ -16,6 +17,6 @@ export class EnsPlugin extends PluginBase<EVMWalletClient> {
     };
 }
 
-export function ens({ provider }: EnsPluginOptions) {
-    return new EnsPlugin({ provider });
+export function ens({ provider, chainId }: EnsPluginOptions) {
+    return new EnsPlugin({ provider, chainId });
 }

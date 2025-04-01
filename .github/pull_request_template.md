@@ -36,3 +36,6 @@ If a docs change is needed: I have updated the documentation accordingly.
 ## Checklist
 - [ ] I have tested this change and added the relevant screenshots to the PR description
 - [ ] I updated the [README](https://github.com/goat-sdk/goat/blob/main/README.md) if necessary to include the new plugin, wallet, chain, etc.
+
+If you require releasing a new version of the package:
+- [ ] I have added a changset for the specific package by running `pnpm change:add` from the `typescript` directory

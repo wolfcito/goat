@@ -121,6 +121,8 @@ GOAT is free software, MIT licensed.
 - **By framework**
   - [Langchain](https://github.com/goat-sdk/goat/tree/main/python/examples/by-framework/langchain)
   - [OpenAI Agents SDK](https://github.com/goat-sdk/goat/tree/main/python/examples/by-framework/openai-agents-sdk)
+  - [AG2](https://github.com/goat-sdk/goat/tree/main/python/examples/by-framework/ag2)
+  - [CrewAI](https://github.com/goat-sdk/goat/tree/main/python/examples/by-framework/crewai)
   - [GAME Agent](https://github.com/game-by-virtuals/game-python/tree/main/plugins/onchain_actions)
   - [ZerePy](https://github.com/blorm-network/ZerePy/blob/main/src/connections/goat_connection.py)
 - **By wallet**
@@ -158,7 +160,7 @@ GOAT is free software, MIT licensed.
 | Hedgey | Claim rewards on Hedgey | [@goat-sdk/plugin-hedgey](https://www.npmjs.com/package/@goat-sdk/plugin-hedgey) |
 | Ionic | Borrow and lend on Ionic | [@goat-sdk/plugin-ionic](https://www.npmjs.com/package/@goat-sdk/plugin-ionic) |
 | Ironclad | Create positions on Ironclad | [@goat-sdk/plugin-ironclad](https://www.npmjs.com/package/@goat-sdk/plugin-ironclad) |
-| Irys | Deploy Irys plugins | [@goat-sdk/plugin-irys-xyz](https://www.npmjs.com/package/@goat-sdk/plugin-irys-xyz) |
+| Irys | Interact with Irys datachain | [@goat-sdk/plugin-irys](https://www.npmjs.com/package/@goat-sdk/plugin-irys) |
 | JSON RPC | Call any JSON RPC endpoint |[@goat-sdk/plugin-jsonrpc](https://www.npmjs.com/package/@goat-sdk/plugin-jsonrpc) | [goat-sdk-plugin-jsonrpc](https://github.com/goat-sdk/goat/tree/main/python/src/plugins/jsonrpc) |
 | Jupiter | Swap tokens on Jupiter | [@goat-sdk/plugin-jupiter](https://www.npmjs.com/package/@goat-sdk/plugin-jupiter) | [goat-sdk-plugin-jupiter](https://github.com/goat-sdk/goat/tree/main/python/src/plugins/jupiter) |
 | KIM | Swap tokens on KIM | [@goat-sdk/plugin-kim](https://www.npmjs.com/package/@goat-sdk/plugin-kim) |
@@ -216,10 +218,12 @@ GOAT is free software, MIT licensed.
 | --- | --- | --- |
 | AI SDK | [@goat-sdk/adapter-vercel-ai](https://github.com/goat-sdk/goat/tree/main/typescript/packages/adapters/vercel-ai) |
 | Langchain | [@goat-sdk/adapter-langchain](https://github.com/goat-sdk/goat/tree/main/typescript/packages/adapters/langchain) | [goat-sdk-adapter-langchain](https://github.com/goat-sdk/goat/tree/main/python/src/adapters/langchain)
+| CrewAI |  | [goat-sdk-adapter-crewai](https://github.com/goat-sdk/goat/tree/main/python/src/adapters/crewai) |
 | ElevenLabs | [@goat-sdk/adapter-eleven-labs](https://github.com/goat-sdk/goat/tree/main/typescript/packages/adapters/eleven-labs)
 | LlamaIndex | [@goat-sdk/adapter-llamaindex](https://github.com/goat-sdk/goat/tree/main/typescript/packages/adapters/llamaindex) |
 | Mastra | [@goat-sdk/adapter-mastra](https://github.com/goat-sdk/goat/tree/main/typescript/packages/adapters/mastra) |
 | OpenAI Agents SDK |  | [goat-sdk-adapter-openai-agents-sdk](https://github.com/goat-sdk/goat/tree/main/python/src/adapters/openai_agents_sdk) |
+| AG2 |  | [goat-sdk-adapter-ag2](https://github.com/goat-sdk/goat/tree/main/python/src/adapters/ag2) |
 | Model Context Protocol | [@goat-sdk/adapter-model-context-protocol](https://github.com/goat-sdk/goat/tree/main/typescript/packages/adapters/model-context-protocol) |
 | Eliza | [@elizaos/plugin-goat](https://github.com/elizaos-plugins/plugin-goat) |
 | GAME | [game-node](https://github.com/game-by-virtuals/game-node/tree/main/plugins/onChainActionsPlugin) | [game-python](https://github.com/game-by-virtuals/game-python/tree/main/plugins/onchain_actions)
@@ -241,4 +245,3 @@ See guides on how to do that here:
 # 🤝 Community
 - Follow us on [X](https://x.com/goat_sdk)
 - Join our [Discord](https://discord.gg/goat-sdk)
-
