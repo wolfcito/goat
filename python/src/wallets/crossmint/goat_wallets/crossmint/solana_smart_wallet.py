@@ -1,6 +1,7 @@
 from time import sleep
 from typing import Dict, List, Optional, Any, TypedDict, Union
 import base58
+import base64
 import nacl.signing
 from solders.instruction import Instruction
 from solders.keypair import Keypair
@@ -211,6 +212,8 @@ class SolanaSmartWalletClient(SolanaWalletClient, BaseWalletClient):
         signer: Optional[Keypair] = None,
         required_signers: Optional[List[str]] = None,
     ) -> Dict[str, str]:
+        transaction = self.parse_serialized_transaction(transaction)
+
         params = SolanaSmartWalletTransactionParams(
             transaction=transaction,
             required_signers=required_signers,
@@ -321,6 +324,19 @@ class SolanaSmartWalletClient(SolanaWalletClient, BaseWalletClient):
             raise ValueError(
                 f"Admin signer address not found for wallet {self._address}")
         return address
+
+    def parse_serialized_transaction(self, transaction: str) -> str:
+        try:
+            base58.b58decode(transaction)
+            return transaction
+        except Exception:
+            print("Transaction is not base58 encoded, trying to decode as base64")
+            try:
+                return base58.b58encode(
+                    base64.b64decode(transaction)).decode()
+            except Exception:
+                raise ValueError(
+                    "Transaction is not base58 or base64 encoded")
 
     @staticmethod
     def derive_address_from_secret_key(secret_key: str) -> str:
