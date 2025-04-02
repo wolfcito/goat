@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "goat-sdk-plugin-jupiter"
-version = "0.1.1"
+version = "0.1.2"
 description = "Goat plugin for jupiter"
 authors = [
     "Your Name <your_email@example.com>",
