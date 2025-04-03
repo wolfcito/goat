@@ -72,11 +72,14 @@ async def main():
 
     api_key = os.getenv("CROSSMINT_API_KEY")
     base_url = os.getenv("CROSSMINT_BASE_URL",
-                         "https://staging.crossmint.com")
+                         "https://crossmint.com")
     rpc_url = os.getenv("SOLANA_RPC_ENDPOINT",
                         "https://api.devnet.solana.com")
     if not api_key:
         raise ValueError("❌ CROSSMINT_API_KEY is required")
+    if "staging" in base_url:
+        raise ValueError(
+            "❌ Jupiter DEX is only available on mainnet. Please use the Crossmint mainnet URL.")
 
     print("\n🔧 Initializing API client and connection...")
     api_client = CrossmintWalletsAPI(api_key, base_url=base_url)
