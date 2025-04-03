@@ -1,5 +1,5 @@
 """
-This example shows how to create a Solana Smart Wallet and swap USDC for wSOL using the Jupiter DEX.
+This example shows how to create a Solana Smart Wallet and swap USDC for MOTHER using the Jupiter DEX.
 
 To run this example, you need to set the following environment variables:
 - CROSSMINT_API_KEY
@@ -10,6 +10,7 @@ To run this example, you need to set the following environment variables:
 
 import os
 import asyncio
+from time import sleep
 from goat_wallets.crossmint.solana_smart_wallet import SolanaSmartWalletClient
 from goat_wallets.crossmint.parameters import CoreSignerType
 from goat_wallets.crossmint.solana_smart_wallet_factory import SolanaSmartWalletFactory
@@ -19,7 +20,6 @@ from solana.rpc.api import Client as SolanaClient
 from goat_wallets.crossmint.api_client import CrossmintWalletsAPI
 from dotenv import load_dotenv
 from goat_plugins.jupiter.service import JupiterService
-import json
 
 load_dotenv()
 
@@ -42,13 +42,13 @@ def create_wallet(factory: SolanaSmartWalletFactory) -> SolanaSmartWalletClient:
 
 async def send_swap_transaction(wallet: SolanaSmartWalletClient):
     usdc_mint = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
-    wsol_mint = "So11111111111111111111111111111111111111112"
+    mother_mint = "3S8qX1MsMqRbiwKg2cQyx7nis1oHMgaCuc9c4VfvVdPN"
     amount = 1e-3
 
     print("\n💸 Preparing transaction...")
     print(f"📝 Transaction Details:")
     print(f"   Input Mint: {usdc_mint}")
-    print(f"   Output Mint: {wsol_mint}")
+    print(f"   Output Mint: {mother_mint}")
     print(f"   Amount: {amount} USDC")
 
     print("\n📤 Sending swap transaction to network...")
@@ -56,7 +56,7 @@ async def send_swap_transaction(wallet: SolanaSmartWalletClient):
         wallet,
         {
             "inputMint": usdc_mint,
-            "outputMint": wsol_mint,
+            "outputMint": mother_mint,
             "amount": int(amount * 1e6),
             "slippageBps": 100,
         }
@@ -64,10 +64,20 @@ async def send_swap_transaction(wallet: SolanaSmartWalletClient):
 
     print(f"✅ Transaction sent successfully!")
     print(f"🔗 Transaction Hash: {transaction_response.get('hash')}")
+    sleep(10)
+
+
+def get_balances(wallet: SolanaSmartWalletClient):
+    balances = wallet.balance_of(["usdc", "mother"])
+    usdc_balance = next((balance.get("balances", {}).get("total")
+                         for balance in balances if balance.get("token") == "usdc"))
+    mother_balance = next((balance.get("balances", {}).get("total")
+                           for balance in balances if balance.get("token") == "mother"))
+    return int(usdc_balance), int(mother_balance)
 
 
 async def main():
-    print("🚀 Starting Solana Smart Wallet Keypair Admin Signer Example")
+    print("🚀 Starting Solana Smart Wallet Swap Example")
     print("=" * 50)
 
     api_key = os.getenv("CROSSMINT_API_KEY")
@@ -90,22 +100,24 @@ async def main():
 
     while True:
         print("🔄 Checking balance...")
-        token = "usdc"
-        balances = wallet.balance_of([token])
-        print("💰 Wallet balances:")
-        print(json.dumps(balances, indent=2))
-        usdc_balance = next((balance.get("balances", {}).get("total")
-                            for balance in balances if balance.get("token") == token))
+        usdc_balance, mother_balance = get_balances(wallet)
+        print(f"💰 USDC balance: {usdc_balance/1e6}")
+        print(f"💰 MOTHER balance: {mother_balance/1e6}")
         if usdc_balance is None:
             raise ValueError("❌ No USDC balance found")
         if int(usdc_balance) >= 1_000:  # 1e-3 USDC
-            print("✅ Balance is sufficient. Proceeding to send transaction...")
+            print(
+                f"✅ Balance {usdc_balance/1e6} USDC is sufficient. Proceeding to send transaction...")
             break
         print("Your balance is less than 1e-3 USDC. Please fund your wallet before proceeding.")
         print("Mind that the balance may take a moment to be reflected on your wallet")
         input("Press Enter to continue...")
 
     await send_swap_transaction(wallet)
+    print("🔄 Checking balance...")
+    usdc_balance, mother_balance = get_balances(wallet)
+    print(f"💰 USDC balance: {usdc_balance/1e6}")
+    print(f"💰 MOTHER balance: {mother_balance/1e6}")
 
     print("\n✨ Example completed successfully!")
     print("=" * 50)
