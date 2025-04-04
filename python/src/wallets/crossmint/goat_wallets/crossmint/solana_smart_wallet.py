@@ -15,8 +15,8 @@ from goat_wallets.solana import SolanaWalletClient, SolanaTransaction
 from .api_client import CrossmintWalletsAPI
 from .parameters import SolanaSmartWalletTransactionParams
 from .base_wallet import BaseWalletClient, get_locator
-from .types import LinkedUser, SolanaFireblocksSigner, SolanaKeypairSigner, SupportedToken, TokenBalance, UnsupportedOperationException
-
+from .types import LinkedUser, SolanaFireblocksSigner, SolanaKeypairSigner, SupportedToken, UnsupportedOperationException
+from goat.classes.wallet_client_base import Balance
 
 class SolanaSmartWalletConfig(TypedDict):
     """Configuration specific to Solana smart wallets."""
@@ -101,8 +101,17 @@ class SolanaSmartWalletClient(SolanaWalletClient, BaseWalletClient):
         serialized = base58.b58encode(bytes(versioned_transaction)).decode()
         return self.send_raw_transaction(serialized, additional_signers, transaction.get("signer", None))
 
-    def balance_of(self, tokens: List[SupportedToken]) -> List[TokenBalance]:
-        return self._client.get_balance(self._address, tokens)
+    def balance_of(self, address: str) -> Balance:
+        pubkey = Pubkey.from_string(address)
+        balance_lamports = self.client.get_balance(pubkey).value
+        # Convert lamports (1e9 lamports in 1 SOL)
+        return {
+            "decimals": 9,
+            "symbol": "SOL",
+            "name": "Solana",
+            "value": str(balance_lamports / 10**9),
+            "in_base_units": str(balance_lamports),
+        }
 
     def handle_approvals(
         self,
