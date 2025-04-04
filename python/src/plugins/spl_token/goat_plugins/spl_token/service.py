@@ -2,7 +2,7 @@ from goat.decorators.tool import Tool
 from solders.pubkey import Pubkey
 from solana.rpc.commitment import Confirmed
 from spl.token.constants import TOKEN_PROGRAM_ID
-from spl.token.instructions import get_associated_token_address, create_associated_token_account, transfer_checked
+from spl.token.instructions import get_associated_token_address, create_associated_token_account, transfer_checked, TransferCheckedParams
 from solders.instruction import AccountMeta, Instruction
 from .parameters import (
     GetTokenMintAddressBySymbolParameters,
@@ -120,17 +120,24 @@ class SplTokenService:
                     )
                 )
             
+            print(f"From token account: {from_token_account}")
+            print(f"To token account: {to_token_account}")
+            print(f"Mint pubkey: {mint_pubkey}")
+            print(f"From pubkey: {from_pubkey}")
+            print(f"To pubkey: {to_pubkey}")
+
             # Add transfer instruction
             instructions.append(
-                Instruction(
-                    program_id=TOKEN_PROGRAM_ID,
-                    accounts=[
-                        AccountMeta(pubkey=from_token_account, is_signer=False, is_writable=True),
-                        AccountMeta(pubkey=mint_pubkey, is_signer=False, is_writable=False),
-                        AccountMeta(pubkey=to_token_account, is_signer=False, is_writable=True),
-                        AccountMeta(pubkey=from_pubkey, is_signer=True, is_writable=False),
-                    ],
-                    data=bytes([11]) + int(str(parameters["amount"])).to_bytes(8, 'little') + bytes([token["decimals"]])
+                transfer_checked(
+                    TransferCheckedParams(
+                        source=from_token_account,
+                        dest=to_token_account,
+                        owner=from_pubkey,
+                        mint=mint_pubkey,
+                        amount=int(parameters["amount"]),
+                        decimals=int(token["decimals"]),
+                        program_id=TOKEN_PROGRAM_ID
+                    )
                 )
             )
             
@@ -143,7 +150,7 @@ class SplTokenService:
             }
             return wallet_client.send_transaction(tx)
         except Exception as error:
-            raise Exception(f"Failed to transfer tokens: {error}")
+            raise Exception(f"Failed to transfer tokens: {error} {instructions}")
 
     @Tool({
         "description": "Convert an amount of an SPL token to its base unit",
