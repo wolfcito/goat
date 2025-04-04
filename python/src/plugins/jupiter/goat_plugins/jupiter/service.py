@@ -11,7 +11,7 @@ from goat_wallets.solana import SolanaWalletClient
 
 class JupiterService:
     def __init__(self):
-        self.base_url = "https://quote-api.jup.ag/v6"
+        self.base_url = "https://api.jup.ag/swap/v1"
         self._timeout = aiohttp.ClientTimeout(total=10)  # 10 second timeout
 
     @Tool({
@@ -27,11 +27,23 @@ class JupiterService:
                 'inputMint': params.inputMint,
                 'outputMint': params.outputMint,
                 'amount': str(params.amount),
-                'swapMode': params.swapMode.value
+                'swapMode': params.swapMode.value,
+                'maxAccounts': params.maxAccounts,
             }
+
             # Add optional parameters if they are set
             if params.slippageBps is not None:
-                request_params['slippageBps'] = str(params.slippageBps)
+                request_params['slippageBps'] = int(params.slippageBps)
+                request_params['dynamicSlippage'] = str(False).lower()
+            else:
+                request_params['dynamicSlippage'] = str(True).lower()
+            if params.onlyDirectRoutes is not None:
+                request_params['onlyDirectRoutes'] = str(params.onlyDirectRoutes).lower()
+            if params.restrictIntermediateTokens is not None:
+                request_params['restrictIntermediateTokens'] = str(params.restrictIntermediateTokens).lower()
+            if params.platformFeeBps is not None:
+                request_params['platformFeeBps'] = int(params.platformFeeBps)
+                
             print(f"Requesting quote with parameters: {request_params}")
             async with aiohttp.ClientSession(timeout=self._timeout) as session:
                 async with session.get(f"{self.base_url}/quote", params=request_params) as response:
@@ -72,66 +84,10 @@ class JupiterService:
             # First get the quote
             quote_response = await self.get_quote(parameters)
 
-            # Transform quote response following the same structure as in TypeScript
-            transformed_quote_response = {
-                "inputMint": quote_response.get("inputMint"),
-                "inAmount": quote_response.get("inAmount"),
-                "outputMint": quote_response.get("outputMint"),
-                "outAmount": quote_response.get("outAmount"),
-                "otherAmountThreshold": quote_response.get("otherAmountThreshold"),
-                "swapMode": quote_response.get("swapMode"),
-                "slippageBps": quote_response.get("slippageBps"),
-                "priceImpactPct": quote_response.get("priceImpactPct"),
-                "routePlan": [
-                    {
-                        "swapInfo": {
-                            "ammKey": step.get("swapInfo", {}).get("ammKey"),
-                            "label": step.get("swapInfo", {}).get("label"),
-                            "inputMint": step.get("swapInfo", {}).get("inputMint"),
-                            "outputMint": step.get("swapInfo", {}).get("outputMint"),
-                            "inAmount": step.get("swapInfo", {}).get("inAmount"),
-                            "outAmount": step.get("swapInfo", {}).get("outAmount"),
-                            "feeAmount": step.get("swapInfo", {}).get("feeAmount"),
-                            "feeMint": step.get("swapInfo", {}).get("feeMint")
-                        },
-                        "percent": step.get("percent")
-                    }
-                    for step in quote_response.get("routePlan", [])
-                ]
-            }
-
-            # Remove None values from the transformed response
-            transformed_quote_response = {
-                k: v for k, v in transformed_quote_response.items() if v is not None}
-
-            # Add optional fields if they exist
-            for field in ["computedAutoSlippage", "contextSlot", "timeTaken"]:
-                if field in quote_response and quote_response[field] is not None:
-                    transformed_quote_response[field] = quote_response[field]
-
-            if "platformFee" in quote_response and quote_response["platformFee"]:
-                platform_fee = quote_response["platformFee"]
-                fee_data = {}
-                if "amount" in platform_fee:
-                    fee_data["amount"] = platform_fee["amount"]
-                if "feeBps" in platform_fee:
-                    fee_data["feeBps"] = platform_fee["feeBps"]
-                if fee_data:
-                    transformed_quote_response["platformFee"] = fee_data
-
             # Prepare the full swap request
             swap_request = {
-                "quoteResponse": transformed_quote_response,
+                "quoteResponse": quote_response,
                 "userPublicKey": wallet_client.get_address(),
-                "dynamicComputeUnitLimit": True,
-                "prioritizationFeeLamports": "auto",
-                "wrapAndUnwrapSol": True,
-                "useSharedAccounts": True,
-                "dynamicSlippage": None,  # Can be added if needed
-                "asLegacyTransaction": False,
-                "skipUserAccountsRpcCalls": False,
-                "useTokenLedger": False,
-                "destinationTokenAccount": None  # Can be specified if needed
             }
 
             # Get swap transaction
@@ -160,4 +116,9 @@ class JupiterService:
                     }
 
         except Exception as error:
+            # if error includes 0x1771
+            if "0x1771" in str(error):
+                raise Exception(
+                    f"Slippage tolerance exceeded {parameters['slippageBps']} bps")
+
             raise Exception(f"Failed to swap tokens: {error}")
