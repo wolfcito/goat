@@ -566,8 +566,8 @@ importers:
         specifier: 0.4.9
         version: 0.4.9(zod@3.23.8)
       '@goat-sdk/crossmint':
-        specifier: 0.4.4
-        version: 0.4.4(@goat-sdk/core@0.4.9(zod@3.23.8))(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.8.2)(utf-8-validate@5.0.10)
+        specifier: 0.4.5
+        version: 0.4.5(@goat-sdk/core@0.4.9(zod@3.23.8))(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.8.2)(utf-8-validate@5.0.10)
       '@goat-sdk/wallet-evm':
         specifier: 0.2.11
         version: 0.2.11(@goat-sdk/core@0.4.9(zod@3.23.8))(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)
@@ -839,8 +839,8 @@ importers:
         specifier: 0.4.9
         version: 0.4.9(zod@3.23.8)
       '@goat-sdk/crossmint':
-        specifier: 0.4.4
-        version: 0.4.4(@goat-sdk/core@0.4.9(zod@3.23.8))(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.8.2)(utf-8-validate@5.0.10)
+        specifier: 0.4.5
+        version: 0.4.5(@goat-sdk/core@0.4.9(zod@3.23.8))(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.8.2)(utf-8-validate@5.0.10)
       '@goat-sdk/wallet-solana':
         specifier: 0.2.16
         version: 0.2.16(@goat-sdk/core@0.4.9(zod@3.23.8))(@solana/web3.js@1.98.0(bufferutil@4.0.9)(encoding@0.1.13)(utf-8-validate@5.0.10))(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)
@@ -1060,8 +1060,8 @@ importers:
         specifier: 0.4.9
         version: 0.4.9(zod@3.23.8)
       '@goat-sdk/crossmint':
-        specifier: 0.4.4
-        version: 0.4.4(@goat-sdk/core@0.4.9(zod@3.23.8))(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.8.2)(utf-8-validate@5.0.10)
+        specifier: 0.4.5
+        version: 0.4.5(@goat-sdk/core@0.4.9(zod@3.23.8))(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.8.2)(utf-8-validate@5.0.10)
       '@goat-sdk/plugin-erc20':
         specifier: 0.2.14
         version: 0.2.14(@goat-sdk/core@0.4.9(zod@3.23.8))(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(viem@2.23.4(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.23.8))
@@ -1093,8 +1093,8 @@ importers:
         specifier: 0.4.9
         version: 0.4.9(zod@3.23.8)
       '@goat-sdk/crossmint':
-        specifier: 0.4.4
-        version: 0.4.4(@goat-sdk/core@0.4.9(zod@3.23.8))(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.8.2)(utf-8-validate@5.0.10)
+        specifier: 0.4.5
+        version: 0.4.5(@goat-sdk/core@0.4.9(zod@3.23.8))(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.8.2)(utf-8-validate@5.0.10)
       '@goat-sdk/wallet-solana':
         specifier: 0.2.16
         version: 0.2.16(@goat-sdk/core@0.4.9(zod@3.23.8))(@solana/web3.js@1.98.0(bufferutil@4.0.9)(encoding@0.1.13)(utf-8-validate@5.0.10))(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)
@@ -5672,8 +5672,8 @@ packages:
     peerDependencies:
       zod: ^3.0.0
 
-  '@goat-sdk/crossmint@0.4.4':
-    resolution: {integrity: sha512-X0WNKAwXSQDlxWQ5PJWCiORYHdVehWUeL3Ghm8lpWM3PB5/bM92QnI0RgxYY2vCIXUiA4AWqGGwQE67siM5qQA==}
+  '@goat-sdk/crossmint@0.4.5':
+    resolution: {integrity: sha512-8MKM8nbvxwkZ9z7Fds0pWquNGFAJw85z//gEZG51gM0mVaWkzF7phU2g3PlWHaLUaSXTvNjXD3xFu16eUVy1tA==}
     peerDependencies:
       '@goat-sdk/core': 0.4.9
 
@@ -22544,7 +22544,7 @@ snapshots:
       reflect-metadata: 0.2.2
       zod: 3.23.8
 
-  '@goat-sdk/crossmint@0.4.4(@goat-sdk/core@0.4.9(zod@3.23.8))(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.8.2)(utf-8-validate@5.0.10)':
+  '@goat-sdk/crossmint@0.4.5(@goat-sdk/core@0.4.9(zod@3.23.8))(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.8.2)(utf-8-validate@5.0.10)':
     dependencies:
       '@crossmint/common-sdk-base': 0.3.1
       '@goat-sdk/core': 0.4.9(zod@3.23.8)
