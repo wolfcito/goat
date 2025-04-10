@@ -278,7 +278,15 @@ export class SmartWalletClient extends EVMSmartWalletClient {
 
     private async _sendBatchOfTransactions(transactions: EVMTransaction[]) {
         const transactionDatas = transactions.map((transaction) => {
-            const { to: recipientAddress, abi, functionName, args, value } = transaction;
+            const { to: recipientAddress, abi, functionName, args, value, data } = transaction;
+
+            if (data) {
+                return {
+                    to: recipientAddress,
+                    value: value?.toString() ?? "0",
+                    data,
+                };
+            }
 
             return buildTransactionData({
                 recipientAddress,

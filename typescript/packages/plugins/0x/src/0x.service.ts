@@ -97,7 +97,10 @@ export class ZeroExService {
         if (quote.permit2?.eip712) {
             signature = (
                 await walletClient.signTypedData({
-                    domain: quote.permit2.eip712.domain,
+                    domain: {
+                        ...quote.permit2.eip712.domain,
+                        version: "1",
+                    },
                     types: quote.permit2.eip712.types,
                     primaryType: quote.permit2.eip712.primaryType,
                     message: quote.permit2.eip712.message,

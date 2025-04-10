@@ -20,12 +20,12 @@ if (!apiKey || !walletSignerSecretKey || !providerUrl || !smartWalletAddress) {
     throw new Error("Missing environment variables");
 }
 
-const { smartwallet, faucet } = crossmint(apiKey);
+const { evmSmartWallet } = crossmint(apiKey);
 
 (async () => {
     // 2. Get your onchain tools for your wallet
     const tools = await getOnChainTools({
-        wallet: await smartwallet({
+        wallet: await evmSmartWallet({
             address: smartWalletAddress,
             signer: {
                 secretKey: walletSignerSecretKey as `0x${string}`,
@@ -33,7 +33,7 @@ const { smartwallet, faucet } = crossmint(apiKey);
             chain: "base-sepolia",
             provider: providerUrl,
         }),
-        plugins: [sendETH(), erc20({ tokens: [USDC] }), faucet()],
+        plugins: [sendETH(), erc20({ tokens: [USDC] })],
     });
 
     // 3. Create a readline interface to interact with the agent
