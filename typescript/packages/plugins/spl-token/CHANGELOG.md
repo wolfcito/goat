@@ -1,5 +1,11 @@
 # @goat-sdk/plugin-spl-token
 
+## 0.2.19
+
+### Patch Changes
+
+- 1244d55: Support solana smart wallets
+
 ## 0.2.18
 
 ### Patch Changes

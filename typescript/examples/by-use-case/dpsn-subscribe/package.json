@@ -1,6 +1,6 @@
 {
     "name": "dpsn-subscribe-unsubscribe-agent",
-    "version": "1.0.0",
+    "version": "0.0.0",
     "main": "index.js",
     "scripts": {
         "example": "tsx index.ts",
