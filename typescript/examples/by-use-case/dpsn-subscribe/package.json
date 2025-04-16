@@ -2,6 +2,7 @@
     "name": "dpsn-subscribe-unsubscribe-agent",
     "version": "0.0.0",
     "main": "index.js",
+    "private": true,
     "scripts": {
         "example": "tsx index.ts",
         "llm-example": "tsx llm-example.ts"
