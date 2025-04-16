@@ -6,6 +6,7 @@ import {
     createAssociatedTokenAccountInstruction,
     createTransferCheckedInstruction,
     getAssociatedTokenAddressSync,
+    getMint,
 } from "@solana/spl-token";
 import { PublicKey, type TransactionInstruction } from "@solana/web3.js";
 import {
@@ -17,7 +18,6 @@ import {
 import { SPL_TOKENS, type SolanaNetwork, type Token } from "./tokens";
 import type { SplTokenPluginCtorParams } from "./types/SplTokenPluginCtorParams";
 import { doesAccountExist } from "./utils/doesAccountExist";
-import { getTokenByMintAddress } from "./utils/getTokenByMintAddress";
 
 export class SplTokenService {
     private network: SolanaNetwork;
@@ -83,8 +83,9 @@ export class SplTokenService {
     ) {
         const { to, mintAddress, amount } = parameters;
 
-        const token = getTokenByMintAddress(mintAddress, this.network);
-        if (!token) {
+        const tokenMint = await getMint(walletClient.getConnection(), new PublicKey(mintAddress));
+        
+        if (!tokenMint) {
             throw new Error(`Token with mint address ${mintAddress} not found`);
         }
 
@@ -136,7 +137,7 @@ export class SplTokenService {
                 toTokenAccount,
                 fromPublicKey,
                 BigInt(amount),
-                token.decimals,
+                tokenMint.decimals,
             ),
         );
 
