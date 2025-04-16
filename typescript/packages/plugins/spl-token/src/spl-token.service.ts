@@ -1,6 +1,8 @@
 import { Tool } from "@goat-sdk/core";
 import { SolanaWalletClient } from "@goat-sdk/wallet-solana";
 import {
+    ASSOCIATED_TOKEN_PROGRAM_ID,
+    TOKEN_PROGRAM_ID,
     createAssociatedTokenAccountInstruction,
     createTransferCheckedInstruction,
     getAssociatedTokenAddressSync,
@@ -53,6 +55,9 @@ export class SplTokenService {
             const tokenAccount = getAssociatedTokenAddressSync(
                 new PublicKey(mintAddress),
                 new PublicKey(walletAddress),
+                true,
+                TOKEN_PROGRAM_ID,
+                ASSOCIATED_TOKEN_PROGRAM_ID,
             );
 
             const accountExists = await doesAccountExist(walletClient.getConnection(), tokenAccount);
@@ -87,8 +92,21 @@ export class SplTokenService {
         const fromPublicKey = new PublicKey(walletClient.getAddress());
         const toPublicKey = new PublicKey(to);
 
-        const fromTokenAccount = getAssociatedTokenAddressSync(tokenMintPublicKey, fromPublicKey);
-        const toTokenAccount = getAssociatedTokenAddressSync(tokenMintPublicKey, toPublicKey);
+        const fromTokenAccount = getAssociatedTokenAddressSync(
+            tokenMintPublicKey,
+            fromPublicKey,
+            true,
+            TOKEN_PROGRAM_ID,
+            ASSOCIATED_TOKEN_PROGRAM_ID,
+        );
+
+        const toTokenAccount = getAssociatedTokenAddressSync(
+            tokenMintPublicKey,
+            toPublicKey,
+            true,
+            TOKEN_PROGRAM_ID,
+            ASSOCIATED_TOKEN_PROGRAM_ID,
+        );
 
         const fromAccountExists = await doesAccountExist(walletClient.getConnection(), fromTokenAccount);
         const toAccountExists = await doesAccountExist(walletClient.getConnection(), toTokenAccount);
@@ -101,7 +119,14 @@ export class SplTokenService {
 
         if (!toAccountExists) {
             instructions.push(
-                createAssociatedTokenAccountInstruction(fromPublicKey, toTokenAccount, toPublicKey, tokenMintPublicKey),
+                createAssociatedTokenAccountInstruction(
+                    fromPublicKey,
+                    toTokenAccount,
+                    toPublicKey,
+                    tokenMintPublicKey,
+                    TOKEN_PROGRAM_ID,
+                    ASSOCIATED_TOKEN_PROGRAM_ID,
+                ),
             );
         }
         instructions.push(
