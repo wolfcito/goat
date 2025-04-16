@@ -3,10 +3,10 @@
 <img src="https://github.com/user-attachments/assets/5fc7f121-259c-492c-8bca-f15fe7eb830c" alt="GOAT" width="100px" height="auto" style="object-fit: contain;">
 </div>
 
-# Using Crossmint Smart Wallets
+# Using Crossmint Solana Smart Wallets
 ## 🚀 Quickstart
 
-This example demonstrates how to use GOAT to **use a [Crossmint Smart Wallet](https://www.crossmint.com/products/embedded-wallets-as-a-service)**. This example uses **Ethereum Sepolia** but you can implement it with any other EVM network supported by Crossmint Smart Wallets by changing the chain and RPC URL.
+This example demonstrates how to use GOAT to **use a [Crossmint Solana Smart Wallet](https://www.crossmint.com/products/embedded-wallets-as-a-service)**.
 
 You can use this example with any other agent framework and protocols of your choice.
 
