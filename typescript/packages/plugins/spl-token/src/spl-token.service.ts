@@ -84,7 +84,7 @@ export class SplTokenService {
         const { to, mintAddress, amount } = parameters;
 
         const tokenMint = await getMint(walletClient.getConnection(), new PublicKey(mintAddress));
-        
+
         if (!tokenMint) {
             throw new Error(`Token with mint address ${mintAddress} not found`);
         }
